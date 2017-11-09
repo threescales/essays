@@ -1,0 +1,35 @@
+{
+    "name": "essays",
+    "version": "0.1.0",
+    "description": "you can write anyting",
+    "license": "MIT",
+    "engines": {
+        "node": "8.0.0"
+    },
+    "scripts": {},
+    "repository": {
+        "type": "git"
+    },
+    "dependencies": {
+        "@types/draft-js": "^0.10.16",
+        "@types/immutable": "^3.8.7",
+        "@types/less": "0.0.32",
+        "@types/react": "^16.0.22",
+        "@types/react-dom": "^16.0.3",
+        "@types/react-redux": "^5.0.12",
+        "@types/react-router": "^4.0.17",
+        "@types/redux": "^3.6.0",
+        "@types/typescript": "^2.0.0",
+        "css-loader": "^0.28.7",
+        "draft-js": "^0.10.4",
+        "immutable": "^3.8.2",
+        "less": "^2.7.3",
+        "less-loader": "^4.0.5",
+        "react": "^16.0.0",
+        "react-dom": "^16.0.0",
+        "react-redux": "^5.0.6",
+        "react-router": "^4.2.0",
+        "redux": "^3.7.2",
+        "typescript": "^2.6.1"
+    }
+}
