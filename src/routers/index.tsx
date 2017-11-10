@@ -6,8 +6,6 @@ import App from '../containers/app'
 import toJS from '../utils/immutable-to-js'
 import store from '../store/configure-store'
 
-import Home from './home'
-
 export const rootRoute = [{
   path: '/',
   component: App,
@@ -16,8 +14,5 @@ export const rootRoute = [{
       const jsStore = toJS(store.getState()) as any
       replace(`/welcome`)
     }
-  },
-  routes: [
-    Home
-  ]
+  }
 }]
