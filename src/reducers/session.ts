@@ -19,10 +19,10 @@ import {
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
   ACCESS_TOKEN_REFRESH_SUCCESS,
-} from '../constants';
+} from "../constants";
 
-import { fromJS } from 'immutable';
-import { getCookie } from '../utils/cookie'
+import { fromJS } from "immutable";
+import { getCookie } from "../utils/cookie";
 const INITIAL_STATE = fromJS({
   token: null,
   feedToken: null,
@@ -32,8 +32,8 @@ const INITIAL_STATE = fromJS({
   refreshToken: null
 });
 
-function sessionReducer(state = INITIAL_STATE,
-  action = { type: '', payload: null }) {
+function sessionReducer(state:any = INITIAL_STATE,
+  action:any = { type: "", payload: null }) {
   switch (action.type) {
 
     case SIGNUP_USER_PENDING:
@@ -70,19 +70,19 @@ function sessionReducer(state = INITIAL_STATE,
     case UPDATE_USER_PENDING:
       return state.merge({
         isLoading: true
-      })
+      });
 
     case SET_USER_PASSWORD_SUCCESS:
       return state.merge({
         isLoading: false,
         user: action.payload
-      })
+      });
 
     case UPDATE_USER_SUCCESS:
       return state.merge({
         isLoading: false,
         user: action.payload
-      })
+      });
 
     case LOGOUT_USER_SUCCESS:
       return state.merge(INITIAL_STATE);
@@ -90,7 +90,7 @@ function sessionReducer(state = INITIAL_STATE,
     case ACCESS_TOKEN_REFRESH_SUCCESS:
       return state.merge({
         token: action.payload.token
-      })
+      });
 
     default:
       return state;

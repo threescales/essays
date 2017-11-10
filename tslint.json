@@ -1,26 +1,26 @@
 {
     "rules": {
+        "ban": [true, ["_", "extend"],
+            ["_", "isNull"],
+            ["_", "isDefined"]
+        ],
         "class-name": true,
-        "comment-format": [
-            true,
-            "check-space"
+        "comment-format": [true,
+            "check-space",
+            "check-lowercase"
         ],
         "curly": true,
+        "eofline": false,
         "forin": true,
-        "indent": [
-            true,
-            "spaces"
-        ],
+        "indent": [true, 4],
+        "interface-name": true,
+        "jsdoc-format": true,
         "label-position": true,
-        "max-line-length": [
-            true,
-            140
-        ],
+        "max-line-length": [true, 140],
         "no-arg": true,
         "no-bitwise": true,
-        "no-console": [
-            true,
-            "log",
+        "no-console": [true,
+            "debug",
             "info",
             "time",
             "timeEnd",
@@ -29,43 +29,39 @@
         "no-construct": true,
         "no-debugger": true,
         "no-duplicate-variable": true,
-        "no-empty": false,
+        "no-empty": true,
         "no-eval": true,
-        "no-shadowed-variable": true,
-        "no-string-literal": false,
-        "no-switch-case-fall-through": true,
-        "trailing-comma": true,
-        "no-trailing-whitespace": false,
+        "no-string-literal": true,
+        "no-trailing-whitespace": true,
         "no-unused-expression": true,
-        "no-unused-variable": false,
-        "no-use-before-declare": false,
-        "no-var-keyword": true,
-        "one-line": [
-            true,
+        "one-line": [true,
             "check-open-brace",
             "check-catch",
             "check-else",
             "check-whitespace"
         ],
+        "quotemark": [true, "double"],
         "radix": true,
-        "semicolon": false,
-        "triple-equals": [
-            true,
-            "allow-null-check"
+        "semicolon": true,
+        "triple-equals": [true, "allow-null-check"],
+        "typedef": [true,
+            "callSignature",
+            "indexSignature",
+            "parameter",
+            "propertySignature",
+            "variableDeclarator"
         ],
-        "variable-name": "allow-leading-underscore",
-        "whitespace": [
-            true,
+        "typedef-whitespace": [true, ["callSignature", "noSpace"],
+            ["catchClause", "noSpace"],
+            ["indexSignature", "space"]
+        ],
+        "variable-name": false,
+        "whitespace": [false,
             "check-branch",
             "check-decl",
             "check-operator",
             "check-separator",
             "check-type"
-        ],
-        "quotemark": [
-            true,
-            "single",
-            "jsx-double"
         ]
     }
 }

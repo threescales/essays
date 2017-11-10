@@ -3,27 +3,27 @@ import {
   applyMiddleware,
   compose,
   Middleware,
-} from 'redux';
-import { fromJS } from 'immutable';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware } from 'react-router-redux';
-import thunk from 'redux-thunk';
-import { preloadSession } from './preloadSession'
-const persistState = require('redux-localstorage');
+} from "redux";
+import { fromJS } from "immutable";
+import { createBrowserHistory } from "history";
+import { routerMiddleware } from "react-router-redux";
+import thunk from "redux-thunk";
+import { preloadSession } from "./preloadSession";
+const persistState = require("redux-localstorage");
 
-import promiseMiddleware from '../middlewares/promise-middleware';
-import logger from './logger';
-import rootReducer from '../reducers';
-import { getCookie } from '../utils/cookie'
+import promiseMiddleware from "../middlewares/promise-middleware";
+import logger from "./logger";
+import rootReducer from "../reducers";
+import { getCookie } from "../utils/cookie";
 declare const __DEV__: boolean; // from webpack
 
-export function configureStore(initialState) {
+export function configureStore(initialState:any) {
   const myStore = createStore(
     rootReducer,
     initialState,
     compose(
       applyMiddleware(..._getMiddleware()),
-      persistState('session', _getStorageConfig()),
+      persistState("session", _getStorageConfig()),
       __DEV__ && environment.devToolsExtension ? environment.devToolsExtension() : f => f
     )
   );
@@ -48,15 +48,15 @@ export function _getMiddleware(): Middleware[] {
 
 const environment: any = window || this;
 
-function _enableHotLoader(myStore) {
+function _enableHotLoader(myStore:any) {
   if (!__DEV__) {
     return;
   }
 
   const { hot } = module as any;
   if (hot) {
-    hot.accept('../reducers', () => {
-      const nextRootReducer = require('../reducers');
+    hot.accept("../reducers", () => {
+      const nextRootReducer = require("../reducers");
       myStore.replaceReducer(nextRootReducer);
     });
   }
@@ -64,20 +64,20 @@ function _enableHotLoader(myStore) {
 
 function _getStorageConfig() {
   return {
-    key: 'hole-session',
+    key: "hole-session",
     serialize: (myStore) => {
-      myStore.session = myStore.session.set('isLoading', false)
-      myStore.session = myStore.session.set('hasError', false)
+      myStore.session = myStore.session.set("isLoading", false);
+      myStore.session = myStore.session.set("hasError", false);
       return myStore && myStore.session ?
         JSON.stringify(myStore.session.toJS()) : myStore;
     },
     deserialize: (state) => {
-      const data = JSON.parse(state)
+      const data = JSON.parse(state);
 
       if (data && data.token && data.refreshToken) {
         return {
           session: fromJS(data)
-        }
+        };
       }
     },
   };
@@ -85,11 +85,11 @@ function _getStorageConfig() {
 
 const store = configureStore({
   session: fromJS(preloadSession())
-})
+});
 
 export const getToken = () => {
-  const s = store.getState()
-  return s.session.getIn(['token'])
-}
+  const s = store.getState();
+  return s.session.getIn(["token"]);
+};
 export default store;
 
