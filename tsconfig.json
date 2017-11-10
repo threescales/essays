@@ -1,0 +1,39 @@
+{
+    "compileOnSave": false,
+    "buildOnSave": false,
+    "baseUrl": "types",
+    "typeRoots": [
+        "types"
+    ],
+    "compilerOptions": {
+        "module": "commonjs",
+        // "moduleResolution": "classic",
+        "target": "es2017",
+        "jsx": "react",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": false,
+        "removeComments": false,
+        "sourceMap": false,
+        "inlineSourceMap": true,
+        "noEmitHelpers": true,
+        "baseUrl": ".",
+        "paths": {
+            "utils/*": [
+                "src/utils/*"
+            ],
+            "app/*": [
+                "src/*"
+            ]
+        }
+    },
+    "awesomeTypescriptLoaderOptions": {
+        "useBabel": true,
+        "useCache": false,
+        "emitRequireType": false
+    },
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
