@@ -8,11 +8,5 @@ import store from "../store/configure-store";
 
 export const rootRoute = [{
   path: "/",
-  component: App,
-  indexRoute: {
-    onEnter: (nextState, replace) => {
-      const jsStore = toJS(store.getState()) as any;
-      replace(`/welcome`);
-    }
-  }
+  component: App
 }];
