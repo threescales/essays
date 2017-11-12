@@ -22,7 +22,7 @@ if (!__TEST__) {
   ReactDOM.render(
     <div>
       <Provider store={ store }>
-        { routes(history) }
+        { routes() }
       </Provider>
     </div>,
     document.getElementById("root")

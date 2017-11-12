@@ -1,25 +1,73 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {login} from "../actions/session";
+import {EditorState} from "draft-js";
+import { login } from "../actions/session";
+import { Link } from "react-router-dom";
 import "./app.less";
+import JiggoEditor from "../components/editor";
+import { Serlizer } from "../components/editor/utils/serializer";
+import { createImagePlugin } from "../components/editor/plugins/image/index";
+import createAlignmentPlugin from "draft-js-alignment-plugin";
+import createFocusPlugin from "draft-js-focus-plugin";
+import linkify from "draft-js-linkify-plugin";
+import createCodePlugin from "app/components/editor/plugins/code-highlight/code-light.plugin";
+import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
+import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
+
+import { composeDecorators } from "draft-js-plugins-editor";
+import { createTexlugin } from "app/components/editor/plugins/tex";
+
+const focusPlugin = createFocusPlugin();
+const alignmentPlugin = createAlignmentPlugin();
+
+const decorator = composeDecorators(
+    alignmentPlugin.decorator,
+    focusPlugin.decorator,
+);
+
+
+const inlineToolbarPlugin = createInlineToolbarPlugin();
+const { InlineToolbar } = inlineToolbarPlugin;
+
+const sideToolbarPlugin = createSideToolbarPlugin();
+const { SideToolbar } = sideToolbarPlugin;
+
+const imagePlugin = createImagePlugin({ decorator });
+const plugins = [
+    inlineToolbarPlugin,
+    sideToolbarPlugin,
+    focusPlugin,
+    alignmentPlugin,
+    imagePlugin,
+    linkify(),
+    createCodePlugin({}),
+    createTexlugin({})
+];
 class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
     }
     componentDidMount() {
-      this.props.dispatch(login("1111"));
+        this.props.dispatch(login("1111"));
     }
     render() {
         return (
             <div className="init">
-                欢迎来到英雄联盟
+                <JiggoEditor
+                    readonly={false}
+                    plugins={plugins}
+                    placeholder=""
+                >
+                    <InlineToolbar></InlineToolbar>
+                    <SideToolbar></SideToolbar>
+                </JiggoEditor>
             </div>
         );
     }
 }
 function mapStateToProps(state: any, props: any) {
     return {
-        token: props.session
+        token: state.session
     };
 }
 export default connect(mapStateToProps)(App);
