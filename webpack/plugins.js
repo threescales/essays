@@ -11,9 +11,7 @@ const path = require('path')
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 //   .BundleAnalyzerPlugin;
 
-const sourceMap = process.env.TEST || process.env.NODE_ENV !== 'production' ?
-    [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })] :
-    [];
+const sourceMap = process.env.TEST || process.env.NODE_ENV !== 'production' ? [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })] : [];
 
 const basePlugins = [
     new webpack.DefinePlugin({
@@ -71,7 +69,7 @@ const prodPlugins = [
     new webpack.optimize.DedupePlugin(),
 
     new ManiFest({
-        fileName: 'hole-manifest.json',
+        fileName: 'jigloo-manifest.json',
     }),
 
     new webpack.optimize.UglifyJsPlugin({

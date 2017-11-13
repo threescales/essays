@@ -99,7 +99,6 @@ export default class JiglooEditor
     return null
   }
 
-  // fix For issue:https://github.com/WuliHole/hole/issues/18
   handleReturn = (e): DraftHandleValue => {
     const blockKey = this.state.editorState.getSelection().getAnchorKey()
     const block = this.state.editorState.getCurrentContent().getBlockForKey(blockKey)
@@ -118,7 +117,7 @@ export default class JiglooEditor
   render() {
     const placeholder = this.props.placeholder || JiglooEditor.placeholder
     return (
-      <div className="hole-editor">
+      <div className="jigloo-editor">
         <Editor
           ref={ e => this.editor = e }
           editorState={ this.state.editorState }

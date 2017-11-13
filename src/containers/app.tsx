@@ -12,10 +12,9 @@ import createFocusPlugin from "draft-js-focus-plugin";
 import linkify from "draft-js-linkify-plugin";
 import createCodePlugin from "app/components/editor/plugins/code-highlight/code-light.plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
-import createSideToolbarPlugin from "draft-js-side-toolbar-plugin";
+import {createSideToolBarPlugin} from "../components/editor/plugins/side-tool-bar/index";
 
 import { composeDecorators } from "draft-js-plugins-editor";
-import { createTexlugin } from "app/components/editor/plugins/tex";
 
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
@@ -29,7 +28,7 @@ const decorator = composeDecorators(
 const inlineToolbarPlugin = createInlineToolbarPlugin();
 const { InlineToolbar } = inlineToolbarPlugin;
 
-const sideToolbarPlugin = createSideToolbarPlugin();
+const sideToolbarPlugin = createSideToolBarPlugin();
 const { SideToolbar } = sideToolbarPlugin;
 
 const imagePlugin = createImagePlugin({ decorator });
@@ -41,7 +40,6 @@ const plugins = [
     imagePlugin,
     linkify(),
     createCodePlugin({}),
-    createTexlugin({})
 ];
 class App extends React.Component<any, any> {
     constructor(props: any) {

@@ -64,7 +64,7 @@ function _enableHotLoader(myStore:any) {
 
 function _getStorageConfig() {
   return {
-    key: "hole-session",
+    key: "jigloo-session",
     serialize: (myStore) => {
       myStore.session = myStore.session.set("isLoading", false);
       myStore.session = myStore.session.set("hasError", false);

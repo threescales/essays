@@ -1,6 +1,5 @@
 import React = require('react')
 import Uploader, { filePublicPathGen } from '../../../uploader/qiniuUploader'
-import ImageIcon from 'material-ui/svg-icons/image/image'
 import { ButtonProps } from './interface'
 import { SideToolBarButtonStyle } from './defaultStyle'
 import addImage from 'draft-js-image-plugin/lib/modifiers/addImage'
@@ -72,7 +71,7 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
           onTaskSuccess: this._onTaskSuccess
         } }
       >
-        <ImageIcon className={ this.props.theme.button } style={ SideToolBarButtonStyle } type="button" />
+        <a><i className="iconfont icon-image" style={ SideToolBarButtonStyle }></i></a>
       </Uploader>
     </div>
   }
