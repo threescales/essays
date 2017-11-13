@@ -8,7 +8,8 @@ import {
   ContentBlock,
   getDefaultKeyBinding,
   convertToRaw,
-  RawDraftContentState
+  RawDraftContentState,
+  RichUtils
 } from 'draft-js'
 import { DraftHandleValue } from './interface.editor'
 import { Serlizer } from './utils/serializer'
@@ -18,6 +19,9 @@ import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
 
 import { is } from 'immutable'
+
+import { focusSelectionAfter } from './utils/operaBlock'
+
 import './draft.less'
 import './style.less'
 interface EditorProps {
@@ -99,12 +103,28 @@ export default class JiglooEditor
     return null
   }
 
-  handleReturn = (e): DraftHandleValue => {
-    const blockKey = this.state.editorState.getSelection().getAnchorKey()
-    const block = this.state.editorState.getCurrentContent().getBlockForKey(blockKey)
-    if (block && block.getType() === 'atomic') {
-      return 'handled'
+  handleReturn = (...args): DraftHandleValue => {
+    const editorState = this.state.editorState;
+    const blockKey = editorState.getSelection().getAnchorKey()
+    const block = editorState.getCurrentContent().getBlockForKey(blockKey)
+    if (block) {
+      if (args[0].shiftKey) {
+        if (block.getType() === 'atomic') {
+
+          return 'handled'
+        } else if (block.getType() !== 'unstyled') {
+          this.onChange(RichUtils.insertSoftNewline(editorState))
+          return 'handled'
+        }
+        
+      } else {
+        let newEditorState = focusSelectionAfter(editorState, block.getKey());
+        this.onChange(newEditorState);
+        return 'handled';
+      }
+
     }
+
     return 'not-handled'
   }
 
@@ -119,19 +139,19 @@ export default class JiglooEditor
     return (
       <div className="jigloo-editor">
         <Editor
-          ref={ e => this.editor = e }
-          editorState={ this.state.editorState }
-          onChange={ this.onChange }
-          plugins={ this.props.plugins || [] }
-          handleReturn={ this.handleReturn }
-          decorators={ this.props.decorators || [] }
-          blockStyleFn={ this.blockStyleFn }
-          placeholder={ placeholder }
-          readOnly={ this.props.readonly }
-          onTab={ this.onTab }
+          ref={e => this.editor = e}
+          editorState={this.state.editorState}
+          onChange={this.onChange}
+          plugins={this.props.plugins || []}
+          handleReturn={this.handleReturn}
+          decorators={this.props.decorators || []}
+          blockStyleFn={this.blockStyleFn}
+          placeholder={placeholder}
+          readOnly={this.props.readonly}
+          onTab={this.onTab}
         />
 
-        { this.props.children }
+        {this.props.children}
       </div>
     );
   }

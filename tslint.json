@@ -24,7 +24,7 @@
         "no-duplicate-variable": true,
         "no-eval": true,
         "no-string-literal": false,
-        "no-trailing-whitespace": true,
+        "no-trailing-whitespace": false,
         "no-unused-expression": true,
         "one-line": [true,
             "check-open-brace",
