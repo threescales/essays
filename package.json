@@ -1,6 +1,11 @@
 {
     "name": "essays",
     "version": "0.1.0",
+    "author": {
+        "name": "zhangyouming",
+        "email": "3142717@qq.com",
+        "url": "http://www.zymlj.net"
+    },
     "description": "you can write anyting",
     "license": "MIT",
     "engines": {
