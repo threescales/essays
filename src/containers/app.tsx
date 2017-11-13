@@ -4,7 +4,7 @@ import {EditorState} from "draft-js";
 import { login } from "../actions/session";
 import { Link } from "react-router-dom";
 import "./app.less";
-import JiggoEditor from "../components/editor";
+import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
 import { createImagePlugin } from "../components/editor/plugins/image/index";
 import createAlignmentPlugin from "draft-js-alignment-plugin";
@@ -51,14 +51,14 @@ class App extends React.Component<any, any> {
     render() {
         return (
             <div className="init">
-                <JiggoEditor
+                <JiglooEditor
                     readonly={false}
                     plugins={plugins}
                     placeholder=""
                 >
                     <InlineToolbar></InlineToolbar>
                     <SideToolbar></SideToolbar>
-                </JiggoEditor>
+                </JiglooEditor>
             </div>
         );
     }
