@@ -131,6 +131,10 @@ export default class JiglooEditor
       if (args[0].shiftKey) {
         if (block.getType() === 'atomic') {
           return 'handled'
+        } else if(block.getType() === 'code-block') {
+          let newEditorState = focusSelectionAfter(editorState, block.getKey());
+          this.onChange(newEditorState);
+          return 'handled';
         } else if (block.getType() !== 'unstyled') {
           this.onChange(RichUtils.insertSoftNewline(editorState))
           return 'handled'
@@ -142,9 +146,7 @@ export default class JiglooEditor
           return 'handled';
         }
       }
-
     }
-
     return 'not-handled'
   }
 
@@ -219,6 +221,8 @@ export default class JiglooEditor
   handlePastedText = (text: string, html: string): DraftHandleValue => {
     const editorState = this.state.editorState;
     const { contentState, selectionState } = this.getContentAndSelection()
+    const blockKey = selectionState.getAnchorKey()
+    const block = contentState.getBlockForKey(blockKey)
     // TODO parsing the url
     if (text && isUrl(text.trim())) {
       let newContentState = Modifier.insertText(contentState, selectionState, text)
@@ -228,8 +232,10 @@ export default class JiglooEditor
     }
     // TODO html to block
     if (html) {
-      this.handleHtml(html)
-      return 'handled'
+      if(block.getType()!=='code-block') {
+        this.handleHtml(html)
+        return 'handled'
+      }
     }
     return 'not-handled'
   }
