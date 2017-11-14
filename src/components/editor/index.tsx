@@ -24,7 +24,7 @@ import 'draft-js-side-toolbar-plugin/lib/plugin.css'
 import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
 
-import { is,List } from 'immutable'
+import { is, List } from 'immutable'
 import { isUrl } from '../../utils/url'
 import { focusSelectionAfter } from './utils/operaBlock'
 
@@ -76,14 +76,14 @@ export default class JiglooEditor
       this.props.onChange(editorState)
     }
   };
-  getEditorState = () :EditorState => {
+  getEditorState = (): EditorState => {
     return this.state.editorState;
   }
   getContentAndSelection = () => {
     let editorState = this.getEditorState()
     let contentState = editorState.getCurrentContent()
     let selectionState = editorState.getSelection()
-    return{
+    return {
       contentState,
       selectionState
     }
@@ -145,31 +145,32 @@ export default class JiglooEditor
 
     return 'not-handled'
   }
+
   getConvertOptions = () => {
-    var {contentState} = this.getContentAndSelection()
+    var { contentState } = this.getContentAndSelection()
     return {
       htmlToEntity: (nodeName, node: any) => {
-      if (nodeName === 'img') {
+        if (nodeName === 'img') {
           node.textContent = node.src
           return contentState.createEntity(
             'image',
             'MUTABLE',
             {
-              valid:false,
-              description:'',
-              src:node.src
+              valid: false,
+              description: '',
+              src: node.src
             }
           ).getLastCreatedEntityKey()
-        } else if(nodeName === 'br') {
+        } else if (nodeName === 'br') {
           // return null;
         } else if (nodeName === 'a') {
-        // return contentState.createEntity(
-        //   "image",
-        //   'IMMUTABLE',
-        //   { url: node.href }
-        // ).getLastCreatedEntityKey()
-      }
-    },
+          // return contentState.createEntity(
+          //   "image",
+          //   'IMMUTABLE',
+          //   { url: node.href }
+          // ).getLastCreatedEntityKey()
+        }
+      },
       htmlToBlock: (nodeName, node) => {
         if (nodeName === 'img') {
           return {
@@ -180,16 +181,16 @@ export default class JiglooEditor
       }
     }
   }
+
   /**
    * 将粘贴的html修改为block
    * @param html
    */
-  private handleHtml(html) {
+  handleHtml = (html) => {
     let pastedContentState = customConvertFromHtml(this.getConvertOptions())(html)
     let blockMap = pastedContentState.getBlockMap()
     pastedContentState = pastedContentState.set('blockMap', blockMap) as ContentState
-    const {contentState, selectionState} = this.getContentAndSelection()
-
+    const { contentState, selectionState } = this.getContentAndSelection()
     // remove selected range and split current content block
     const afterRemoveContentState = Modifier.removeRange(
       contentState,
@@ -199,7 +200,6 @@ export default class JiglooEditor
     const afterRemoveSelectionState = afterRemoveContentState.getSelectionAfter()
     const afterSplitContentState = Modifier.splitBlock(afterRemoveContentState, afterRemoveSelectionState)
     const afterSplitSelectionState = afterSplitContentState.getSelectionBefore()
-
     // prepend a blank content block to the pasted block
     let afterPrependContentBlockArray = [new ContentBlock({
       key: genKey(),
@@ -208,15 +208,15 @@ export default class JiglooEditor
       characterList: List()
     })].concat(pastedContentState.getBlocksAsArray())
     let pastedBlockMap = BlockMapBuilder.createFromArray(afterPrependContentBlockArray)
-
     // insert the pasted content block
     const afterPasteContentState = Modifier.replaceWithFragment(afterSplitContentState, afterSplitSelectionState, pastedBlockMap)
     const editorStateAfterPaste = EditorState.push(this.state.editorState, afterPasteContentState, 'insert-fragment')
     this.onChange(editorStateAfterPaste)
   }
+
   handlePastedText = (text: string, html: string): DraftHandleValue => {
     const editorState = this.state.editorState;
-    const {contentState, selectionState} = this.getContentAndSelection()    
+    const { contentState, selectionState } = this.getContentAndSelection()
     // TODO parsing the url
     if (text && isUrl(text.trim())) {
       let newContentState = Modifier.insertText(contentState, selectionState, text)
