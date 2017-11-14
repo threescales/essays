@@ -125,9 +125,22 @@ export default class JiglooEditor
 
   handleReturn = (...args): DraftHandleValue => {
     const editorState = this.state.editorState;
-    const blockKey = editorState.getSelection().getAnchorKey()
-    const block = editorState.getCurrentContent().getBlockForKey(blockKey)
+    const { contentState, selectionState } = this.getContentAndSelection()
+
+    const blockKey = selectionState.getAnchorKey()
+    const block = contentState.getBlockForKey(blockKey)
+
+    const entityKey = block.getEntityAt(0);
+    const entity = entityKey ? contentState.getEntity(entityKey) : null;
+
+
     if (block) {
+      //解析网页 显示预览信息
+      if (isUrl(block.getText())) {
+
+        return 'handled'
+      }
+      //shiftKey 如果是markdown则跳出 其余的block内换行
       if (args[0].shiftKey) {
         if (block.getType() === 'atomic') {
           return 'handled'
@@ -140,6 +153,7 @@ export default class JiglooEditor
           return 'handled'
         }
       } else {
+        //如果是引用 一级标题 二级标题则回车则新建新的 unstyle  block
         if (block.getType() === 'header-one' || block.getType() === 'header-two' || block.getType() === 'blockquote') {
           let newEditorState = focusSelectionAfter(editorState, block.getKey());
           this.onChange(newEditorState);
@@ -149,7 +163,7 @@ export default class JiglooEditor
     }
     return 'not-handled'
   }
-
+  //将img标签解析成image block映射算法
   getConvertOptions = () => {
     var { contentState } = this.getContentAndSelection()
     return {
