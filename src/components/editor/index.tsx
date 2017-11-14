@@ -131,7 +131,7 @@ export default class JiglooEditor
       if (args[0].shiftKey) {
         if (block.getType() === 'atomic') {
           return 'handled'
-        } else if(block.getType() === 'code-block') {
+        } else if (block.getType() === 'code-block') {
           let newEditorState = focusSelectionAfter(editorState, block.getKey());
           this.onChange(newEditorState);
           return 'handled';
@@ -140,7 +140,7 @@ export default class JiglooEditor
           return 'handled'
         }
       } else {
-        if(block.getType() === 'header-one'||block.getType() === 'header-two' ||block.getType() === 'blockquote') {
+        if (block.getType() === 'header-one' || block.getType() === 'header-two' || block.getType() === 'blockquote') {
           let newEditorState = focusSelectionAfter(editorState, block.getKey());
           this.onChange(newEditorState);
           return 'handled';
@@ -223,6 +223,9 @@ export default class JiglooEditor
     const { contentState, selectionState } = this.getContentAndSelection()
     const blockKey = selectionState.getAnchorKey()
     const block = contentState.getBlockForKey(blockKey)
+    if (block.getType() === 'code-block') {
+      return 'not-handled';
+    }
     // TODO parsing the url
     if (text && isUrl(text.trim())) {
       let newContentState = Modifier.insertText(contentState, selectionState, text)
@@ -232,17 +235,20 @@ export default class JiglooEditor
     }
     // TODO html to block
     if (html) {
-      if(block.getType()!=='code-block') {
-        this.handleHtml(html)
-        return 'handled'
-      }
+      this.handleHtml(html)
+      return 'handled'
     }
     return 'not-handled'
   }
 
   onTab = (e: Event): DraftHandleValue => {
+    const editorState = this.state.editorState;
+    const { contentState, selectionState } = this.getContentAndSelection()
     // prevent default page jump
     e.preventDefault()
+    let newContentState = Modifier.insertText(contentState, selectionState, '    ')
+    let editorStateAfterPaste = EditorState.push(this.state.editorState, newContentState, 'insert-characters')
+    this.onChange(editorStateAfterPaste)
     return 'handled'
   }
 
