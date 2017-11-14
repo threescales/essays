@@ -136,9 +136,11 @@ export default class JiglooEditor
           return 'handled'
         }
       } else {
-        let newEditorState = focusSelectionAfter(editorState, block.getKey());
-        this.onChange(newEditorState);
-        return 'handled';
+        if(block.getType() === 'header-one'||block.getType() === 'header-two' ||block.getType() === 'blockquote') {
+          let newEditorState = focusSelectionAfter(editorState, block.getKey());
+          this.onChange(newEditorState);
+          return 'handled';
+        }
       }
 
     }
