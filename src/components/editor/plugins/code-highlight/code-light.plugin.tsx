@@ -16,10 +16,10 @@ const mapFileExtensionToLanguage = (name: string) => FILE_EXTENSION_MAP[name] ? 
 export const FILE_EXTENSION_MAP = {
   js: 'javascript',
   py: 'python',
-  rb: 'ruby',
   css: 'less',
   jsx: 'jsx',
-  json: 'json'
+  json: 'json',
+  java: 'java'
 }
 
 export const codeHighLightPlugin: EditorPluginBuilder<PluginConfig, Method> = (...args) => {
