@@ -5,13 +5,18 @@ import {
 } from 'draft-js-plugins-editor'
 import {
   EditorState,
+  ContentState,
   ContentBlock,
   getDefaultKeyBinding,
   convertToRaw,
   RawDraftContentState,
   RichUtils,
-  Modifier
+  Modifier,
+  genKey,
+  BlockMapBuilder
 } from 'draft-js'
+import { convertFromHTML as customConvertFromHtml } from 'draft-convert'
+
 import { DraftHandleValue } from './interface.editor'
 import { Serlizer } from './utils/serializer'
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
@@ -19,7 +24,7 @@ import 'draft-js-side-toolbar-plugin/lib/plugin.css'
 import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
 
-import { is } from 'immutable'
+import { is,List } from 'immutable'
 import { isUrl } from '../../utils/url'
 import { focusSelectionAfter } from './utils/operaBlock'
 
@@ -39,18 +44,21 @@ interface EditorProps {
 export default class JiglooEditor
   extends React.Component<EditorProps, any> {
   public static placeholder = ' '
-  public editor
-
-  serializer = Serlizer.serialize
-
-  state = { editorState: EditorState.createEmpty() }
+  public editor;
+  public serializer;
+  constructor(props: EditorProps) {
+    super(props)
+    this.serializer = Serlizer.serialize
+    this.state = {
+      editorState: EditorState.createEmpty()
+    }
+  }
   /**
    * A bug was here .
    * If call the method(focus) ,decorators will not work
    */
   componentWillMount() {
     // this.focus()
-
     if (this.props.editorState) {
       this.setState({ editorState: this.props.editorState })
     } else if (this.props.content) {
@@ -68,7 +76,18 @@ export default class JiglooEditor
       this.props.onChange(editorState)
     }
   };
-
+  getEditorState = () :EditorState => {
+    return this.state.editorState;
+  }
+  getContentAndSelection = () => {
+    let editorState = this.getEditorState()
+    let contentState = editorState.getCurrentContent()
+    let selectionState = editorState.getSelection()
+    return{
+      contentState,
+      selectionState
+    }
+  }
   shouldComponentUpdate(nextProps: EditorProps, nextState) {
     if (nextState.editorState && !is(nextState.editorState, this.state.editorState)) {
       return true
@@ -85,7 +104,7 @@ export default class JiglooEditor
     this.editor.getEditorRef().focus()
   };
 
-  hasFocus() {
+  hasFocus = () => {
     return this.state.editorState
       .getSelection()
       .getHasFocus()
@@ -126,20 +145,89 @@ export default class JiglooEditor
 
     return 'not-handled'
   }
+  getConvertOptions = () => {
+    var {contentState} = this.getContentAndSelection()
+    return {
+      htmlToEntity: (nodeName, node: any) => {
+      if (nodeName === 'img') {
+          node.textContent = node.src
+          return contentState.createEntity(
+            'image',
+            'MUTABLE',
+            {
+              valid:false,
+              description:'',
+              src:node.src
+            }
+          ).getLastCreatedEntityKey()
+        } else if(nodeName === 'br') {
+          // return null;
+        } else if (nodeName === 'a') {
+        // return contentState.createEntity(
+        //   "image",
+        //   'IMMUTABLE',
+        //   { url: node.href }
+        // ).getLastCreatedEntityKey()
+      }
+    },
+      htmlToBlock: (nodeName, node) => {
+        if (nodeName === 'img') {
+          return {
+            type: 'atomic',
+            data: {}
+          }
+        }
+      }
+    }
+  }
+  /**
+   * 将粘贴的html修改为block
+   * @param html
+   */
+  private handleHtml(html) {
+    let pastedContentState = customConvertFromHtml(this.getConvertOptions())(html)
+    let blockMap = pastedContentState.getBlockMap()
+    pastedContentState = pastedContentState.set('blockMap', blockMap) as ContentState
+    const {contentState, selectionState} = this.getContentAndSelection()
 
+    // remove selected range and split current content block
+    const afterRemoveContentState = Modifier.removeRange(
+      contentState,
+      selectionState,
+      'backward'
+    )
+    const afterRemoveSelectionState = afterRemoveContentState.getSelectionAfter()
+    const afterSplitContentState = Modifier.splitBlock(afterRemoveContentState, afterRemoveSelectionState)
+    const afterSplitSelectionState = afterSplitContentState.getSelectionBefore()
+
+    // prepend a blank content block to the pasted block
+    let afterPrependContentBlockArray = [new ContentBlock({
+      key: genKey(),
+      type: 'unstyled',
+      text: '',
+      characterList: List()
+    })].concat(pastedContentState.getBlocksAsArray())
+    let pastedBlockMap = BlockMapBuilder.createFromArray(afterPrependContentBlockArray)
+
+    // insert the pasted content block
+    const afterPasteContentState = Modifier.replaceWithFragment(afterSplitContentState, afterSplitSelectionState, pastedBlockMap)
+    const editorStateAfterPaste = EditorState.push(this.state.editorState, afterPasteContentState, 'insert-fragment')
+    this.onChange(editorStateAfterPaste)
+  }
   handlePastedText = (text: string, html: string): DraftHandleValue => {
     const editorState = this.state.editorState;
-    const contentState = editorState.getCurrentContent();
-    const selectionState = editorState.getSelection();
+    const {contentState, selectionState} = this.getContentAndSelection()    
     // TODO parsing the url
     if (text && isUrl(text.trim())) {
       let newContentState = Modifier.insertText(contentState, selectionState, text)
       let editorStateAfterPaste = EditorState.push(this.state.editorState, newContentState, 'insert-characters')
       this.onChange(editorStateAfterPaste)
+      return 'handled'
     }
     // TODO html to block
     if (html) {
-
+      this.handleHtml(html)
+      return 'handled'
     }
     return 'not-handled'
   }
