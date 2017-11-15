@@ -13,7 +13,8 @@ import {
   RichUtils,
   Modifier,
   genKey,
-  BlockMapBuilder
+  BlockMapBuilder,
+  CharacterMetadata
 } from 'draft-js'
 import { convertFromHTML as customConvertFromHtml } from 'draft-convert'
 
@@ -24,9 +25,9 @@ import 'draft-js-side-toolbar-plugin/lib/plugin.css'
 import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
 
-import { is, List } from 'immutable'
-import { isUrl } from '../../utils/url'
-import { focusSelectionAfter } from './utils/operaBlock'
+import { is, List, Repeat } from 'immutable'
+import { isUrl } from "../../utils/url"
+import { focusSelectionAfter, selectBlock, insertBlock } from './utils/operaBlock'
 
 import './draft.less'
 import './style.less'
@@ -137,7 +138,23 @@ export default class JiglooEditor
     if (block) {
       //解析网页 显示预览信息
       if (isUrl(block.getText())) {
-
+        let newEditorState = selectBlock(editorState, block.getKey(), block.getLength())
+        let contentState = newEditorState.getCurrentContent()
+        let selectionState = newEditorState.getSelection()
+        let newContentState = Modifier
+          .setBlockType(contentState, selectionState, 'atomic')
+          .createEntity('CARD', "MUTABLE", {
+            type: 'page',
+            title: 'aaa',
+            description: 'bbbbbbbb',
+            url: block.getText(),
+            previewImg: ''
+          })
+        let lastEntityKey = newContentState.getLastCreatedEntityKey()
+        newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
+        newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
+        newEditorState = focusSelectionAfter(newEditorState,block.getKey())
+        this.onChange(newEditorState);
         return 'handled'
       }
       //shiftKey 如果是markdown则跳出 其余的block内换行

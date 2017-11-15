@@ -1,5 +1,5 @@
 import { List, Repeat, OrderedMap } from 'immutable';
-import { EditorState, ContentState, ContentBlock,SelectionState, genKey } from 'draft-js';
+import { EditorState, ContentState, ContentBlock,SelectionState, genKey,Modifier,BlockMapBuilder,CharacterMetadata } from 'draft-js';
 
 
 export function createNewBlock(key?): ContentBlock {
@@ -67,7 +67,7 @@ export function selectBlock(editorState: EditorState, blockKey: string, offset?:
   
     var targetRange = new SelectionState({
       anchorKey: blockKey,
-      anchorOffset: offset ? offset : block.getLength(),
+      anchorOffset: 0,
       focusKey: blockKey,
       focusOffset: offset ? offset : block.getLength(),
       isBackward: false
@@ -89,3 +89,81 @@ export function getBlockAfterAndBefore(blockMap: OrderedMap<string, ContentBlock
         blocksBefore
     }
 }
+
+/**
+ * 插入一个block
+ * @param editorState
+ * @param blockType
+ * @param blockData
+ * @param entityType
+ * @param entityData
+ * @param blockKey
+ */
+export function insertBlock(
+    editorState: EditorState,
+    blockType: string,
+    blockData: any,
+    entityType: string,
+    entityData = {},
+    blockKey?: string): EditorState {
+  
+  
+    var contentState = editorState.getCurrentContent();
+    var selectionState = editorState.getSelection();
+  
+    var afterRemoval = Modifier.removeRange(
+      contentState,
+      selectionState,
+      'backward'
+    );
+  
+    var targetSelection = afterRemoval.getSelectionAfter();
+    var afterSplit = Modifier.splitBlock(afterRemoval, targetSelection);
+    var insertionTarget = afterSplit.getSelectionAfter();
+  
+    var asMedia = Modifier.setBlockType(afterSplit, insertionTarget, blockType);
+  
+    var entityKey = contentState.createEntity(
+      entityType,
+      'IMMUTABLE',
+      entityData
+    ).getLastCreatedEntityKey();
+  
+    var charData = CharacterMetadata.create({ entity: entityKey });
+    var key = blockKey ? blockKey : genKey()
+    var fragmentArray = [
+      new ContentBlock({
+        key,
+        type: blockType,
+        text: ' ',
+        characterList: List(Repeat(charData, 1)),
+        data: blockData
+      }),
+      new ContentBlock({
+        key: genKey(),
+        type: 'unstyled',
+        text: '',
+        characterList: List()
+      })
+    ];
+  
+    var fragment = BlockMapBuilder.createFromArray(fragmentArray);
+  
+    var withMedia = Modifier.replaceWithFragment(
+      asMedia,
+      insertionTarget,
+      fragment
+    );
+  
+    var newContent = withMedia.merge({
+      selectionBefore: selectionState,
+      selectionAfter: withMedia.getSelectionAfter().set('hasFocus', true),
+    }) as ContentState
+  
+  
+    var newState = EditorState.push(editorState, newContent, 'insert-fragment');
+  
+    return newState
+  }
+  
+  
