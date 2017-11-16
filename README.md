@@ -1,7 +1,13 @@
 # essays
 
-##run on local
+##run on local for client
 ```bash
 $ npm run dev
 ```
+
+##run on local for server
+```bash
+$ npm run server-dev
+```
+
 Open `http://localhost:8080` in your browser
