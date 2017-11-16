@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "classic",
+        "baseUrl": ".",
+        "paths": {
+            "src/*": [
+                "src/*"
+            ],
+            "app/*": [
+                "src/app/*"
+            ],
+            "utils/*": [
+                "src/utils/*"
+            ],
+            "moment": [
+                "../node_modules/moment/moment"
+            ],
+            "middlewares/*": [
+                "src/middlewares/*"
+            ],
+            "test/*": [
+                "src/test/*"
+            ]
+        },
+        "target": "es2015",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "allowSyntheticDefaultImports": true,
+        "allowJs": true
+    },
+    "exclude": [
+        "node_modules",
+        "build/node_modules"
+    ]
+}

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { EditorState } from "draft-js";
 import { login } from "../actions/session";
 import { Link } from "react-router-dom";
-import "./styles/app.less";
+import "./styles/write.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
 import { createImagePlugin } from "../components/editor/plugins/image/index";
@@ -51,7 +51,7 @@ class App extends React.Component<any, any> {
     render() {
         return (
             // tslint:disable-next-line:no-unused-expression
-            [<Link to="/welcome">跳转到欢迎页</Link>,
+            [<a href="/welcome">跳转到欢迎页</a>,
             <div className="init">
                 <JiglooEditor
                     readonly={false}

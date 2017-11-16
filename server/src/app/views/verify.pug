@@ -1,0 +1,10 @@
+ <!DOCTYPE html>
+html
+  include head
+  block append head
+    meta(name="auth-token",content=authToken)
+    meta(name="refresh-token",content=refreshToken)
+    meta(name="payload",content=payload)
+  body
+    include rootNode
+    include scripts
