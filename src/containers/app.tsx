@@ -1,9 +1,9 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import {EditorState} from "draft-js";
+import { EditorState } from "draft-js";
 import { login } from "../actions/session";
 import { Link } from "react-router-dom";
-import "./app.less";
+import "./styles/app.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
 import { createImagePlugin } from "../components/editor/plugins/image/index";
@@ -12,7 +12,7 @@ import createFocusPlugin from "draft-js-focus-plugin";
 import linkify from "draft-js-linkify-plugin";
 import createCodePlugin from "app/components/editor/plugins/code-highlight/code-light.plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
-import {createSideToolBarPlugin} from "../components/editor/plugins/side-tool-bar/index";
+import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-bar/index";
 
 import { composeDecorators } from "draft-js-plugins-editor";
 
@@ -50,6 +50,8 @@ class App extends React.Component<any, any> {
     }
     render() {
         return (
+            // tslint:disable-next-line:no-unused-expression
+            [<Link to="/welcome">跳转到欢迎页</Link>,
             <div className="init">
                 <JiglooEditor
                     readonly={false}
@@ -60,6 +62,7 @@ class App extends React.Component<any, any> {
                     <SideToolbar></SideToolbar>
                 </JiglooEditor>
             </div>
+            ]
         );
     }
 }
