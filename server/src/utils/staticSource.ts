@@ -1,7 +1,7 @@
 import { info, error } from '../app/components/log/index';
 import { readFileSync, existsSync } from 'fs'
 import { join } from 'path'
-const manifestPath = join(__dirname, '../../../public/hole-manifest.json')
+const manifestPath = join(__dirname, '../../../public/essays-manifest.json')
 const scripts = ['common-in-lazy.js', 'vendor.js', 'index.js',]
 const css = ['index.css']
 let cache
