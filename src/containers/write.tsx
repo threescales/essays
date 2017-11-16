@@ -50,8 +50,6 @@ class App extends React.Component<any, any> {
     }
     render() {
         return (
-            // tslint:disable-next-line:no-unused-expression
-            [<a href="/welcome">跳转到欢迎页</a>,
             <div className="init">
                 <JiglooEditor
                     readonly={false}
@@ -62,7 +60,6 @@ class App extends React.Component<any, any> {
                     <SideToolbar></SideToolbar>
                 </JiglooEditor>
             </div>
-            ]
         );
     }
 }
