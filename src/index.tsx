@@ -17,12 +17,12 @@ import "./styles/index.less";
 
 declare const __TEST__: boolean;
 
-const history = createBrowserHistory();
+const history = syncHistoryWithStore(createBrowserHistory(),store);
 if (!__TEST__) {
   ReactDOM.render(
     <div>
       <Provider store={ store }>
-        { routes() }
+        { routes(history) }
       </Provider>
     </div>,
     document.getElementById("root")
