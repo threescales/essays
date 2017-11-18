@@ -153,7 +153,7 @@ export default class JiglooEditor
         let lastEntityKey = newContentState.getLastCreatedEntityKey()
         newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
         newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
-        newEditorState = focusSelectionAfter(newEditorState,block.getKey())
+        newEditorState = focusSelectionAfter(newEditorState, block.getKey())
         this.onChange(newEditorState);
         return 'handled'
       }

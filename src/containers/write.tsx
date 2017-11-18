@@ -13,7 +13,7 @@ import linkify from "draft-js-linkify-plugin";
 import createCodePlugin from "app/components/editor/plugins/code-highlight/code-light.plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-bar/index";
-
+import createCataloguePlugin from "../components/editor/plugins/catalogue/index"
 import { composeDecorators } from "draft-js-plugins-editor";
 
 const focusPlugin = createFocusPlugin();
@@ -31,10 +31,14 @@ const { InlineToolbar } = inlineToolbarPlugin;
 const sideToolbarPlugin = createSideToolBarPlugin();
 const { SideToolbar } = sideToolbarPlugin;
 
+const catalouePlugin = createCataloguePlugin();
+const { Catalogue, onChange } = catalouePlugin;
+
 const imagePlugin = createImagePlugin({ decorator });
 const plugins = [
     inlineToolbarPlugin,
     sideToolbarPlugin,
+    catalouePlugin,
     focusPlugin,
     alignmentPlugin,
     imagePlugin,
@@ -44,9 +48,17 @@ const plugins = [
 class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
+        this.state = {
+            editorState:null
+        }
     }
     componentDidMount() {
         this.props.dispatch(show("a"));
+    }
+    onChange = (editorState: EditorState) => {
+        this.setState({
+            editorState:editorState
+        })
     }
     render() {
         return (
@@ -55,9 +67,11 @@ class App extends React.Component<any, any> {
                     readonly={false}
                     plugins={plugins}
                     placeholder=""
+                    onChange={this.onChange}
                 >
                     <InlineToolbar></InlineToolbar>
                     <SideToolbar></SideToolbar>
+                    <Catalogue editorState={this.state.editorState}></Catalogue>
                 </JiglooEditor>
             </div>
         );
