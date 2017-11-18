@@ -171,7 +171,7 @@ export default class JiglooEditor
         }
       } else {
         //如果是引用 一级标题 二级标题则回车则新建新的 unstyle  block
-        if (block.getType() === 'header-one' || block.getType() === 'header-two' || block.getType() === 'blockquote') {
+        if (block.getType() === 'blockquote') {
           let newEditorState = focusSelectionAfter(editorState, block.getKey());
           this.onChange(newEditorState);
           return 'handled';

@@ -3,6 +3,7 @@ import * as  React from 'react'
 import {
   HeadlineOneButton,
   HeadlineTwoButton,
+  HeadlineThreeButton,
   BlockquoteButton,
   CodeBlockButton,
   UnorderedListButton,
@@ -22,6 +23,7 @@ export const DefaultBlockTypeSelect = ({ getEditorState, setEditorState, theme }
     structure={ [
       HeadlineOneButton,
       HeadlineTwoButton,
+      HeadlineThreeButton,
       UnorderedListButton,
       OrderedListButton,
       BlockquoteButton,
