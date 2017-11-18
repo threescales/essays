@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { EditorState } from "draft-js";
-import { login } from "../actions/session";
+import { show } from "../actions/show";
 import { Link } from "react-router-dom";
 import "./styles/write.less";
 import JiglooEditor from "../components/editor";
@@ -46,7 +46,7 @@ class App extends React.Component<any, any> {
         super(props);
     }
     componentDidMount() {
-        this.props.dispatch(login("1111"));
+        this.props.dispatch(show("a"));
     }
     render() {
         return (
@@ -65,7 +65,7 @@ class App extends React.Component<any, any> {
 }
 function mapStateToProps(state: any, props: any) {
     return {
-        token: state.session
+        show: state.show
     };
 }
 export default connect(mapStateToProps)(App);
