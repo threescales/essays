@@ -68,7 +68,11 @@ export default class JiglooEditor
       this.setState({ editorState })
     }
   }
-
+  componentDidMount() {
+    if (!this.props.readonly) {
+      this.focus()
+    }
+  }
   onChange = (editorState) => {
 
     this.setState({ editorState })

@@ -49,7 +49,7 @@ class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            editorState:null
+            editorState: null
         }
     }
     componentDidMount() {
@@ -57,11 +57,12 @@ class App extends React.Component<any, any> {
     }
     onChange = (editorState: EditorState) => {
         this.setState({
-            editorState:editorState
+            editorState: editorState
         })
     }
     render() {
         return (
+
             <div className="init">
                 <JiglooEditor
                     readonly={false}
