@@ -69,11 +69,11 @@ export default class JiglooEditor
       this.setState({ editorState })
     }
   }
-  componentDidMount() {
-    if (!this.props.readonly) {
-      this.focus()
-    }
-  }
+  // componentDidMount() {
+  //   if (!this.props.readonly) {
+  //     this.focus()
+  //   }
+  // }
   onChange = (editorState) => {
 
     this.setState({ editorState })
@@ -148,8 +148,8 @@ export default class JiglooEditor
         let selectionState = newEditorState.getSelection()
         let newContentState = Modifier
           .setBlockType(contentState, selectionState, 'atomic')
-          .createEntity(getEntityTypeByUrl(block.getType()), "MUTABLE", {
-            type: getEntityTypeByUrl(block.getType()),
+          .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
+            type: getEntityTypeByUrl(block.getText()),
             title: 'aaa',
             description: 'bbbbbbbb',
             src: block.getText(),

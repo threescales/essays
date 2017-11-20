@@ -7,10 +7,11 @@ import "./styles/write.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
 import { createImagePlugin } from "../components/editor/plugins/image/index";
+import createPageCardPlugin from "../components/editor/plugins/page-card/index"
 import createAlignmentPlugin from "draft-js-alignment-plugin";
 import createFocusPlugin from "draft-js-focus-plugin";
 import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
-import linkify from "draft-js-linkify-plugin";
+import createLinkifyPlugin from "draft-js-linkify-plugin";
 import createCodePlugin from "app/components/editor/plugins/code-highlight/code-light.plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-bar/index";
@@ -18,7 +19,7 @@ import createCataloguePlugin from "../components/editor/plugins/catalogue/index"
 import { composeDecorators } from "draft-js-plugins-editor";
 import createColorBlockPlugin from "../components/editor/plugins/focusColor/index"
 
-
+const linkifyPlugin = createLinkifyPlugin()
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
 const blockDndPlugin = createBlockDndPlugin();
@@ -30,6 +31,7 @@ const decorator = composeDecorators(
     focusPlugin.decorator,
     blockDndPlugin.decorator
 );
+
 const colorBlockPlugin = createColorBlockPlugin({ decorator })
 
 
@@ -44,16 +46,19 @@ const catalouePlugin = createCataloguePlugin();
 const { Catalogue, onChange } = catalouePlugin;
 
 const imagePlugin = createImagePlugin({ decorator });
+const pageCardPlugin = createPageCardPlugin({ decorator });
+
 const plugins = [
     inlineToolbarPlugin,
     sideToolbarPlugin,
     catalouePlugin,
-    focusPlugin,
-    alignmentPlugin,
     blockDndPlugin,
     colorBlockPlugin,
+    focusPlugin,
+    alignmentPlugin,
     imagePlugin,
-    linkify(),
+    pageCardPlugin,
+    linkifyPlugin,
     createCodePlugin({}),
 ];
 class App extends React.Component<any, any> {
@@ -81,10 +86,10 @@ class App extends React.Component<any, any> {
                     placeholder=""
                     onChange={this.onChange}
                 >
-                    <InlineToolbar/>
-                    <SideToolbar/>
-                    <AlignmentTool/>
-                    <Catalogue editorState={this.state.editorState}/>
+                    <InlineToolbar />
+                    <SideToolbar />
+                    <AlignmentTool />
+                    <Catalogue editorState={this.state.editorState} />
                 </JiglooEditor>
             </div>
         );
