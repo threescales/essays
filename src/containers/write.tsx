@@ -15,15 +15,18 @@ import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-bar/index";
 import createCataloguePlugin from "../components/editor/plugins/catalogue/index"
 import { composeDecorators } from "draft-js-plugins-editor";
+import createColorBlockPlugin from "../components/editor/plugins/focusColor/index"
+
 
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
+const { AlignmentTool } = alignmentPlugin;
 
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
     focusPlugin.decorator,
 );
-
+const colorBlockPlugin = createColorBlockPlugin({ decorator })
 
 const inlineToolbarPlugin = createInlineToolbarPlugin();
 const { InlineToolbar } = inlineToolbarPlugin;
@@ -41,6 +44,7 @@ const plugins = [
     catalouePlugin,
     focusPlugin,
     alignmentPlugin,
+    colorBlockPlugin,
     imagePlugin,
     linkify(),
     createCodePlugin({}),
@@ -70,9 +74,10 @@ class App extends React.Component<any, any> {
                     placeholder=""
                     onChange={this.onChange}
                 >
-                    <InlineToolbar></InlineToolbar>
-                    <SideToolbar></SideToolbar>
-                    <Catalogue editorState={this.state.editorState}></Catalogue>
+                    <InlineToolbar/>
+                    <SideToolbar/>
+                    <AlignmentTool/>
+                    <Catalogue editorState={this.state.editorState}/>
                 </JiglooEditor>
             </div>
         );
