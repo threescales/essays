@@ -166,4 +166,17 @@ export function insertBlock(
     return newState
   }
   
-  
+
+ export function removeBlockFromBlockMap(editorState: EditorState, blockKey: string) {
+   var contentState = editorState.getCurrentContent();
+   var blockMap = contentState.getBlockMap();
+   var newBlockMap = blockMap.remove(blockKey)
+   var blockAfterKey = contentState.getBlockAfter(blockKey).getKey()
+   var newContentState = contentState.merge({
+     blockMap: newBlockMap
+   }) as ContentState
+   var newEditorState = EditorState.push(editorState, newContentState, 'remove-range')
+   newEditorState = selectBlock(newEditorState, blockAfterKey, 0)
+ 
+   return newEditorState
+ }

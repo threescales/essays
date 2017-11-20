@@ -27,7 +27,7 @@ import 'draft-js-alignment-plugin/lib/plugin.css'
 
 import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
-import { focusSelectionAfter, selectBlock, insertBlock } from './utils/operaBlock'
+import { focusSelectionAfter, selectBlock, insertBlock,removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
 
 import './draft.less'
@@ -221,6 +221,26 @@ export default class JiglooEditor
       }
     }
   }
+  handleKeyCommand = (command) => {
+    switch (command) {
+      case "backspace":
+        return this.handleBackspace()
+      default:
+        return "not-handled"
+    }
+  }
+
+  handleBackspace = () => {
+    const editorState = this.getEditorState()
+    const { contentState, selectionState } = this.getContentAndSelection()
+    const block = contentState.getBlockForKey(selectionState.getAnchorKey())
+    if (block.getType()==='atomic') {
+      var removeEditor = removeBlockFromBlockMap(editorState, block.getKey());
+      this.onChange(removeEditor)
+      return "handled"
+    }
+    return "not-handled"
+  }
 
   /**
    * 将粘贴的html修改为block
@@ -300,6 +320,7 @@ export default class JiglooEditor
           plugins={this.props.plugins || []}
           handleReturn={this.handleReturn}
           handlePastedText={this.handlePastedText}
+          handleKeyCommand={cmd => this.handleKeyCommand(cmd)}
           decorators={this.props.decorators || []}
           blockStyleFn={this.blockStyleFn}
           placeholder={placeholder}
