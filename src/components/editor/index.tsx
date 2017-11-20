@@ -26,8 +26,9 @@ import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
 
 import { is, List, Repeat } from 'immutable'
-import { isUrl } from "../../utils/url"
+import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, insertBlock } from './utils/operaBlock'
+import { types } from '../../constants/entityType'
 
 import './draft.less'
 import './style.less'
@@ -147,11 +148,11 @@ export default class JiglooEditor
         let selectionState = newEditorState.getSelection()
         let newContentState = Modifier
           .setBlockType(contentState, selectionState, 'atomic')
-          .createEntity('CARD', "MUTABLE", {
-            type: 'page',
+          .createEntity(getEntityTypeByUrl(block.getType()), "MUTABLE", {
+            type: getEntityTypeByUrl(block.getType()),
             title: 'aaa',
             description: 'bbbbbbbb',
-            url: block.getText(),
+            src: block.getText(),
             previewImg: ''
           })
         let lastEntityKey = newContentState.getLastCreatedEntityKey()
