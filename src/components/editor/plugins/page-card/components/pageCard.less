@@ -1,0 +1,64 @@
+@import '../../../../../styles/screen.less';
+.draft-js-page-card {
+    position: relative;
+    display: table;
+    width: 100%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .04), inset 0 0 0 1px rgba(0, 0, 0, .09);
+    div {
+        display: table-cell;
+    }
+    .left{
+        padding:20px;
+        @media @desktopMin{
+            padding: 10px 12px 10px;
+        }
+    }
+    strong {
+        letter-spacing: 0;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 18px;
+        line-height: 1.3;
+        color: rgba(0, 0, 0, .9);
+        margin-bottom: 10px;
+        @media @desktopMin {
+            font-size: 16px;
+            margin-bottom: 5px
+        }
+    }
+    em {
+        font-size: 16px;
+        font-style: normal;
+        color: rgba(0, 0, 0, .68);
+        margin-top: -1px;
+        margin-bottom: 10px;
+        max-height: 120px;
+        overflow: hidden;
+        @media @desktopMin {
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+em,
+strong {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.right {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    box-sizing: border-box;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .09);
+    width: 160px;
+    height: 160px;
+    @media @desktopMin {
+        width: 110px;
+        height: 110px;
+    }
+}

@@ -150,10 +150,11 @@ export default class JiglooEditor
           .setBlockType(contentState, selectionState, 'atomic')
           .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
             type: getEntityTypeByUrl(block.getText()),
-            title: 'aaa',
-            description: 'bbbbbbbb',
+            title: '阿里云前端周刊 - 第 33 期交流交流放假时间家里就发了交流方式登记法律就是浪费就是垃圾房价私搭乱建法律手段减肥路上大家发了圣诞节见识到了废旧塑料房',
+            description: '本周 React 16.1.0 版本发布，自该版本开始 React 不再发布到 Bower，解放路都结束了金粉世家分解落实经费落实放假了时代峻峰老实交代福建省两地分居狩猎僵尸两点就法律手段废旧塑料'+
+            +'交付落地时间法律手段分解落实到积分鲁大师积分洛杉矶斐林试剂放假时间斐林试剂冯老师金粉世家地脚螺栓',
             src: block.getText(),
-            previewImg: ''
+            previewImg: 'https://cdn-images-1.medium.com/fit/c/160/160/0*fAp3PSMaEwyk3ild.'
           })
         let lastEntityKey = newContentState.getLastCreatedEntityKey()
         newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
