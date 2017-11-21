@@ -35,7 +35,6 @@
         "quotemark": [false],
         "radix": true,
         "semicolon": false,
-        "triple-equals": [true, "allow-null-check"],
         "typedef": [false],
         "typedef-whitespace": [true, ["callSignature", "noSpace"],
             ["catchClause", "noSpace"],

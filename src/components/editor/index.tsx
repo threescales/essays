@@ -27,7 +27,7 @@ import 'draft-js-alignment-plugin/lib/plugin.css'
 
 import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
-import { focusSelectionAfter, selectBlock, insertBlock, removeBlockFromBlockMap } from './utils/operaBlock'
+import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
 declare var ajax
 import './draft.less'
@@ -202,7 +202,7 @@ export default class JiglooEditor
     var { contentState } = this.getContentAndSelection()
     return {
       htmlToEntity: (nodeName, node: any) => {
-        if (nodeName === 'img') {
+        if (nodeName == 'img') {
           node.textContent = node.src
           return contentState.createEntity(
             'image',
