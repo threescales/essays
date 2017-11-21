@@ -18,7 +18,7 @@ import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-
 import createCataloguePlugin from "../components/editor/plugins/catalogue/index"
 import { composeDecorators } from "draft-js-plugins-editor";
 import createColorBlockPlugin from "../components/editor/plugins/focusColor/index"
-
+import LazyLoad from 'react-lazyload'
 const linkifyPlugin = createLinkifyPlugin()
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
@@ -46,7 +46,7 @@ const catalouePlugin = createCataloguePlugin();
 const { Catalogue, onChange } = catalouePlugin;
 
 const imagePlugin = createImagePlugin({ decorator });
-const pageCardPlugin = createPageCardPlugin({ decorator,readOnly:false });
+const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: false });
 
 const plugins = [
     inlineToolbarPlugin,
@@ -80,17 +80,19 @@ class App extends React.Component<any, any> {
         return (
 
             <div className="init">
-                <JiglooEditor
-                    readonly={false}
-                    plugins={plugins}
-                    placeholder=""
-                    onChange={this.onChange}
-                >
-                    <InlineToolbar />
-                    <SideToolbar />
-                    <AlignmentTool />
-                    <Catalogue editorState={this.state.editorState} />
-                </JiglooEditor>
+                <LazyLoad once height={200} offset={100}>
+                    <JiglooEditor
+                        readonly={false}
+                        plugins={plugins}
+                        placeholder=""
+                        onChange={this.onChange}
+                    >
+                        <InlineToolbar />
+                        <SideToolbar />
+                        <AlignmentTool />
+                        <Catalogue editorState={this.state.editorState} />
+                    </JiglooEditor>
+                </LazyLoad>
             </div>
         );
     }

@@ -29,6 +29,7 @@ import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
+
 declare var ajax
 import './draft.less'
 import './style.less'
@@ -43,6 +44,7 @@ interface EditorProps {
   autoFocus?: boolean
 }
 import { JSONPAjax } from '../../utils/ajax'
+
 export default class JiglooEditor
   extends React.Component<EditorProps, any> {
   public static placeholder = ' '
