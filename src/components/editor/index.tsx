@@ -143,7 +143,7 @@ export default class JiglooEditor
     if (block) {
       //解析网页 显示预览信息
       if (isUrl(block.getText())) {
-        let newEditorState = selectBlock(editorState, block.getKey(), block.getLength())
+        let newEditorState = selectBlock(editorState, block.getKey())
         let contentState = newEditorState.getCurrentContent()
         let selectionState = newEditorState.getSelection()
         ajax({
@@ -152,7 +152,8 @@ export default class JiglooEditor
           timeout: 15000,
           beforeSend: () => this.setState({ pending: true }),
           success: res => {
-            console.log(res)
+            let editorState = this.getEditorState()
+            let contentState = editorState.getCurrentContent()
             let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `http://images.yibencezi.com/${res.data.imgUrl}`
             let newContentState = Modifier
               .setBlockType(contentState, selectionState, 'atomic')
@@ -166,8 +167,9 @@ export default class JiglooEditor
             let lastEntityKey = newContentState.getLastCreatedEntityKey()
             newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
             newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
+            // this.onChange(newEditorState);            
             newEditorState = focusSelectionAfter(newEditorState, block.getKey())
-            this.onChange(newEditorState);
+            this.onChange(newEditorState);            
             return 'handled'
           },
           error: (err) => {
