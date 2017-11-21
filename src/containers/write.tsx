@@ -46,7 +46,7 @@ const catalouePlugin = createCataloguePlugin();
 const { Catalogue, onChange } = catalouePlugin;
 
 const imagePlugin = createImagePlugin({ decorator });
-const pageCardPlugin = createPageCardPlugin({ decorator });
+const pageCardPlugin = createPageCardPlugin({ decorator,readOnly:false });
 
 const plugins = [
     inlineToolbarPlugin,

@@ -8,12 +8,12 @@ const defaultTheme = {
 
 export default (config: any = {}) => {
     const theme = config.theme ? config.theme : defaultTheme;
-
+    const readOnly = config.readOnly
     let PageCard = PageCardComponent
     if (config.decorator) {
         PageCard = config.decorator(PageCard)
     }
-    const ThemedPageCard = decorateComponentWithProps(PageCard, { theme });
+    const ThemedPageCard = decorateComponentWithProps(PageCard, { theme, readOnly });
 
     return {
         blockRendererFn: (block, { getEditorState }) => {

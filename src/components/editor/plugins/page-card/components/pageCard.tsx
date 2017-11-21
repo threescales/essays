@@ -4,6 +4,12 @@ export default class PageCardComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
     }
+    jump = (url) => {
+        const { readOnly } = this.props
+        if (readOnly) {
+            window.location.href = url
+        }
+    }
     render() {
         const {
             block,
@@ -23,18 +29,18 @@ export default class PageCardComponent extends React.Component<any, any> {
         const combinedClassName = `draft-js-page-card ${className}`
         const data = contentState.getEntity(block.getEntityAt(0)).getData();
         return (
-            <div role="presentation" className={combinedClassName}>
-            <div className="left">
-                <strong>
-                    {data.title}
-                </strong>
-                <em>
-                    {data.description}
-                </em>
-                <a>{data.src}</a>
-            </div>
-            <div className="right" style={{backgroundImage:`url(${data.previewImg})`}}>
-            </div>
+            <div role="presentation" className={combinedClassName} onClick={() => this.jump(data.src)}>
+                <div className="left">
+                    <strong>
+                        {data.title}
+                    </strong>
+                    <em>
+                        {data.description}
+                    </em>
+                    <a>{data.src}</a>
+                </div>
+                <div className="right" style={{ backgroundImage: `url(${data.previewImg})` }}>
+                </div>
             </div>
         )
     }
