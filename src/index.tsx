@@ -9,6 +9,8 @@ import { Router } from "react-router";
 import createBrowserHistory from "history/createBrowserHistory";
 import { syncHistoryWithStore } from "react-router-redux";
 
+import './utils/ajax'
+
 import routes from "./store/routes";
 import store from "./store/configure-store";
 

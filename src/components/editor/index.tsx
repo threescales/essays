@@ -27,9 +27,9 @@ import 'draft-js-alignment-plugin/lib/plugin.css'
 
 import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
-import { focusSelectionAfter, selectBlock, insertBlock,removeBlockFromBlockMap } from './utils/operaBlock'
+import { focusSelectionAfter, selectBlock, insertBlock, removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
-
+declare var ajax
 import './draft.less'
 import './style.less'
 interface EditorProps {
@@ -146,22 +146,35 @@ export default class JiglooEditor
         let newEditorState = selectBlock(editorState, block.getKey(), block.getLength())
         let contentState = newEditorState.getCurrentContent()
         let selectionState = newEditorState.getSelection()
-        let newContentState = Modifier
-          .setBlockType(contentState, selectionState, 'atomic')
-          .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
-            type: getEntityTypeByUrl(block.getText()),
-            title: '阿里云前端周刊 - 第 33 期交流交流放假时间家里就发了交流方式登记法律就是浪费就是垃圾房价私搭乱建法律手段减肥路上大家发了圣诞节见识到了废旧塑料房',
-            description: '本周 React 16.1.0 版本发布，自该版本开始 React 不再发布到 Bower，解放路都结束了金粉世家分解落实经费落实放假了时代峻峰老实交代福建省两地分居狩猎僵尸两点就法律手段废旧塑料'+
-            +'交付落地时间法律手段分解落实到积分鲁大师积分洛杉矶斐林试剂放假时间斐林试剂冯老师金粉世家地脚螺栓',
-            src: block.getText(),
-            previewImg: 'https://cdn-images-1.medium.com/fit/c/160/160/0*fAp3PSMaEwyk3ild.'
-          })
-        let lastEntityKey = newContentState.getLastCreatedEntityKey()
-        newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
-        newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
-        newEditorState = focusSelectionAfter(newEditorState, block.getKey())
-        this.onChange(newEditorState);
-        return 'handled'
+        ajax({
+          url: `http://staging.yibencezi.com:9000/link?url=${block.getText()}`,
+          dataType: 'jsonp',
+          timeout: 15000,
+          beforeSend: () => this.setState({ pending: true }),
+          success: res => {
+            console.log(res)
+            let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `http://images.yibencezi.com/${res.data.imgUrl}`
+            let newContentState = Modifier
+              .setBlockType(contentState, selectionState, 'atomic')
+              .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
+                type: getEntityTypeByUrl(block.getText()),
+                title: res.data.text.substring(0,50),
+                description: res.data.content.substring(0,80),
+                src: block.getText(),
+                previewImg
+              })
+            let lastEntityKey = newContentState.getLastCreatedEntityKey()
+            newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
+            newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
+            newEditorState = focusSelectionAfter(newEditorState, block.getKey())
+            this.onChange(newEditorState);
+            return 'handled'
+          },
+          error: (err) => {
+            console.log(err)
+            return 'not-handled'
+          }
+        })
       }
       //shiftKey 如果是markdown则跳出 其余的block内换行
       if (args[0].shiftKey) {
@@ -184,7 +197,7 @@ export default class JiglooEditor
         }
       }
     }
-    return 'not-handled'
+    // return 'not-handled'
   }
   //将img标签解析成image block映射算法
   getConvertOptions = () => {
@@ -235,7 +248,7 @@ export default class JiglooEditor
     const editorState = this.getEditorState()
     const { contentState, selectionState } = this.getContentAndSelection()
     const block = contentState.getBlockForKey(selectionState.getAnchorKey())
-    if (block.getType()==='atomic') {
+    if (block.getType() === 'atomic') {
       var removeEditor = removeBlockFromBlockMap(editorState, block.getKey());
       this.onChange(removeEditor)
       return "handled"
