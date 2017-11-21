@@ -14,7 +14,7 @@ import {
   Modifier,
   genKey,
   BlockMapBuilder,
-  CharacterMetadata
+  CharacterMetadata,
 } from 'draft-js'
 import { convertFromHTML as customConvertFromHtml } from 'draft-convert'
 
@@ -42,7 +42,7 @@ interface EditorProps {
   readonly?: boolean
   autoFocus?: boolean
 }
-
+import { JSONPAjax } from '../../utils/ajax'
 export default class JiglooEditor
   extends React.Component<EditorProps, any> {
   public static placeholder = ' '
@@ -129,6 +129,35 @@ export default class JiglooEditor
     return null
   }
 
+  getPageData = (editorState, block) => {
+    let newEditorState = selectBlock(editorState, block.getKey())
+    let contentState = newEditorState.getCurrentContent()
+    let selectionState = newEditorState.getSelection()
+    JSONPAjax('http://staging.yibencezi.com:9000/link', { url: block.getText() })
+      .then((res: any) => {
+        let editorState = this.getEditorState()
+        let contentState = editorState.getCurrentContent()
+        let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `http://images.yibencezi.com/${res.data.imgUrl}`
+        let newContentState = Modifier
+          .setBlockType(contentState, selectionState, 'atomic')
+          .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
+            type: getEntityTypeByUrl(block.getText()),
+            title: res.data.text.substring(0, 50),
+            description: res.data.content.substring(0, 80),
+            src: block.getText(),
+            previewImg
+          })
+        let lastEntityKey = newContentState.getLastCreatedEntityKey()
+        newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
+        newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
+        // this.onChange(newEditorState);            
+        newEditorState = focusSelectionAfter(newEditorState, block.getKey())
+        this.onChange(newEditorState);
+      }).catch((err) => {
+        console.log(err)
+      })
+  }
+
   handleReturn = (...args): DraftHandleValue => {
     const editorState = this.state.editorState;
     const { contentState, selectionState } = this.getContentAndSelection()
@@ -143,40 +172,7 @@ export default class JiglooEditor
     if (block) {
       //解析网页 显示预览信息
       if (isUrl(block.getText())) {
-        let newEditorState = selectBlock(editorState, block.getKey())
-        let contentState = newEditorState.getCurrentContent()
-        let selectionState = newEditorState.getSelection()
-        ajax({
-          url: `http://staging.yibencezi.com:9000/link?url=${block.getText()}`,
-          dataType: 'jsonp',
-          timeout: 15000,
-          beforeSend: () => this.setState({ pending: true }),
-          success: res => {
-            let editorState = this.getEditorState()
-            let contentState = editorState.getCurrentContent()
-            let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `http://images.yibencezi.com/${res.data.imgUrl}`
-            let newContentState = Modifier
-              .setBlockType(contentState, selectionState, 'atomic')
-              .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
-                type: getEntityTypeByUrl(block.getText()),
-                title: res.data.text.substring(0,50),
-                description: res.data.content.substring(0,80),
-                src: block.getText(),
-                previewImg
-              })
-            let lastEntityKey = newContentState.getLastCreatedEntityKey()
-            newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
-            newEditorState = EditorState.push(editorState, newContentState, "change-block-type");
-            // this.onChange(newEditorState);            
-            newEditorState = focusSelectionAfter(newEditorState, block.getKey())
-            this.onChange(newEditorState);            
-            return 'handled'
-          },
-          error: (err) => {
-            console.log(err)
-            return 'not-handled'
-          }
-        })
+        this.getPageData(editorState, block)
       }
       //shiftKey 如果是markdown则跳出 其余的block内换行
       if (args[0].shiftKey) {
