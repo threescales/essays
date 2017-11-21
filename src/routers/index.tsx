@@ -15,7 +15,7 @@ export const rootRoute = [
     component: Write,
   },
   {
-    path: '/welcome',
-    componet: Welcome
+    path: "/welcome",
+    component: Welcome
   }
 ];

@@ -9,3 +9,15 @@ body{
     overflow-x: hidden;
 
 }
+@keyframes gaussian{
+    from{filter:blur(10px)}
+    to{filter:blur(0px)}
+}
+@-webkit-keyframes gaussian{
+    from{-webkit-filter:blur(10px)}
+    to{-webkit-filter:blur(0px)}
+}
+img{
+    animation: gaussian 1.5s ease-in-out 1;
+    -webkit-animation: gaussian 1.5s ease-in-out 1;
+}
