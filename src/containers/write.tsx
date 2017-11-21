@@ -9,6 +9,7 @@ import { Serlizer } from "../components/editor/utils/serializer";
 import { createImagePlugin } from "../components/editor/plugins/image/index";
 import createPageCardPlugin from "../components/editor/plugins/page-card/index"
 import createAlignmentPlugin from "draft-js-alignment-plugin";
+import createResizeablePlugin from "draft-js-resizeable-plugin"
 import createFocusPlugin from "draft-js-focus-plugin";
 import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
 import createLinkifyPlugin from "draft-js-linkify-plugin";
@@ -23,11 +24,12 @@ const linkifyPlugin = createLinkifyPlugin()
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
 const blockDndPlugin = createBlockDndPlugin();
-
+const resizeablePlugin = createResizeablePlugin()
 const { AlignmentTool } = alignmentPlugin;
 
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
+    resizeablePlugin.decorator,
     focusPlugin.decorator,
     blockDndPlugin.decorator
 );
@@ -53,9 +55,10 @@ const plugins = [
     sideToolbarPlugin,
     catalouePlugin,
     blockDndPlugin,
-    colorBlockPlugin,
     focusPlugin,
     alignmentPlugin,
+    resizeablePlugin,
+    colorBlockPlugin,    
     imagePlugin,
     pageCardPlugin,
     linkifyPlugin,
