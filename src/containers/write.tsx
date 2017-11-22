@@ -6,20 +6,26 @@ import { Link } from "react-router-dom";
 import "./styles/write.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
-import { createImagePlugin } from "../components/editor/plugins/image/index";
-import createPageCardPlugin from "../components/editor/plugins/page-card/index"
+
+import { ItalicButton, BoldButton, UnderlineButton } from 'draft-js-buttons';
+import { composeDecorators } from "draft-js-plugins-editor";
 import createAlignmentPlugin from "draft-js-alignment-plugin";
 import createResizeablePlugin from "draft-js-resizeable-plugin"
 import createFocusPlugin from "draft-js-focus-plugin";
 import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
 import createLinkifyPlugin from "draft-js-linkify-plugin";
-import createCodePlugin from "app/components/editor/plugins/code-highlight/code-light.plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
+import createLinkPlugin from 'draft-js-anchor-plugin';
+
+import createCodePlugin from "../components/editor/plugins/code-highlight/code-light.plugin";
+import { createImagePlugin } from "../components/editor/plugins/image/index";
+import createPageCardPlugin from "../components/editor/plugins/page-card/index"
 import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-bar/index";
 import createCataloguePlugin from "../components/editor/plugins/catalogue/index"
-import { composeDecorators } from "draft-js-plugins-editor";
 import createColorBlockPlugin from "../components/editor/plugins/focusColor/index"
 import LazyLoad from 'react-lazyload'
+
+const linkPlugin = createLinkPlugin();
 const linkifyPlugin = createLinkifyPlugin()
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
@@ -38,7 +44,14 @@ const colorBlockPlugin = createColorBlockPlugin({ decorator })
 
 
 
-const inlineToolbarPlugin = createInlineToolbarPlugin();
+const inlineToolbarPlugin = createInlineToolbarPlugin({
+    structure: [
+      BoldButton,
+      ItalicButton,
+      UnderlineButton,
+      linkPlugin.LinkButton
+    ]
+  });
 const { InlineToolbar } = inlineToolbarPlugin;
 
 const sideToolbarPlugin = createSideToolBarPlugin();
@@ -53,6 +66,7 @@ const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: false });
 const plugins = [
     inlineToolbarPlugin,
     sideToolbarPlugin,
+    linkPlugin,
     catalouePlugin,
     blockDndPlugin,
     focusPlugin,
