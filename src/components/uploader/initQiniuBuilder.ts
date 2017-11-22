@@ -12,7 +12,7 @@ export default function initQiniuBuilder({
  }: IUpdateOptions): IQiniuUploader {
   return new UploaderBuilder()
     .debug(__DEV__ || __TEST__)
-    .domain("http://up-z0.qiniu.com")
+    .domain("//up-z0.qiniu.com")
     .button(button)
     .tokenUrl(tokenUrl)
     .interceptor(defaultInterceptor)

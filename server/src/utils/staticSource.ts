@@ -66,11 +66,11 @@ function getPublicPath(fileName: string) {
   }
 
   if (isLocal) {
-    const path = 'http://localhost:3000/'
+    const path = '//localhost:3000/'
     return path + fileName
   } else {
     const path = process.env.CDN_HOST
-    if (!path || !path.startsWith('http://') && !path.startsWith('https://')) {
+    if (!path || !path.startsWith('//') && !path.startsWith('//')) {
       const errorMessage = 'you should define process.env.CDN_HOST startswith http(s):// in production'
       error(errorMessage)
       throw errorMessage

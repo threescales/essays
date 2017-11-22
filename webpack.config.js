@@ -13,7 +13,7 @@ const localIp = require('ip').address()
 const PORT = process.env.PORT
 const productionPublicPath = process.env.CDN_PATH ?
     process.env.CDN_PATH + '/[hash]/' :
-    `http://localhost:${PORT ? PORT : 3000}/`
+    `//localhost:${PORT ? PORT : 3000}/`
 
 module.exports = {
     entry: {
@@ -27,7 +27,7 @@ module.exports = {
             '[name][hash].js' : '[name].js',
 
         publicPath: process.env.NODE_ENV === 'production' ?
-            productionPublicPath : `http://${localIp}:8080/`,
+            productionPublicPath : `//${localIp}:8080/`,
 
         sourceMapFilename: process.env.NODE_ENV === 'production' ?
             '[name][hash].js.map' : '[name].js.map',
@@ -61,7 +61,7 @@ module.exports = {
         historyApiFallback: { index: '/' },
         disableHostCheck: true,
         proxy: Object.assign({}, proxy(), {
-            '*': 'http://localhost:3000',
+            '*': '//localhost:3000',
             '*.hot-update.json': { ignorePath: true },
         }),
     },

@@ -135,11 +135,11 @@ export default class JiglooEditor
     let newEditorState = selectBlock(editorState, block.getKey())
     let contentState = newEditorState.getCurrentContent()
     let selectionState = newEditorState.getSelection()
-    JSONPAjax('http://staging.yibencezi.com:9000/link', { url: block.getText() })
+    JSONPAjax('//staging.yibencezi.com:9000/link', { url: block.getText() })
       .then((res: any) => {
         let editorState = this.getEditorState()
         let contentState = editorState.getCurrentContent()
-        let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `http://images.yibencezi.com/${res.data.imgUrl}`
+        let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `//images.yibencezi.com/${res.data.imgUrl}`
         let newContentState = Modifier
           .setBlockType(contentState, selectionState, 'atomic')
           .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {

@@ -21,7 +21,7 @@
         "server-dev:post": "NODE_ENV=development && npm run server-compile",
         "server-dev": "npm run server-dev:post&&./node_modules/.bin/pm2-dev server/build/out/bootstrap.js --name node-dev -l log/ ",
         "server-compile": "./node_modules/gulp/bin/gulp.js",
-        "server-start": "npm run server-compile&&NODE_ENV=production CDN_HOST=http://lowsweet.qiniudn.com  pm2 start server/build/out/bootstrap.js --watch --env production"
+        "server-start": "npm run server-compile&&NODE_ENV=production CDN_HOST=//image/zymlj.net  pm2 start server/build/out/bootstrap.js --watch --env production"
     },
     "repository": {
         "type": "git"
@@ -56,6 +56,7 @@
         "@types/morgan": "^1.7.35",
         "@types/prismjs": "^1.6.5",
         "@types/pug": "^2.0.4",
+        "@types/qiniu": "^7.0.1",
         "@types/react": "^16.0.22",
         "@types/react-dom": "^16.0.3",
         "@types/react-lazyload": "^2.2.4",
@@ -125,6 +126,7 @@
         "postcss-import": "^11.0.0",
         "prismjs": "^1.8.4",
         "pug": "^2.0.0-rc.4",
+        "qiniu": "^7.1.1",
         "qiniu4js": "^1.0.10",
         "qn-webpack": "^1.1.0",
         "react": "^16.0.0",

@@ -31,7 +31,7 @@ export default
   }
 }
 
-export const CDN_HOST = "http://image.zymlj.net/";
+export const CDN_HOST = "//image.zymlj.net/";
 export function filePublicPathGen(fileKey: string, size?: number) {
   if (fileKey) {
     let ret = `${CDN_HOST}${fileKey}`;
