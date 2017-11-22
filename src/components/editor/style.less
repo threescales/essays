@@ -1,14 +1,9 @@
 @import '../../styles/base/_Typography.MixIn.less';
-.paragraph {
-    color: #444;
-    font-size: 15px;
-    font-weight: 400;
-    letter-spacing: 1px;
-    line-height: 40px; // margin-bottom: 3rem;
-    text-align: justify;
-    word-break: break-word;
-}
-
+@import '../../styles/color.less';
+@h1-color: #5a5a5a;
+@h2-color: #6f6f6f;
+@h3-color: #585858;
+@blockquote-color:#5a5a5a;
 .jigloo-editor {
     width: 100%;
     h1 {
@@ -16,38 +11,54 @@
         margin: 0;
         line-height: 28px;
         padding: 15px 0;
-        color: #5a5a5a;
+        color: @h1-color;
     }
     h2 {
         font-size: 20px;
         margin: 0;
         line-height: 26px;
         padding: 10px 0;
-        color: #6f6f6f;
+        color: @h2-color;
     }
     h3 {
-        color: #585858;
+        color: @h3-color;
         font-size: 18px;
         line-height: 24px;
         margin: 0;
         padding: 8px 0;
     }
     .paragraph {
-        color: #5a5a5a;
+        color: @genera-color;
         font-size: 15px;
         line-height: 24px;
         font-weight: 300;
+        letter-spacing: 1px;
         margin: 0;
         padding: 10px 0;
+        word-break: break-word;
     }
-    .public-DraftStyleDefault-ul,
-    .public-DraftStyleDefault-ol {
+    blockquote {
+        background: #eee;
+        border-left: 2px solid @theme-color;
+        color: @blockquote-color; 
+        font-family: serif;
+        font-size: 1.4rem;
+        font-style: normal;
+        font-weight: lighter;
+        margin: 2rem 0;
+        padding: 21px;
+    }
+    ul,
+    ol {
         color: #7b7b7b;
         line-height: 30px;
         margin: 0;
         padding: 16px 0;
     }
-    figure{
+    pre {
+        margin: 0;
+    }
+    figure {
         margin: 0;
         padding: 20px 0;
     }

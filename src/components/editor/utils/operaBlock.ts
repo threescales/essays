@@ -57,7 +57,7 @@ export const focusSelectionAfter = (editorState: EditorState, blockKey: string):
     newEditorState = insertNewLineAfter(editorState, blockKey, key)
   }
 
-  newEditorState = selectBlock(newEditorState, key,blockAfter.getLength())
+  newEditorState = selectBlock(newEditorState, key,blockAfter?blockAfter.getLength():0)
   return newEditorState
 }
 
