@@ -1,7 +1,7 @@
 
 FROM node:latest
 
-COPY server/* /usr/local/essays/
+COPY server/ /usr/local/essays/
 
 RUN cd /usr/local/essays
 
