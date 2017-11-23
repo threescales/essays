@@ -1,25 +1,9 @@
 
 FROM node:latest
 
-COPY src/ /usr/local/essays/
+COPY server /usr/local/essays/
 
-COPY proxy/ /usr/local/essays/
+RUN cd /usr/local/essays
 
-COPY server/ /usr/local/essays/
-
-COPY src/ /usr/local/essays/
-
-COPY .babelrc /usr/local/essays/
-
-COPY .stylelintrc /usr/local/essays/
-
-COPY *.json /usr/local/essays/
-
-COPY *.js /usr/local/essays/
-
-RUN npm install
-
-RUN npm install pm2 -g
-
-RUN npm run server-start
+RUN pm2 start server/build/out/bootstrap.js --watch --env production
 #Enable EPEL for Node.js
