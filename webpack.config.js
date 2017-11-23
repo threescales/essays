@@ -5,14 +5,14 @@ const proxy = require('./proxy/webpack-dev-proxy');
 const loaders = require('./webpack/loaders');
 const plugins = require('./webpack/plugins');
 const localIp = require('ip').address()
-
-// const applicationEntries = process.env.NODE_ENV === 'development'
-//   ? ['webpack-hot-middleware/client?reload=true']
-//   : [];
+const config = require('./qiniu.json')
+    // const applicationEntries = process.env.NODE_ENV === 'development'
+    //   ? ['webpack-hot-middleware/client?reload=true']
+    //   : [];
 
 const PORT = process.env.PORT
 const productionPublicPath = process.env.CDN_PATH ?
-    process.env.CDN_PATH + '/[hash]/' :
+    process.env.CDN_PATH + "/" + config.path + "/" :
     `//localhost:${PORT ? PORT : 3000}/`
 
 module.exports = {

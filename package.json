@@ -12,6 +12,7 @@
         "node": "8.0.0"
     },
     "scripts": {
+        "build": "cross-env NODE_ENV=production CDN_PATH=//cdn.zymlj.net webpack -p",
         "dev:client": "cross-env NODE_ENV=development webpack-dev-server -d --inline --hot --host 0.0.0.0  --port 8080 --progress  --no-info",
         "dev": "npm run lint-ts && concurrently -r \"npm run dev:client\" \"npm run dev:server\"",
         "lint": "npm run lint-ts && npm run lint-js && npm run lint-css",
@@ -21,7 +22,7 @@
         "server-dev:post": "NODE_ENV=development && npm run server-compile",
         "server-dev": "npm run server-dev:post&&./node_modules/.bin/pm2-dev server/build/out/bootstrap.js --name node-dev -l log/ ",
         "server-compile": "./node_modules/gulp/bin/gulp.js",
-        "server-start": "npm run server-compile&&NODE_ENV=production CDN_HOST=//image/zymlj.net  pm2 start server/build/out/bootstrap.js --watch --env production"
+        "server-start": "npm run server-compile&&NODE_ENV=production CDN_HOST=//cdn.zymlj.net  pm2 start server/build/out/bootstrap.js --watch --env production"
     },
     "repository": {
         "type": "git"
@@ -53,6 +54,7 @@
         "@types/koa-views": "^2.0.3",
         "@types/less": "0.0.32",
         "@types/lodash": "^4.14.85",
+        "@types/mongoose": "^4.7.27",
         "@types/morgan": "^1.7.35",
         "@types/prismjs": "^1.6.5",
         "@types/pug": "^2.0.4",
@@ -67,6 +69,7 @@
         "@types/stylelint-webpack-plugin": "^0.1.0",
         "@types/typescript": "^2.0.0",
         "babel-polyfill": "^6.26.0",
+        "babel-preset-es2015": "^6.24.1",
         "classnames": "^2.2.5",
         "concurrently": "^3.5.0",
         "config": "^1.28.1",
@@ -120,6 +123,7 @@
         "less": "^2.7.3",
         "less-loader": "^4.0.5",
         "lodash": "^4.17.4",
+        "mongoose": "^4.13.4",
         "morgan": "^1.9.0",
         "nprogress": "^0.2.0",
         "pm2": "^2.7.2",
@@ -143,6 +147,7 @@
         "tslint-loader": "^3.5.3",
         "typescript": "^2.6.1",
         "typings": "^2.1.1",
+        "uglifyjs-webpack-plugin": "^1.1.0",
         "url-loader": "^0.6.2",
         "webpack": "^3.8.1",
         "webpack-manifest-plugin": "^1.3.2"

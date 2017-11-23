@@ -14,7 +14,10 @@ import logMiddleWare from './middlewares/logger'
 import { updateCSRFToken, CSRFSettings } from './middlewares/csrf'
 import sessionSettings from './middlewares/session'
 import koaViews = require('koa-views')
+import mongoose = require('mongoose')
 
+//DB setup
+// mongoose.createConnection("mongodb://mongo::27017");
 
 const app = new Koa();
 const router = routerFactory();

@@ -7,6 +7,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ManiFest = require('webpack-manifest-plugin');
 const QiniuPlugin = require('qn-webpack');
 const path = require('path')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 //   .BundleAnalyzerPlugin;
@@ -65,19 +66,15 @@ const prodPlugins = [
             /draft-js/.test(resource)
         ),
     }),
-
-    new webpack.optimize.DedupePlugin(),
-
     new ManiFest({
         fileName: 'jigloo-manifest.json',
     }),
-
-    new webpack.optimize.UglifyJsPlugin({
-        compress: {
+    new UglifyJsPlugin({
+        uglifyOptions: {
             warnings: false,
         },
-    }),
-
+        sourceMap: true,
+    })
 ];
 
 const cdn = process.env.CDN_PATH
@@ -100,7 +97,7 @@ if (process.env.NODE_ENV === 'production' && cdn) {
             exclude: /js\.map$/,
             bucket: config.bucket,
             path: config.path,
-            zone: config.zone,
+            // zone: config.zone,
         }))
     }
 }
