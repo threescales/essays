@@ -1,8 +1,11 @@
 
-FROM nginx:v3
+FROM node:latest
 
-COPY dist/ /usr/share/nginx/html
+COPY * /usr/local/essays
 
-FROM node:7.6
+RUN npm install
 
+RUN npm install pm2 -g
+
+RUN npm run server-start
 #Enable EPEL for Node.js
