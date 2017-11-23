@@ -37,18 +37,27 @@ exports.html = {
 
 exports.css = {
     test: /\.css$/,
-    use: ['style-loader', 'css-loader', ],
+    use: isProduction ? ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader']
+    }) : ['style-loader', 'css-loader', ],
     exclude: /node_modules/,
 };
 
 exports.less = {
     test: /\.less$/,
-    use: ['style-loader', 'css-loader', 'less-loader']
+    use: isProduction ? ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'less-loader']
+    }) : ['style-loader', 'css-loader', 'less-loader']
 }
 
 exports.pluginCss = {
     test: /plugin\.css$/,
-    use: ['style-loader', 'css-loader']
+    use: isProduction ? ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: ['css-loader', 'less-loader']
+    }) : ['style-loader', 'css-loader']
 }
 
 exports.json = {

@@ -1,7 +1,7 @@
 require('app-module-path').addPath(__dirname + '/')
 const server = require('./server')
 
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 process.title = 'Essays-backend'
 //start app
 if (!module.parent) {

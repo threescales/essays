@@ -29,7 +29,6 @@ const basePlugins = [
         { from: 'src/assets', to: 'assets' },
     ]),
     new ExtractTextPlugin('[name]-[contenthash].css'),
-
 ].concat(sourceMap);
 
 const devPlugins = [
@@ -67,7 +66,7 @@ const prodPlugins = [
         ),
     }),
     new ManiFest({
-        fileName: 'jigloo-manifest.json',
+        fileName: 'essays-manifest.json',
     }),
     new UglifyJsPlugin({
         uglifyOptions: {
