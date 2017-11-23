@@ -9,8 +9,6 @@ COPY server/ /usr/local/essays/
 
 COPY src/ /usr/local/essays/
 
-COPY webpack /usr/local/essays/
-
 COPY .babelrc /usr/local/essays/
 
 COPY .stylelintrc /usr/local/essays/
