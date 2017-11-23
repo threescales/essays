@@ -22,7 +22,7 @@
         "server-dev:post": "NODE_ENV=development && npm run server-compile",
         "server-dev": "npm run server-dev:post&&./node_modules/.bin/pm2-dev server/build/out/bootstrap.js --name node-dev -l log/ ",
         "server-compile": "./node_modules/gulp/bin/gulp.js",
-        "server-start": "npm run server-compile&&NODE_ENV=production PORT=80 CDN_HOST=//cdn.zymlj.net  pm2 start server/build/out/bootstrap.js --watch --env production"
+        "server-start": "npm run build&&npm run server-compile&&NODE_ENV=production PORT=80 CDN_HOST=//cdn.zymlj.net pm2 stop bootstrap&&pm2 start server/build/out/bootstrap.js --watch --env production"
     },
     "repository": {
         "type": "git"

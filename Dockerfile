@@ -1,7 +1,7 @@
 
 FROM node:latest
 
-COPY * /usr/local/essays
+COPY * /usr/local/essays/
 
 RUN npm install
 
