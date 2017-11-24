@@ -2,6 +2,38 @@
 body{
     overflow-x: hidden;
 }
+
+::-webkit-scrollbar {
+    overflow: hidden;
+    width: .3rem;
+    background: #fafafa;
+}
+
+::-webkit-scrollbar:horizontal {
+    height: 1px;
+}
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-piece {
+    background: #eee;
+}
+
+ ::-webkit-scrollbar-piece:start {
+    background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(51, 51, 51, 0.22222);
+}
+
+::-webkit-scrollbar-corner {
+    background: rgba(51, 51, 51, 0.22222);
+}
+
+
 *{
     box-sizing: border-box;
 }
@@ -12,6 +44,7 @@ body{
     overflow-x: hidden;
 
 }
+
 @keyframes gaussian{
     from{filter:blur(10px)}
     to{filter:blur(0px)}

@@ -14,7 +14,6 @@ import './utils/ajax'
 import routes from "./store/routes";
 import store from "./store/configure-store";
 
-import "./styles/index.css";
 import "./styles/index.less";
 
 declare const __TEST__: boolean;
