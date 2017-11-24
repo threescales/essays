@@ -54,7 +54,7 @@ export default class JiglooEditor
     super(props)
     this.serializer = Serlizer.serialize
     this.state = {
-      editorState: EditorState.createEmpty()
+      editorState: this.props.editorState
     }
   }
   /**

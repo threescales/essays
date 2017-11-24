@@ -1,7 +1,21 @@
 @import '../../styles/color.less';
+@import '../../styles/screen.less';
 .init{
     color:#5c5a5a;
     max-width: 740px;
-    margin: 0 auto;
-    background: @background-color
+    margin: 0 220px 0 100px;    
+    background: @background-color;
+    transition: all .2s linear;       
+    @media @desktopMin{
+        margin:0 auto 0 100px;
+        &--moveLeft{
+            transform: translate3d(-220px,0,0) !important;
+            -webkit-transform: translate3d(-220px,0,0) !important;
+        }
+    }
+    @media @phone{
+        margin:0 auto;
+    }
+
+
 }

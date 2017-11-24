@@ -1,11 +1,14 @@
 
 FROM node:latest
 
-COPY server/ /usr/local/essays/
+COPY * /essays/
 
-RUN cd /usr/local/essays
+RUN cd /essays
 
 RUN npm install pm2 -g
 
-RUN pm2 start build/out/bootstrap.js --watch --env production
+RUN cd /essays
+
+RUN npm run build
+
 #Enable EPEL for Node.js

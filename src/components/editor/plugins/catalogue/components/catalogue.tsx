@@ -3,6 +3,8 @@ import map = require("lodash/map");
 import throttle = require("lodash/throttle")
 import './catalogue.less';
 import * as classnames from 'classnames';
+import { show,hide } from "../../../../../actions/show";
+
 const jump = require("jump.js")
 export default class Catalogue extends React.Component<any, any> {
     public catalogueBlockList: Array<any>;
@@ -83,8 +85,15 @@ export default class Catalogue extends React.Component<any, any> {
     componentWillUnmount() {
 
     }
+    toggleShow=()=> {
+        if(this.props.show) {
+            this.props.dispatch(hide('catalogue'))            
+        } else {
+            this.props.dispatch(show('catalogue'))            
+        }
+    }
     render() {
-        const editorState = this.props.editorState || this.props.store.getItem('editorState')
+        const editorState = this.props.editorState
         const blockMap = editorState.getCurrentContent().getBlockMap().toJSON()
         let catalogueBlockList = []
         let catalist = map(blockMap, ((block: any, index) => {
@@ -108,7 +117,8 @@ export default class Catalogue extends React.Component<any, any> {
         }))
         this.catalogueBlockList = catalogueBlockList;
         return (
-            <div className="catalogue">
+            <div className={classnames({"catalogue":true,"catalogue--moveLeft":this.props.show})}>
+                <a className="catalogue--toggle" onClick={this.toggleShow}>目录</a>
                 {catalist}
             </div>
         )

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import "./styles/write.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
+import * as classnames from 'classnames'
 
 import { ItalicButton, BoldButton, UnderlineButton } from 'draft-js-buttons';
 import { composeDecorators } from "draft-js-plugins-editor";
@@ -21,9 +22,10 @@ import createCodePlugin from "../components/editor/plugins/code-highlight/code-l
 import { createImagePlugin } from "../components/editor/plugins/image/index";
 import createPageCardPlugin from "../components/editor/plugins/page-card/index"
 import { createSideToolBarPlugin } from "../components/editor/plugins/side-tool-bar/index";
-import createCataloguePlugin from "../components/editor/plugins/catalogue/index"
 import createColorBlockPlugin from "../components/editor/plugins/focusColor/index"
 import LazyLoad from 'react-lazyload'
+
+import Catalogue from "../components/editor/plugins/catalogue/index"
 
 const linkPlugin = createLinkPlugin();
 const linkifyPlugin = createLinkifyPlugin()
@@ -46,19 +48,16 @@ const colorBlockPlugin = createColorBlockPlugin({ decorator })
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
     structure: [
-      BoldButton,
-      ItalicButton,
-      UnderlineButton,
-      linkPlugin.LinkButton
+        BoldButton,
+        ItalicButton,
+        UnderlineButton,
+        linkPlugin.LinkButton
     ]
-  });
+});
 const { InlineToolbar } = inlineToolbarPlugin;
 
 const sideToolbarPlugin = createSideToolBarPlugin();
 const { SideToolbar } = sideToolbarPlugin;
-
-const catalouePlugin = createCataloguePlugin();
-const { Catalogue, onChange } = catalouePlugin;
 
 const imagePlugin = createImagePlugin({ decorator });
 const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: false });
@@ -67,12 +66,11 @@ const plugins = [
     inlineToolbarPlugin,
     sideToolbarPlugin,
     linkPlugin,
-    catalouePlugin,
     blockDndPlugin,
     focusPlugin,
     alignmentPlugin,
     resizeablePlugin,
-    colorBlockPlugin,    
+    colorBlockPlugin,
     imagePlugin,
     pageCardPlugin,
     linkifyPlugin,
@@ -82,7 +80,7 @@ class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
         this.state = {
-            editorState: null
+            editorState: EditorState.createEmpty()
         }
     }
     componentDidMount() {
@@ -95,11 +93,12 @@ class App extends React.Component<any, any> {
     }
     render() {
         return (
-
-            <div className="init">
+            <div>
+            <div className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                 <LazyLoad once height={200} offset={100}>
                     <JiglooEditor
                         readonly={false}
+                        editorState={this.state.editorState}
                         plugins={plugins}
                         placeholder=""
                         onChange={this.onChange}
@@ -107,9 +106,14 @@ class App extends React.Component<any, any> {
                         <InlineToolbar />
                         <SideToolbar />
                         <AlignmentTool />
-                        <Catalogue editorState={this.state.editorState} />
                     </JiglooEditor>
                 </LazyLoad>
+            </div>
+            <Catalogue
+                            editorState={this.state.editorState}
+                            show={this.props.show.toJS().catalogue}
+                            dispatch={this.props.dispatch}
+                        />
             </div>
         );
     }

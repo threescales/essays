@@ -6,7 +6,7 @@ import {
 import { fromJS } from "immutable";
 import { getCookie } from "../utils/cookie";
 const INITIAL_STATE = fromJS({
-    a: false
+    catalogue: false
 });
 
 function showReducer(state: any = INITIAL_STATE,
