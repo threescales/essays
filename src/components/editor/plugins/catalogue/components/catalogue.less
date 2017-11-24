@@ -1,15 +1,16 @@
-@import '../../../../../styles/color.less';
+@import '../../../../../styles/variable.less';
 @import '../../../../../styles/screen.less';
+@catalogue-toggle-width:20px;
 .catalogue {
     position: fixed;
     top: 15%;
     right: 0;
-    width: 200px;
+    width: @catalogue-desk-width - @catalogue-toggle-width;
     z-index: 1;
     background: @background-color;
     transition: all .2s linear;
-    transform: translate3d(200px, 0, 0);
-    -webkit-transform: translate3d(200px, 0, 0);
+    transform: translate3d(@catalogue-desk-width - @catalogue-toggle-width, 0, 0);
+    -webkit-transform: translate3d(@catalogue-desk-width - @catalogue-toggle-width, 0, 0);
     cursor: pointer;
     &--moveLeft {
         transform: translate3d(0, 0, 0) !important;
@@ -23,8 +24,8 @@
     top: 50%;
     transform: translateY(-50%);
     -webkit-transform: translateY(-50%);
-    left: -20px;
-    width: 24px;
+    left: -@catalogue-toggle-width;
+    width: @catalogue-toggle-width;
     cursor: pointer;    
 }
 
