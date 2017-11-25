@@ -8,7 +8,7 @@ process.title = 'Essays-backend'
 if (!module.parent) {
     (async () => {
         try {
-            const info: any = await connectDatabase('mongodb://localhost/essaysdb')
+            const info: any = await connectDatabase('mongodb://localhost:27017/essaysdb')
             console.log(`Connected to ${info}`);
         } catch (error) {
             console.log('Unable to connect to database')
