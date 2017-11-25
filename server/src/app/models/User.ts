@@ -15,7 +15,6 @@ export const UserSchema: Schema = new Schema({
 })
 
 UserSchema.method('findUsersByName', function (name: String) {
-    console.log('名字是:' + name)
     return new Promise((resolve, reject) => {
         this.model('User').find({ name }, (error, users) => {
             resolve({
