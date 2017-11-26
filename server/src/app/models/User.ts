@@ -1,6 +1,5 @@
 import { Document, Schema, Model, model } from "mongoose";
 import { IUser } from '../interfaces/user'
-import { userInfo } from "os";
 import { resolve } from "../../../../node_modules/@types/bluebird/index";
 export interface IUserModel extends IUser, Document {
     findUsersByName(name: string): any
