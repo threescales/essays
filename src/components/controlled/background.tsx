@@ -28,28 +28,25 @@ export default class Background extends React.Component<IBackgroundProps, any> {
         )
     }
     render() {
+        let background = <div
+            className="jigloo-background"
+            style={{ backgroundImage: `url(${this.props.imageUrl})` }}>
+
+        </div>
         return (
             <div className="filling">
                 {
-                    this.props.isEditable
-                        ? <Uploader 
-                        className="filling"
-                        listener={{
-                            onTaskProgress: this._onTaskProgress,
-                            onTaskSuccess: this._onTaskSuccess
-                        }}>
-                            <div
-                                className="jigloo-background"
-                                style={{ backgroundImage: `url(${this.props.imageUrl})`}}>
-
-                            </div>
+                    this.props.isEditable ?
+                        <Uploader
+                            className="filling"
+                            listener={{
+                                onTaskProgress: this._onTaskProgress,
+                                onTaskSuccess: this._onTaskSuccess
+                            }}>
+                            {background}
 
                         </Uploader>
-                        : <div
-                            className="jigloo-background"
-                            style={{ backgroundImage: `url(${this.props.imageUrl})` }}>
-
-                        </div>
+                        : background
                 }
             </div>
         )
