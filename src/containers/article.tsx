@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { EditorState } from "draft-js";
 import { show } from "../actions/show";
 import { Link } from "react-router-dom";
-import "./styles/write.less";
+import "./styles/article.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
 import * as classnames from 'classnames'

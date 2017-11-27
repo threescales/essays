@@ -6,7 +6,7 @@ import UserController from './app/controllers/user'
 
 export default function (): Router {
     var router = new Router()
-    router.get('/write', home)
+    router.get('/article/:articleId', home)
     router.get('/welcome', home)
 
     //graphql
