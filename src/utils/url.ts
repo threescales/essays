@@ -26,3 +26,11 @@ export function isUrl(string) {
       return null
     }
   }
+
+  export function getUrl(key) {
+    if(key.indexOf('//')>-1) {
+      return key
+    } else {
+      return `//image.zymlj.net/${key}`
+    }
+  }

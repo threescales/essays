@@ -1,6 +1,8 @@
 import * as React from 'react'
 import Modal from './components/modal'
 import { createArticle } from '../../actions/article'
+import { getUrl } from '../../utils/url'
+import Background from '../controlled/background'
 interface ICreateNewArticleProps {
     dispatch
 }
@@ -34,9 +36,9 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
             description: e.target.value
         })
     }
-    toggleCover = (url) => {
+    toggleCover = (key) => {
         this.setState({
-            cover: url
+            cover: getUrl(key)
         })
     }
     toggleTag = (e) => {
@@ -62,6 +64,9 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
                     <input type="text" placeholder="请输入文章标题" onChange={this.toggleTitle} />
                     <textarea placeholder="请输入文章简介" onChange={this.toggleDescription}></textarea>
                     <input type="text" placeholder="请输入标签" onChange={this.toggleTag} />
+                    <div style={{ width: '200px', height: '200px' }}>
+                        <Background isEditable={true} uploadFinishCallback={this.toggleCover} imageUrl={this.state.cover} />
+                    </div>
                     <button onClick={this.createArticle}>创建文章</button>
                 </Modal>
             </div>
