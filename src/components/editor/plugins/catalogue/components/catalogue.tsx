@@ -4,7 +4,7 @@ import throttle = require("lodash/throttle")
 import './catalogue.less';
 import * as classnames from 'classnames';
 import { show,hide } from "../../../../../actions/show";
-
+import {CATALOGUE} from '../../../../../constants/showKey'
 const jump = require("jump.js")
 export default class Catalogue extends React.Component<any, any> {
     public catalogueBlockList: Array<any>;
@@ -87,9 +87,9 @@ export default class Catalogue extends React.Component<any, any> {
     }
     toggleShow=()=> {
         if(this.props.show) {
-            this.props.dispatch(hide('catalogue'))            
+            this.props.dispatch(hide(CATALOGUE))            
         } else {
-            this.props.dispatch(show('catalogue'))            
+            this.props.dispatch(show(CATALOGUE))            
         }
     }
     render() {
