@@ -18,6 +18,8 @@ export default class ArticleController {
         }
         let article = new Article(data)
         let result = await article.save()
+        console.log('11111111111')
+        console.log(result)
         ctx.body = {
             result
         }

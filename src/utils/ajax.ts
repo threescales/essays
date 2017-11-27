@@ -131,9 +131,9 @@ function ajax(options) {
                 }
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
 
-                    success(xhr.responseText);
+                    success(dataType == 'json' ? JSON.parse(xhr.responseText) : xhr.responseText);
                 } else {
-                    error(xhr.status, xhr.statusText);
+                    error(xhr.status, dataType == 'json' ? JSON.parse(xhr.statusText) : xhr.statusText);
                 }
             }
         };
