@@ -1,5 +1,5 @@
 import * as React from 'react'
-import * as Modal from 'react-modal'
+import Modal from './components/modal'
 import { createArticle } from '../../actions/article'
 interface ICreateNewArticleProps {
     dispatch
@@ -12,17 +12,6 @@ interface ICreateNewArticleState {
     tag?: string
     modalIsOpen: boolean
 }
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
 
 export default class CreateNewArticle extends React.Component<ICreateNewArticleProps, ICreateNewArticleState> {
     constructor(props) {
@@ -69,7 +58,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
         return (
             <div>
                 <button onClick={this.openModal}>创建文章</button>
-                <Modal isOpen={this.state.modalIsOpen} contentLabel="创建文章" style={customStyles}>
+                <Modal isOpen={this.state.modalIsOpen} contentLabel="创建文章">
                     <input type="text" placeholder="请输入文章标题" onChange={this.toggleTitle} />
                     <textarea placeholder="请输入文章简介" onChange={this.toggleDescription}></textarea>
                     <input type="text" placeholder="请输入标签" onChange={this.toggleTag} />
