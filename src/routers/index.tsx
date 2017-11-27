@@ -3,7 +3,7 @@ import "babel-polyfill";
 import "ts-helpers";
 
 import Article from "../containers/article";
-import Welcome from '../containers/welcome'
+import Index from "../containers/index"
 import toJS from "../utils/immutable-to-js";
 import store from "../store/configure-store";
 
@@ -15,7 +15,7 @@ export const rootRoute = [
     component: Article,
   },
   {
-    path: "/welcome",
-    component: Welcome
+    path: "/",
+    component: Index
   }
 ];
