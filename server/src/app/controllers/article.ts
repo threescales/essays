@@ -4,24 +4,22 @@ import { Article } from '../models/Article'
 import {parsePostData} from '../utils/parseData'
 export default class ArticleController {
     public static async createArticle(ctx:koa.Context) {
-        let requestData:any = await parsePostData(ctx)
+        let request:any = await parsePostData(ctx)
         let nowTime = new Date()
-        const data = {
-            title:requestData.title,
-            description:requestData.description,
-            cover:requestData.cover,
+        const requestData = {
+            title:request.title,
+            description:request.description,
+            cover:request.cover,
             body:'',
             createTime:nowTime,
             updateTime:nowTime,
             isPublish:false,
-            tag:requestData.tag
+            tag:request.tag
         }
-        let article = new Article(data)
-        let result = await article.save()
-        console.log('11111111111')
-        console.log(result)
+        let article = new Article(requestData)
+        let data = await article.save()
         ctx.body = {
-            result
+            data
         }
     }
 }
