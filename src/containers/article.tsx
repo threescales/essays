@@ -1,12 +1,14 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { EditorState } from "draft-js";
-import { show } from "../actions/show";
+import { show, hide } from "../actions/show";
 import { Link } from "react-router-dom";
+import * as classnames from 'classnames'
+
 import "./styles/article.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
-import * as classnames from 'classnames'
+import * as ShowKey from '../constants/showKey'
 
 import { ItalicButton, BoldButton, UnderlineButton } from 'draft-js-buttons';
 import { composeDecorators } from "draft-js-plugins-editor";
@@ -84,36 +86,43 @@ class App extends React.Component<any, any> {
         }
     }
     componentDidMount() {
-        this.props.dispatch(show("a"));
+        this.toggleShow()
     }
     onChange = (editorState: EditorState) => {
         this.setState({
             editorState: editorState
         })
     }
+    toggleShow = () => {
+        if (this.props.show.toJS().editor) {
+            this.props.dispatch(hide(ShowKey.EDITOR))
+        } else {
+            this.props.dispatch(show(ShowKey.EDITOR))
+        }
+    }
     render() {
         return (
             <div>
-            <div className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
-                <LazyLoad once height={200} offset={100}>
-                    <JiglooEditor
-                        readonly={false}
-                        editorState={this.state.editorState}
-                        plugins={plugins}
-                        placeholder=""
-                        onChange={this.onChange}
-                    >
-                        <InlineToolbar />
-                        <SideToolbar />
-                        <AlignmentTool />
-                    </JiglooEditor>
-                </LazyLoad>
-            </div>
-            <Catalogue
+                <div className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
+                    <LazyLoad once height={200} offset={100}>
+                        <JiglooEditor
+                            readonly={!this.props.show.toJS().editor}
                             editorState={this.state.editorState}
-                            show={this.props.show.toJS().catalogue}
-                            dispatch={this.props.dispatch}
-                        />
+                            plugins={plugins}
+                            placeholder={this.props.show.toJS().editor ? "请输入正文..." : ""}
+                            onChange={this.onChange}
+                        >
+                            <InlineToolbar />
+                            <SideToolbar />
+                            <AlignmentTool />
+                        </JiglooEditor>
+                    </LazyLoad>
+                </div>
+                <Catalogue
+                    editorState={this.state.editorState}
+                    show={this.props.show.toJS().catalogue}
+                    dispatch={this.props.dispatch}
+                />
             </div>
         );
     }
