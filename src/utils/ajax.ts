@@ -201,12 +201,30 @@ export function getAjax(url, data = {}) {
     })
 }
 
-export function getPost(url, data = {}) {
+export function postAjax(url, data = {}) {
     return new Promise((resolve, reject) => {
         ajax({
             url,
             data,
             type: 'post',
+            dataType: 'json',
+            timeout: 3000,
+            success: res => {
+                resolve(res)
+            },
+            error: (err) => {
+                reject(err)
+            }
+        })
+    })
+}
+
+export function putAjax(url, data = {}) {
+    return new Promise((resolve, reject) => {
+        ajax({
+            url,
+            data,
+            type: 'put',
             dataType: 'json',
             timeout: 3000,
             success: res => {
