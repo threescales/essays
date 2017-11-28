@@ -23,12 +23,12 @@ export default function initQiniuBuilder({
 const defaultInterceptor:any = {
   // 拦截任务,返回true，任务将会从任务队列中剔除，不会被上传
   onIntercept: function (task: UploaderTask) {
-    return task.file.size > 1024 * 1024;
+    return task.file.size > 1024 * 10240;
   },
   // 中断任务，返回true，任务队列将会在这里中断，不会执行上传操作。
   onInterrupt: function (task: any) {
     if (this.onIntercept(task)) {
-      alert("请上传小于1m的文件");
+      alert("请上传小于10m的文件");
       return true;
     } else {
       return false;

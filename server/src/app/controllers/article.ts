@@ -10,7 +10,7 @@ export default class ArticleController {
             title: request.title,
             description: request.description,
             cover: request.cover,
-            body: '',
+            body: request.body,
             createTime: nowTime,
             updateTime: nowTime,
             isPublish: false,
@@ -30,5 +30,14 @@ export default class ArticleController {
         ctx.body = {
             data
         }
+    }
+
+    public static async saveBody(ctx:koa.Context) {
+        let request: any = await parsePostData(ctx)
+        console.log(request)
+        let data = await Article.update({_id:request.id},{body:request.body})
+        ctx.body = {
+            data
+        }     
     }
 }

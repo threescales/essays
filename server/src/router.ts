@@ -22,5 +22,6 @@ export default function (): Router {
     //article
     router.put('/api/articles',ArticleController.createArticle)
     router.get('/api/articles/:articleId',ArticleController.getArticleById)
+    router.post('/api/articles/savebody',ArticleController.saveBody)
     return router
 }

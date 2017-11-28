@@ -206,6 +206,7 @@ export function postAjax(url, data = {}) {
         ajax({
             url,
             data,
+            contentType:'application/x-www-four-urlencoded',
             type: 'post',
             dataType: 'json',
             timeout: 3000,
