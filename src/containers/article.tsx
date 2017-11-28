@@ -29,7 +29,7 @@ import createColorBlockPlugin from "../components/editor/plugins/focusColor/inde
 import LazyLoad from 'react-lazyload'
 
 import Catalogue from "../components/editor/plugins/catalogue/index"
-import Background from '../components/controlled/background'
+import ArticleHeader from '../components/articleHeader/articleHeader'
 
 const linkPlugin = createLinkPlugin();
 const linkifyPlugin = createLinkifyPlugin()
@@ -109,11 +109,7 @@ class App extends React.Component<any, any> {
         let article = this.props.article.toJS()
         return (
             <div>
-                <div style={{height:'100vh',width:'100vh'}}>
-                <Background imageUrl={article.cover} isEditable={false}>
-                    <h1>{article.title}</h1>
-                </Background>
-                </div>
+                <ArticleHeader dispatch={this.props.dispatch} article={article}/>
                 <div className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     <LazyLoad once height={200} offset={100}>
                         <JiglooEditor

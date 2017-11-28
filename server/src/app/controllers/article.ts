@@ -26,7 +26,6 @@ export default class ArticleController {
     }
 
     public static async getArticleById(ctx: koa.Context) {
-        console.log(ctx.params.articleId)
         let data = await Article.findById(ctx.params.articleId)
         ctx.body = {
             data
