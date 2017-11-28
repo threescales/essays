@@ -110,7 +110,7 @@ class App extends React.Component<any, any> {
         return (
             <div>
                 <ArticleHeader dispatch={this.props.dispatch} article={article}/>
-                <div className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
+                <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     <LazyLoad once height={200} offset={100}>
                         <JiglooEditor
                             readonly={!this.props.show.toJS().editor}
