@@ -14,7 +14,9 @@ export default class ArticleController {
             createTime:nowTime,
             updateTime:nowTime,
             isPublish:false,
-            tag:request.tag
+            tag:request.tag,
+            readNum:0,
+            likeNum:0
         }
         let article = new Article(requestData)
         let data = await article.save()

@@ -17,6 +17,8 @@ export const ArticleSchema: Schema = new Schema({
     updateTime: Date,
     isPublish: Boolean,
     tag: String,
+    readNum: Number,
+    likeNum: Number
 })
 
 export const Article: Model<IArticleModel> = model<IArticleModel>('Article', ArticleSchema);

@@ -8,4 +8,6 @@ export interface IArticle {
     updateTime?:Date;
     tag?:string;
     isPublish:boolean;
+    readNum:number;
+    likeNum:number;
 }

@@ -31,7 +31,7 @@ export default class Background extends React.Component<IBackgroundProps, any> {
         let background = <div
             className="jigloo-background"
             style={{ backgroundImage: `url(${this.props.imageUrl})` }}>
-
+            {this.props.children}
         </div>
         return (
             <div className="filling">
