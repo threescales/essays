@@ -3,6 +3,8 @@ import Modal from './components/modal'
 import { createArticle } from '../../actions/article'
 import { getUrl } from '../../utils/url'
 import Background from '../controlled/background'
+import { InputLabel, TextareaLabel } from '../controlled/input'
+import { Button } from '../buttons/button'
 interface ICreateNewArticleProps {
     dispatch
 }
@@ -61,13 +63,15 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
             <div>
                 <button onClick={this.openModal}>创建文章</button>
                 <Modal isOpen={this.state.modalIsOpen} contentLabel="创建文章">
-                    <input type="text" placeholder="请输入文章标题" onChange={this.toggleTitle} />
-                    <textarea placeholder="请输入文章简介" onChange={this.toggleDescription}></textarea>
-                    <input type="text" placeholder="请输入标签" onChange={this.toggleTag} />
-                    <div style={{ width: '200px', height: '200px' }}>
+                    <InputLabel value={this.state.title} onChange={this.toggleTitle} placeholder="请输入文章标题" label="标题" />
+                    <TextareaLabel placeholder="请输入文章简介" onChange={this.toggleDescription} value={this.state.description} label="简介" />
+                    <InputLabel value={this.state.tag} onChange={this.toggleTag} placeholder="请输入文章标签" label="标题" />
+                    <div style={{ width: '400px', height: '200px' }}>
                         <Background isEditable={true} uploadFinishCallback={this.toggleCover} imageUrl={this.state.cover} />
                     </div>
-                    <button onClick={this.createArticle}>创建文章</button>
+                    <div style={{ textAlign: 'center' }}>
+                        <Button onClick={this.createArticle} isActive={true}>创建文章</Button>
+                    </div>
                 </Modal>
             </div>
         )
