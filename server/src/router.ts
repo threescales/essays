@@ -7,7 +7,7 @@ import ArticleController from './app/controllers/article'
 
 export default function (): Router {
     var router = new Router()
-    router.get('/article/:articleId', home)
+    router.get('/articles/:articleId', home)
     router.get('/', home)
 
     //graphql
@@ -20,6 +20,7 @@ export default function (): Router {
     router.put('/api/user',UserController.createUser)
 
     //article
-    router.put('/api/article',ArticleController.createArticle)
+    router.put('/api/articles',ArticleController.createArticle)
+    router.get('/api/articles/:articleId',ArticleController.getArticleById)
     return router
 }

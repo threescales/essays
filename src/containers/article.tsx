@@ -9,6 +9,7 @@ import "./styles/article.less";
 import JiglooEditor from "../components/editor";
 import { Serlizer } from "../components/editor/utils/serializer";
 import * as ShowKey from '../constants/showKey'
+import * as AricleAction from '../actions/article'
 
 import { ItalicButton, BoldButton, UnderlineButton } from 'draft-js-buttons';
 import { composeDecorators } from "draft-js-plugins-editor";
@@ -28,6 +29,7 @@ import createColorBlockPlugin from "../components/editor/plugins/focusColor/inde
 import LazyLoad from 'react-lazyload'
 
 import Catalogue from "../components/editor/plugins/catalogue/index"
+import Background from '../components/controlled/background'
 
 const linkPlugin = createLinkPlugin();
 const linkifyPlugin = createLinkifyPlugin()
@@ -85,6 +87,9 @@ class App extends React.Component<any, any> {
             editorState: EditorState.createEmpty()
         }
     }
+    componentWillMount() {
+        this.props.dispatch(AricleAction.getArticleById(this.props.match.params.articleId))
+    }
     componentDidMount() {
         this.toggleShow()
     }
@@ -101,8 +106,14 @@ class App extends React.Component<any, any> {
         }
     }
     render() {
+        let article = this.props.article.toJS()
         return (
             <div>
+                <div style={{height:'100vh',width:'100vh'}}>
+                <Background imageUrl={article.cover} isEditable={false}>
+                    <h1>{article.title}</h1>
+                </Background>
+                </div>
                 <div className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     <LazyLoad once height={200} offset={100}>
                         <JiglooEditor
@@ -128,8 +139,6 @@ class App extends React.Component<any, any> {
     }
 }
 function mapStateToProps(state: any, props: any) {
-    return {
-        show: state.show
-    };
+    return state
 }
 export default connect(mapStateToProps)(App);

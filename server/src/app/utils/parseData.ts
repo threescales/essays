@@ -26,3 +26,7 @@ export function parsePostData( ctx ) {
     }
     return queryData
   }
+
+  export function parseGetData(ctx) {
+    return ctx.query
+  }
