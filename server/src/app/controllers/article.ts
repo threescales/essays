@@ -2,11 +2,13 @@ import koa = require('koa')
 
 import { Article } from '../models/Article'
 import { parsePostData, parseGetData } from '../utils/parseData'
+const user = require('./user')
 export default class ArticleController {
     public static async createArticle(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date()
         const requestData = {
+            userId: user._id,
             title: request.title,
             description: request.description,
             cover: request.cover,
@@ -32,12 +34,12 @@ export default class ArticleController {
         }
     }
 
-    public static async saveBody(ctx:koa.Context) {
+    public static async saveBody(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         console.log(request)
-        let data = await Article.update({_id:request.id},{body:request.body})
+        let data = await Article.update({ _id: request.id }, { body: request.body })
         ctx.body = {
             data
-        }     
+        }
     }
 }
