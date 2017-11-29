@@ -3,8 +3,8 @@ import map = require("lodash/map");
 import throttle = require("lodash/throttle")
 import './catalogue.less';
 import * as classnames from 'classnames';
-import { show,hide } from "../../../../../actions/show";
-import {CATALOGUE} from '../../../../../constants/showKey'
+import { show, hide } from "../../actions/show";
+import { CATALOGUE } from '../../constants/showKey'
 const jump = require("jump.js")
 export default class Catalogue extends React.Component<any, any> {
     public catalogueBlockList: Array<any>;
@@ -85,11 +85,11 @@ export default class Catalogue extends React.Component<any, any> {
     componentWillUnmount() {
 
     }
-    toggleShow=()=> {
-        if(this.props.show) {
-            this.props.dispatch(hide(CATALOGUE))            
+    toggleShow = () => {
+        if (this.props.show) {
+            this.props.dispatch(hide(CATALOGUE))
         } else {
-            this.props.dispatch(show(CATALOGUE))            
+            this.props.dispatch(show(CATALOGUE))
         }
     }
     render() {
@@ -97,7 +97,7 @@ export default class Catalogue extends React.Component<any, any> {
         const blockMap = editorState.getCurrentContent().getBlockMap().toJSON()
         let catalogueBlockList = []
         let catalist = map(blockMap, ((block: any, index) => {
-            if (block.type === 'header-one' || block.type === 'header-two' || block.type === 'header-three') {
+            if ((block.type === 'header-one' || block.type === 'header-two' || block.type === 'header-three') && block.text) {
                 let catalogueBlock: any = { key: '', tagName: '' }
                 let tagName = this.getDataType(block.type)
                 catalogueBlock.key = block.key
@@ -117,7 +117,7 @@ export default class Catalogue extends React.Component<any, any> {
         }))
         this.catalogueBlockList = catalogueBlockList;
         return (
-            <div className={classnames({"catalogue":true,"catalogue--moveLeft":this.props.show})}>
+            <div className={classnames({ "catalogue": true, "catalogue--moveLeft": this.props.show })}>
                 <a className="catalogue--toggle" onClick={this.toggleShow}>目录</a>
                 {catalist}
             </div>
