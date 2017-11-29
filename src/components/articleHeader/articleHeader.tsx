@@ -15,7 +15,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
     moveDown = () => {
         jump.default('#articleBody'),
             {
-                duration: 1000,
+                duration: 300,
                 offset: 0,
                 callback: undefined,
                 a11y: false
