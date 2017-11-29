@@ -7,3 +7,4 @@ export const indexPage = '/';
 export const putArticle = '/api/articles'
 export const getArticle = (articleId: string):string => `/api/articles/${articleId}`
 export const saveArticleBody = '/api/articles/savebody'
+export const getAllArticles = "/api/articles"

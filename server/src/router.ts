@@ -23,5 +23,6 @@ export default function (): Router {
     router.put('/api/articles',ArticleController.createArticle)
     router.get('/api/articles/:articleId',ArticleController.getArticleById)
     router.post('/api/articles/savebody',ArticleController.saveBody)
+    router.get('/api/articles',ArticleController.getAllArticles)
     return router
 }

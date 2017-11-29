@@ -2,7 +2,7 @@ import koa = require('koa')
 
 import { Article } from '../models/Article'
 import { parsePostData, parseGetData } from '../utils/parseData'
-const user = require('./user')
+const user = require('./user.json')
 export default class ArticleController {
     public static async createArticle(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
@@ -38,6 +38,13 @@ export default class ArticleController {
         let request: any = await parsePostData(ctx)
         console.log(request)
         let data = await Article.update({ _id: request.id }, { body: request.body })
+        ctx.body = {
+            data
+        }
+    }
+
+    public static async getAllArticles(ctx: koa.Context) {
+        let data = await Article.find({isPublish:true},{body:0})
         ctx.body = {
             data
         }

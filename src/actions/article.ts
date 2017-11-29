@@ -1,9 +1,6 @@
-import {
-    CREATE_ARTICLE_SUCCESS,
-} from "../constants";
 import { putAjax, getAjax, postAjax } from '../utils/ajax'
 import * as Path from '../constants/path'
-import { GET_ARTICLE_SUCCESS,UPDATE_ARTICLE_BODY_SUCCESS } from '../constants/index'
+import { CREATE_ARTICLE_SUCCESS,GET_ARTICLE_SUCCESS,UPDATE_ARTICLE_BODY_SUCCESS } from '../constants/index'
 import { EditorState, convertToRaw } from 'draft-js'
 import { RawDraftContentState } from 'draft-js'
 
