@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
+import map = require("lodash/map")
 import CreateNewArticle from '../components/modal/createNewArticle'
 import * as HomeActions from '../actions/home'
+import ArticleCard from '../components/articleCard/articleCard'
+import LazyLoad from "react-lazyload"
 class Index extends React.Component<any, any> {
     constructor(props) {
         super(props)
@@ -10,13 +13,18 @@ class Index extends React.Component<any, any> {
     componentWillMount() {
         this.props.dispatch(HomeActions.getAllArticles())
     }
+    renderItem(index,key) {
+        return <ArticleCard key={key} article={this.props.home.toJS().articles[index]} />
+        
+    }
     render() {
+        let articleCards = map(this.props.home.toJS().articles, (article: any) => {
+            return <LazyLoad key={article._id} height={500}><ArticleCard article={article} /></LazyLoad>
+        })
         return (
             <div>
-                <p>Hello World</p>
-                <CreateNewArticle dispatch={this.props.dispatch}/>
-                <img
-                    src="https://git-scm.com/book/en/v2/images/remote-branches-3.png" />
+                <CreateNewArticle dispatch={this.props.dispatch} />
+                {articleCards}
             </div>
         )
     }
