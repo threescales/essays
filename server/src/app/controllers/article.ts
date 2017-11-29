@@ -36,7 +36,6 @@ export default class ArticleController {
 
     public static async saveBody(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
-        console.log(request)
         let data = await Article.update({ _id: request.id }, { body: request.body })
         ctx.body = {
             data
@@ -44,7 +43,7 @@ export default class ArticleController {
     }
 
     public static async getAllArticles(ctx: koa.Context) {
-        let data = await Article.find({isPublish:true},{body:0})
+        let data = await Article.find({ isPublish: true }, { body: 0 }).sort({ "_id": -1 })
         ctx.body = {
             data
         }

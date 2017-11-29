@@ -9,7 +9,7 @@ const rootReducer = combineReducers<any>({
   routing: routerReducer,
   show,
   article,
-  home
+  home,
 } as any);
 
 export default rootReducer;

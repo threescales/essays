@@ -20,7 +20,7 @@ class Index extends React.Component<any, any> {
     }
     render() {
         let articleCards = map(this.props.home.toJS().articles, (article: any) => {
-            return <LazyLoad key={article._id} height={500}><ArticleCard article={article} /></LazyLoad>
+            return <LazyLoad key={article._id} height={300}><ArticleCard article={article} /></LazyLoad>
         })
         return (
             <div>
