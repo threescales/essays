@@ -9,20 +9,20 @@
     transition: all .2s linear;
     padding-top: 40px;
     @media @desktopMax{
-        margin: 0 @catalogue-desk-width 0 auto;    
+        margin: 0 @catalogue-desk-width+20 0 auto;    
     } 
     @media @desktop{
-        margin: 0 @catalogue-desk-width 0 100px;    
+        margin: 0 @catalogue-desk-width+20 0 100px;    
     }
     @media @desktopMin{
-        margin:0 10px 0 100px;
+        margin:0 20px 0 100px;
         &--moveLeft{
-            transform: translate3d(-@catalogue-desk-width,0,0) !important;
-            -webkit-transform: translate3d(-@catalogue-desk-width,0,0) !important;
+            transform: translate3d(-(@catalogue-desk-width+20),0,0) !important;
+            -webkit-transform: translate3d(-(@catalogue-desk-width+20),0,0) !important;
         }
     }
     @media @phone{
-        margin:0 10px;
+        margin:0 20px;
     }
 
 

@@ -105,7 +105,7 @@ export default class Catalogue extends React.Component<any, any> {
                 catalogueBlockList.push(catalogueBlock);
                 let isSeleted = this.state.selectedKey === block.key
                 return <div key={block.key}
-                    className={classnames({ [`catalogue-${block.type}`]: true, 'selected': isSeleted })}
+                    className={classnames({"catalogue-item":true, [`catalogue-${block.type}`]: true, 'selected': isSeleted })}
                     onClick={() => this.jump(block.key, tagName)}
                 >
                     {block.text}
@@ -118,7 +118,7 @@ export default class Catalogue extends React.Component<any, any> {
         this.catalogueBlockList = catalogueBlockList;
         return (
             <div className={classnames({ "catalogue": true, "catalogue--moveLeft": this.props.show })}>
-                <a className="catalogue--toggle" onClick={this.toggleShow}>目录</a>
+                <a className="catalogue--toggle" onClick={this.toggleShow}><i className="iconfont icon-zhankai"></i></a>
                 {catalist}
             </div>
         )
