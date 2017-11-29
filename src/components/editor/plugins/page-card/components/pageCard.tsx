@@ -1,5 +1,6 @@
 import * as React from 'react'
 import './pageCard.less'
+import {getImageUrl} from '../../../../../utils/getInfo'
 export default class PageCardComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
@@ -39,7 +40,7 @@ export default class PageCardComponent extends React.Component<any, any> {
                     </em>
                     <a>{data.src}</a>
                 </div>
-                <div className="right" style={{ backgroundImage: `url(${data.previewImg})` }}>
+                <div className="right" style={{ backgroundImage: `url(${getImageUrl(data.previewImg)})` }}>
                 </div>
             </div>
         )

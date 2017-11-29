@@ -6,6 +6,7 @@ import CreateNewArticle from '../components/modal/createNewArticle'
 import * as HomeActions from '../actions/home'
 import ArticleCard from '../components/articleCard/articleCard'
 import LazyLoad from "react-lazyload"
+import './styles/home.less'
 class Index extends React.Component<any, any> {
     constructor(props) {
         super(props)
@@ -13,9 +14,9 @@ class Index extends React.Component<any, any> {
     componentWillMount() {
         this.props.dispatch(HomeActions.getAllArticles())
     }
-    renderItem(index,key) {
+    renderItem(index, key) {
         return <ArticleCard key={key} article={this.props.home.toJS().articles[index]} />
-        
+
     }
     render() {
         let articleCards = map(this.props.home.toJS().articles, (article: any) => {
@@ -24,7 +25,9 @@ class Index extends React.Component<any, any> {
         return (
             <div>
                 <CreateNewArticle dispatch={this.props.dispatch} />
-                {articleCards}
+                <div className="article-list">
+                    {articleCards}
+                </div>
             </div>
         )
     }

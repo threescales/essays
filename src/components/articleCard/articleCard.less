@@ -1,16 +1,16 @@
 @-webkit-keyframes load {
     0% {
         opacity: 0.8;
-        -webkit-transform: translateY(100px) scale(.84);
-        -ms-transform: translateY(100px) scale(.84);
-        transform: translateY(100px) scale(.84);
+        -webkit-transform: translateY(100px) scale(.8);
+        -ms-transform: translateY(100px) scale(.8);
+        transform: translateY(100px) scale(.8);
     }
-    50% {
-        opacity: 0.9;
-        -webkit-transform: translateY(50px) scale(.94);
-        -ms-transform: translateY(50px) scale(.94);
-        transform: translateY(50px) scale(.94);
-    }
+    // 50% {
+    //     opacity: 0.9;
+    //     -webkit-transform: translateY(50px) scale(.9);
+    //     -ms-transform: translateY(50px) scale(.9);
+    //     transform: translateY(50px) scale(.9);
+    // }
     100% {
         opacity: 1;
         -webkit-transform: translateY(0) scale(1);
@@ -21,16 +21,16 @@
 @keyframes load {
     0% {
         opacity: 0.8;
-        -webkit-transform: translateY(100px) scale(.84);
-        -ms-transform: translateY(100px) scale(.84);
-        transform: translateY(100px) scale(.84);
+        -webkit-transform: translateY(100px) scale(.8);
+        -ms-transform: translateY(100px) scale(.8);
+        transform: translateY(100px) scale(.8);
     }
-    50% {
-        opacity: 0.9;
-        -webkit-transform: translateY(50px) scale(.94);
-        -ms-transform: translateY(50px) scale(.94);
-        transform: translateY(50px) scale(.94);
-    }
+    // 50% {
+    //     opacity: 0.9;
+    //     -webkit-transform: translateY(50px) scale(.9);
+    //     -ms-transform: translateY(50px) scale(.9);
+    //     transform: translateY(50px) scale(.9);
+    // }
     100% {
         opacity: 1;
         -webkit-transform: translateY(0) scale(1);
@@ -40,10 +40,14 @@
 }
 .article-card{
     height: 500px;
+    width: 100%;
     position: relative;
-    animation: load 1s ease-in;
-    -webkit-animation: load 1s ease-in;
+    text-align: center;
+    cursor: pointer;
+    animation: load 1s ease;
+    -webkit-animation: load 1s ease;
     img{
         height: 400px;
+        width: 100%;
     }
 }

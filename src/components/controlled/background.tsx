@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Uploader from '../uploader/qiniuUploader'
+import {getImageUrl} from '../../utils/getInfo'
 import './background.less'
 interface IBackgroundProps {
     isEditable?: boolean
@@ -29,7 +30,7 @@ export default class Background extends React.Component<IBackgroundProps, any> {
         )
     }
     render() {
-        let style: any = { backgroundImage: `url(${this.props.imageUrl})` }
+        let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl)})` }
         style = Object.assign(this.props.style || {}, style)
         let background = <div
             className="jigloo-background"
