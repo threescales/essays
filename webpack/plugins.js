@@ -96,7 +96,6 @@ if (process.env.NODE_ENV === 'production' && cdn) {
             exclude: /js\.map$/,
             bucket: config.bucket,
             path: config.path,
-            zone: process.env.NODE_ENV === 'development' ? qiniu.zone.Zone_z0 : qiniu.zone.Zone_na0
         }))
     }
 }
