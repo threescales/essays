@@ -1,4 +1,5 @@
 import { UploaderBuilder, Uploader } from "qiniu4js";
+const qiniu = require('../../../qiniu.json')
 declare var __DEV__;
 declare var __TEST__;
 
@@ -12,7 +13,7 @@ export default function initQiniuBuilder({
  }: IUpdateOptions): IQiniuUploader {
   return new UploaderBuilder()
     .debug(__DEV__ || __TEST__)
-    .domain("//up-z0.qiniu.com")
+    .domain(qiniu.zone)
     .button(button)
     .tokenUrl(tokenUrl)
     .interceptor(defaultInterceptor)

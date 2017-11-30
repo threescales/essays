@@ -96,7 +96,7 @@ if (process.env.NODE_ENV === 'production' && cdn) {
             exclude: /js\.map$/,
             bucket: config.bucket,
             path: config.path,
-            // zone: config.zone,
+            zone: config.zone,
         }))
     }
 }
