@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './pageCard.less'
-import {getImageUrl} from '../../../../../utils/getInfo'
+import { getImageUrl } from '../../../../../utils/getInfo'
+import { getDomain } from '../../../../../utils/url'
 export default class PageCardComponent extends React.Component<any, any> {
     constructor(props: any) {
         super(props)
@@ -38,7 +39,7 @@ export default class PageCardComponent extends React.Component<any, any> {
                     <em>
                         {data.description}
                     </em>
-                    <a>{data.src}</a>
+                    <a>{getDomain(data.src)}</a>
                 </div>
                 <div className="right" style={{ backgroundImage: `url(${getImageUrl(data.previewImg)})` }}>
                 </div>

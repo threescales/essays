@@ -34,3 +34,13 @@ export function isUrl(string) {
       return `//image.zymlj.net/${key}`
     }
   }
+
+  export function getDomain(url) {
+    let domain = url.split('/'); 
+
+    if(url.indexOf("//")>-1) {
+      return domain[2]
+    } else {
+      return domain[0]
+    }
+  }
