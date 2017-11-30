@@ -8,9 +8,9 @@ const ManiFest = require('webpack-manifest-plugin');
 const QiniuPlugin = require('qn-webpack');
 const path = require('path')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
-
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-//   .BundleAnalyzerPlugin;
+const qiniu = require("qiniu")
+    // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+    //   .BundleAnalyzerPlugin;
 
 const sourceMap = process.env.TEST || process.env.NODE_ENV !== 'production' ? [new webpack.SourceMapDevToolPlugin({ filename: null, test: /\.tsx?$/ })] : [];
 
@@ -96,7 +96,7 @@ if (process.env.NODE_ENV === 'production' && cdn) {
             exclude: /js\.map$/,
             bucket: config.bucket,
             path: config.path,
-            zone: config.zone,
+            zone: process.env.NODE_ENV === 'development' ? qiniu.zone.Zone_z0 : qiniu.zone.Zone_na0
         }))
     }
 }
