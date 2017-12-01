@@ -3,7 +3,7 @@ import {
 } from "../constants";
 import { postAjax, getAjax } from '../utils/ajax'
 import * as Paths from '../constants/path'
-
+import { saveUserToLocalStorage, getUserFromLocalStorage, getCookie } from "../utils/cookie"
 export const getUserSuccess = (data) => {
     return {
         type: LOGIN_USER_SUCCESS,
@@ -14,20 +14,34 @@ export const getUserSuccess = (data) => {
 export const login = (email, password) => {
     return (dispatch: any, getState: Function) => {
         return postAjax(Paths.login,
-            { email, password }).then((result:any) => {
-                dispatch(getUserSuccess(result.data))
+            { email, password }).then((result: any) => {
+                if (result.success) {
+                    dispatch(getUserSuccess(result.data))
+                } else {
+                    console.error("登录失败，账号或密码不正确")
+                }
             }).error(res => {
-                console.log('登录失败')
+                console.error('登录失败')
             })
     }
 };
 
 export const getUserById = () => {
     return (dispatch: any, getState: Function) => {
-        return getAjax(Paths.getUserById).then((result:any) => {
-            dispatch(getUserSuccess(result.data))            
+        let userId = getCookie("userId")
+        let user = getUserFromLocalStorage()
+        if (user) {
+            dispatch(getUserSuccess(user))
+            return
+        }
+        return getAjax(Paths.getUserById).then((result: any) => {
+            if (result.success) {
+                dispatch(getUserSuccess(result.data))
+            } else {
+                console.error("登录失败，账号或密码不正确")
+            }
         }).error(res => {
-            console.log('查询失败')
+            console.error('查询失败')
         })
     }
 }

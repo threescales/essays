@@ -2,7 +2,11 @@ import koa = require('koa')
 
 import { User } from '../models/User';
 import { parsePostData, parseGetData } from '../utils/parseData'
+import { getExpires, maxAge } from '../utils/date'
+import { getRememberMeToken } from '../utils/encryption'
+const md5 = require("md5")
 
+const cookieSetting = { maxAge: maxAge, overwrite: false, expires: getExpires(), httpOnly: false }
 export default class UserController {
     public static async getUserByName(ctx: koa.Context) {
         const { name } = ctx.request.header
@@ -13,28 +17,44 @@ export default class UserController {
         }
     }
     public static async getUserById(ctx: koa.Context) {
-        let data = await User.findById(ctx.cookies.get('userId'))
+        let userId = ctx.cookies.get('userId')
+        let token = ctx.cookies.get('essays_rememberMe_token')
+        let user: any = await User.findById(userId)
+        let data = null
+        let success = false
+        if (token === getRememberMeToken(userId, user.password)) {
+            user.password = null
+            data = user
+            success = true
+        }
         ctx.body = {
+            success,
             data
         }
     }
     public static async login(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
+        let password = md5(request.password)
+        console.log(password)
         const loginData = {
-            email:request.email,
-            password:request.password
+            email: request.email,
+            password
         }
-        let data:any = await User.findOne(loginData,{password:0})
-        ctx.cookies.set('userId',data._id)
+        let data: any = await User.findOne(loginData, { password: 0 })
+        let success = false
+        if (data) {
+            ctx.cookies.set('userId', data._id, cookieSetting)
+            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data._id, password), cookieSetting)
+            success = true
+        }
         ctx.body = {
-            data
+            success,
+            data,
         }
     }
 
     public static async createUser(ctx: koa.Context) {
-        console.log(ctx)
         let request: any = await parsePostData(ctx)
-        console.log(request)
         let nowTime = new Date();
         const userData = {
             name: request.name,
