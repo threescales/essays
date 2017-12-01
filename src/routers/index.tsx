@@ -4,19 +4,25 @@ import "ts-helpers";
 
 import Article from "../containers/article";
 import Index from "../containers/home"
+import Login from '../containers/login'
+
 import toJS from "../utils/immutable-to-js";
 import store from "../store/configure-store";
-import * as Path from '../constants/path'
+import * as Paths from '../constants/path'
 
 declare var require;
 
 export const rootRoute = [
   {
-    path: Path.articlePage,
+    path: Paths.articlePage,
     component: Article,
   },
   {
-    path: Path.indexPage,
+    path: Paths.loginPage,
+    component:Login
+  },
+  {
+    path: Paths.indexPage,
     component: Index
   }
 ];

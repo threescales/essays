@@ -8,16 +8,13 @@ import routerFactory from './router'
 import http = require('http')
 import helmet = require('koa-helmet')
 import bodyParser = require('koa-bodyparser')
-import session = require('koa-generic-session');
 import config = require('config')
 import logMiddleWare from './middlewares/logger'
 import { updateCSRFToken, CSRFSettings } from './middlewares/csrf'
 import sessionSettings from './middlewares/session'
 import koaViews = require('koa-views')
-import mongoose = require('mongoose')
+import session = require('koa-session')
 
-//DB setup
-// mongoose.createConnection("mongodb://mongo::27017");
 
 const app = new Koa();
 const router = routerFactory();
@@ -45,6 +42,7 @@ app.use(logger())
 /**
  * Add session support
  */
+app.use(session(sessionSettings,app));
 
 app.use(bodyParser())
 /**

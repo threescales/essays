@@ -9,7 +9,7 @@ export default function (): Router {
     var router = new Router()
     router.get('/articles/:articleId', home)
     router.get('/', home)
-
+    router.get('/login',home)
     //graphql
 
     //api
@@ -18,7 +18,8 @@ export default function (): Router {
     //user
     router.post('/api/user', UserController.getUserByName)
     router.put('/api/user',UserController.createUser)
-
+    router.post('/api/user/login',UserController.login)
+    router.get('/api/users/:userId',UserController.getUserById)
     //article
     router.put('/api/articles',ArticleController.createArticle)
     router.get('/api/articles/:articleId',ArticleController.getArticleById)

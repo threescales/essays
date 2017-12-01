@@ -14,14 +14,13 @@ const INITIAL_STATE = fromJS({
 });
 
 function sessionReducer(state:any = INITIAL_STATE,
-  action:any = { type: "", payload: null }) {
+  action:any = { type: "", data: null }) {
   switch (action.type) {
 
     case LOGIN_USER_SUCCESS:
       return state.merge(fromJS({
-        token: action.payload.token,
+        user: action.data,
       }));
-
     default:
       return state;
   }
