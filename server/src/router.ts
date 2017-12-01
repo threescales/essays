@@ -16,10 +16,10 @@ export default function (): Router {
     router.get('/api/uptoken', QiNiu.upTokenGen, )
 
     //user
-    router.post('/api/user', UserController.getUserByName)
+    // router.post('/api/user', UserController.getUserByName)
     router.put('/api/user',UserController.createUser)
     router.post('/api/user/login',UserController.login)
-    router.get('/api/users/:userId',UserController.getUserById)
+    router.get('/api/user',UserController.getUserById)
     //article
     router.put('/api/articles',ArticleController.createArticle)
     router.get('/api/articles/:articleId',ArticleController.getArticleById)

@@ -7,6 +7,7 @@ import { InputLabel, TextareaLabel } from '../controlled/input'
 import { Button } from '../buttons/button'
 interface ICreateNewArticleProps {
     dispatch
+    user
 }
 
 interface ICreateNewArticleState {
@@ -14,7 +15,8 @@ interface ICreateNewArticleState {
     description?: string
     cover?: string
     tag?: string
-    modalIsOpen: boolean
+    modalIsOpen?: boolean
+    isActive?:boolean
 }
 
 export default class CreateNewArticle extends React.Component<ICreateNewArticleProps, ICreateNewArticleState> {
@@ -25,7 +27,8 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
             title: '',
             description: '',
             cover: '',
-            tag: ''
+            tag: '',
+            isActive:false
         };
     }
     toggleTitle = (e) => {
@@ -56,7 +59,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
     }
     createArticle = () => {
         const { title, description, cover, tag } = this.state
-        this.props.dispatch(createArticle(title, description, cover, tag))
+        this.props.dispatch(createArticle(this.props.user._id,title, description, cover, tag))
     }
     render() {
         return (
@@ -70,7 +73,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
                         <Background isEditable={true} uploadFinishCallback={this.toggleCover} imageUrl={this.state.cover} />
                     </div>
                     <div style={{ textAlign: 'center' }}>
-                        <Button onClick={this.createArticle} isActive={true}>创建文章</Button>
+                        <Button onClick={this.createArticle} isActive={this.state.isActive}>创建文章</Button>
                     </div>
                 </Modal>
             </div>

@@ -8,7 +8,7 @@ export default class ArticleController {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date()
         const requestData = {
-            userId: user._id,
+            userId: request.userId,
             title: request.title,
             description: request.description,
             cover: request.cover,

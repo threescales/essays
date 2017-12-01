@@ -11,4 +11,4 @@ export const getAllArticles = "/api/articles"
 
 //user
 export const login = '/api/user/login'
-export const getUserById = (userId: string): string => `/api/users/${userId}`
+export const getUserById = '/api/user'

@@ -22,9 +22,9 @@ export const login = (email, password) => {
     }
 };
 
-export const getUserById = (userId) => {
+export const getUserById = () => {
     return (dispatch: any, getState: Function) => {
-        return getAjax(Paths.getUserById(userId)).then((result:any) => {
+        return getAjax(Paths.getUserById).then((result:any) => {
             dispatch(getUserSuccess(result.data))            
         }).error(res => {
             console.log('查询失败')

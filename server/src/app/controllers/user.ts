@@ -13,7 +13,7 @@ export default class UserController {
         }
     }
     public static async getUserById(ctx: koa.Context) {
-        let data = await User.findById(ctx.params.userId)
+        let data = await User.findById(ctx.cookies.get('userId'))
         ctx.body = {
             data
         }
