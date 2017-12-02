@@ -22,7 +22,7 @@ export default class UserController {
         let user: any = await User.findById(userId)
         let data = null
         let success = false
-        if (token === getRememberMeToken(userId, user.password)) {
+        if (token === getRememberMeToken(userId)) {
             user.password = null
             data = user
             success = true
@@ -44,7 +44,7 @@ export default class UserController {
         let success = false
         if (data) {
             ctx.cookies.set('userId', data._id, cookieSetting)
-            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data._id, password), cookieSetting)
+            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data._id), cookieSetting)
             success = true
         }
         ctx.body = {

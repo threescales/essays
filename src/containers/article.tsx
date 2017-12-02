@@ -15,7 +15,7 @@ import * as ShowKey from '../constants/showKey'
 import Catalogue from "../components/catalogue/catalogue"
 import ArticleHeader from '../components/articleHeader/articleHeader'
 import * as AricleAction from '../actions/article'
-
+import Header from "../components/header/header"
 
 class App extends React.Component<any, any> {
     constructor(props: any) {
@@ -30,7 +30,7 @@ class App extends React.Component<any, any> {
 
 
     componentDidMount() {
-        this.toggleShow()
+        // this.toggleShow()
     }
 
     toggleShow = () => {
@@ -44,9 +44,16 @@ class App extends React.Component<any, any> {
     render() {
         let article = this.props.article.toJS()
         let editorState = this.props.editorState
+        let user = this.props.session.toJS().user
         return (
             <div>
                 <ArticleHeader dispatch={this.props.dispatch} article={article} />
+                <Header
+                    dispatch={this.props.dispatch}
+                    user={user}
+                    showEditor={this.props.show.toJS().editor}
+                    isOwner={user && article.userId === user._id}
+                />
                 <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     {
                         !!editorState ?
