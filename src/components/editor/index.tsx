@@ -29,7 +29,7 @@ import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
-
+import * as classnames from "classnames"
 declare var ajax
 import './draft.less'
 import './style.less'
@@ -326,7 +326,7 @@ export default class JiglooEditor
   render() {
     const placeholder = this.props.placeholder || JiglooEditor.placeholder
     return (
-      <div className="jigloo-editor">
+      <div className={classnames({ "jigloo-editor": true, "read-only": this.props.readonly })}>
         <Editor
           ref={e => this.editor = e}
           editorState={this.state.editorState}

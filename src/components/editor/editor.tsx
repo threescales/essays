@@ -55,7 +55,6 @@ const sideToolbarPlugin = createSideToolBarPlugin();
 const { SideToolbar } = sideToolbarPlugin;
 
 const imagePlugin = createImagePlugin({ decorator });
-const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: false });
 
 const plugins = [
     inlineToolbarPlugin,
@@ -67,7 +66,6 @@ const plugins = [
     resizeablePlugin,
     colorBlockPlugin,
     imagePlugin,
-    pageCardPlugin,
     linkifyPlugin,
     createCodePlugin({}),
 ];
@@ -93,7 +91,8 @@ export default class Editor extends React.Component<IEditorProps, any> {
     }
 
     getPluigins = () => {
-        const others = [this.autoSavePlugin]
+        const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: this.props.readOnly });
+        const others = [this.autoSavePlugin,pageCardPlugin]
         return plugins.concat(others)
     }
 
@@ -107,9 +106,13 @@ export default class Editor extends React.Component<IEditorProps, any> {
                         plugins={this.getPluigins()}
                         placeholder={!this.props.readOnly ? "请输入正文..." : ""}
                     >
-                        <InlineToolbar />
-                        <SideToolbar />
-                        <AlignmentTool />
+                    {
+                        !this.props.readOnly&&[
+                            <InlineToolbar />,
+                            <SideToolbar />,
+                            <AlignmentTool />
+                        ]
+                    }
                     </JiglooEditor>
                 </LazyLoad>
             </div>
