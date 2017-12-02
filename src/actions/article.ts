@@ -28,6 +28,7 @@ export const getArticleById = (id: string) => {
     return (dispatch: any, getState: Function) => {
         return getAjax(Path.getArticle(id), {
         }).then((result: any) => {
+            window.document.title = result.data.title
             dispatch(getArticleSuccess(result.data))
         })
     }
