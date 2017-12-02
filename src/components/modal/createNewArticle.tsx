@@ -63,8 +63,8 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
     }
     render() {
         return (
-            <div>
-                <button onClick={this.openModal}>创建文章</button>
+            <div className="create-article-area">
+                <Button onClick={this.openModal} onlyPC={true}>创建文章</Button>
                 <Modal isOpen={this.state.modalIsOpen} contentLabel="创建文章">
                     <InputLabel value={this.state.title} onChange={this.toggleTitle} placeholder="请输入文章标题" label="标题：" />
                     <TextareaLabel placeholder="请输入文章简介" onChange={this.toggleDescription} value={this.state.description} label="简介：" />
