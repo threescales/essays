@@ -11,6 +11,9 @@ interface ICatalogueProps {
     show
     dispatch
 }
+
+const OFFSET = 50
+
 export default class Catalogue extends React.Component<ICatalogueProps, any> {
     public catalogueBlockList: Array<any>;
     public isScroll: boolean = false;
@@ -59,7 +62,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
         })
     }
     isScrollToElement = (el): boolean => {
-        return (el.offsetTop + el.clientHeight) < window.scrollY
+        return (el.offsetTop+el.clientHeight) < (window.scrollY - document.documentElement.clientHeight)
     }
     setSelectedKey = (selectedKey: string) => {
         if (this.state.selectedKey !== selectedKey) {
