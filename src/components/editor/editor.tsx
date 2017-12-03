@@ -79,9 +79,9 @@ interface IEditorProps {
 
 export default class Editor extends React.Component<IEditorProps, any> {
     private autoSavePlugin: AutoSavePlugin
-    
+
     componentWillMount() {
-        this.autoSavePlugin = createAutoSavePlugin({ saveAction: this.save, debounceTime: 300 })        
+        this.autoSavePlugin = createAutoSavePlugin({ saveAction: this.save, debounceTime: 300 })
     }
 
     save = (state: EditorState) => {
@@ -92,7 +92,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
 
     getPluigins = () => {
         const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: this.props.readOnly });
-        const others = [this.autoSavePlugin,pageCardPlugin]
+        const others = [this.autoSavePlugin, pageCardPlugin]
         return plugins.concat(others)
     }
 
@@ -106,13 +106,13 @@ export default class Editor extends React.Component<IEditorProps, any> {
                         plugins={this.getPluigins()}
                         placeholder={!this.props.readOnly ? "请输入正文..." : ""}
                     >
-                    {
-                        !this.props.readOnly&&[
-                            <InlineToolbar />,
-                            <SideToolbar />,
-                            <AlignmentTool />
-                        ]
-                    }
+                        {
+                            !this.props.readOnly && [
+                                <InlineToolbar key="1" />,
+                                <SideToolbar key="2" />,
+                                <AlignmentTool key="3" />
+                            ]
+                        }
                     </JiglooEditor>
                 </LazyLoad>
             </div>

@@ -6,7 +6,12 @@ import * as classnames from 'classnames';
 import { show, hide } from "../../actions/show";
 import { CATALOGUE } from '../../constants/showKey'
 const jump = require("jump.js")
-export default class Catalogue extends React.Component<any, any> {
+interface ICatalogueProps {
+    editorState
+    show
+    dispatch
+}
+export default class Catalogue extends React.Component<ICatalogueProps, any> {
     public catalogueBlockList: Array<any>;
     public isScroll: boolean = false;
     constructor(props: any) {
@@ -14,7 +19,7 @@ export default class Catalogue extends React.Component<any, any> {
         this.state = {
             selectedKey: ''
         }
-        this.scrollToWhere = throttle(this.scrollToWhere, 300)
+        this.scrollToWhere = throttle(this.scrollToWhere, 500)
     }
     getDom(tagName, name, value) {
         var selectDom = [];
@@ -54,27 +59,31 @@ export default class Catalogue extends React.Component<any, any> {
         })
     }
     isScrollToElement = (el): boolean => {
-        var rect = el.getBoundingClientRect();
-        console.log(new Date().getTime())
-        return (
-            rect.top >= 0 &&
-            rect.left >= 0 &&
-            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
-        );
+        return (el.offsetTop + el.clientHeight) < window.scrollY
+    }
+    setSelectedKey = (selectedKey: string) => {
+        if (this.state.selectedKey !== selectedKey) {
+            this.setState({
+                selectedKey
+            })
+        }
     }
     scrollToWhere = () => {
         if (!this.isScroll) {
             const catalist = this.catalogueBlockList || []
-            for (let i = 0; i < catalist.length; i++) {
+            let newSelectedKey = this.state.selectedKey
+            let length = catalist.length
+            for (let i = 0; i < length; i++) {
                 const cataData = catalist[i]
                 if (this.isScrollToElement(this.getDom(cataData.tagName, 'data-offset-key', `${cataData.key}-0-0`)[0])) {
-                    if (this.state.selctedKey !== cataData.key) {
-                        this.setState({
-                            selectedKey: cataData.key
-                        })
+                    newSelectedKey = cataData.key
+                    if (i == length - 1) {
+                        this.setSelectedKey(newSelectedKey)
                     }
+                } else {
+                    this.setSelectedKey(newSelectedKey)
                     break;
+
                 }
             }
         }
@@ -105,7 +114,7 @@ export default class Catalogue extends React.Component<any, any> {
                 catalogueBlockList.push(catalogueBlock);
                 let isSeleted = this.state.selectedKey === block.key
                 return <div key={block.key}
-                    className={classnames({"catalogue-item":true, [`catalogue-${block.type}`]: true, 'selected': isSeleted })}
+                    className={classnames({ "catalogue-item": true, [`catalogue-${block.type}`]: true, 'selected': isSeleted })}
                     onClick={() => this.jump(block.key, tagName)}
                 >
                     {block.text}

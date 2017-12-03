@@ -22,7 +22,7 @@ interface Method {
 
 export type AutoSavePlugin = InAddtionAccepts & Method
 
-export const createAutoSavePlugin: EditorPluginBuilder<PluginConfig, Method> = ({ debounceTime = 500, saveAction }) => {
+export const createAutoSavePlugin: EditorPluginBuilder<PluginConfig, Method> = ({ debounceTime = 850, saveAction }) => {
 
 
   if (typeof saveAction !== 'function') {
