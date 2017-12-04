@@ -6,7 +6,7 @@ const INITIAL_STATE = fromJS({
 
 function showReducer(state: any = INITIAL_STATE, action: any) {
     switch (action.type) {
-        case Constants.GET_ALL_ARTICLES:
+        case Constants.GET_ARTICLES:
             return state.merge(fromJS({
                 articles: action.articles
             }))

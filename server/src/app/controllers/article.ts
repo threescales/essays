@@ -48,4 +48,11 @@ export default class ArticleController {
             data
         }
     }
+
+    public static async getMyArticles(ctx: koa.Context) {
+        let data = await Article.find({userId:parseGetData(ctx).userId}).sort({'_id':1})
+        ctx.body = {
+            data
+        }
+    }
 }
