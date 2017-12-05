@@ -22,7 +22,7 @@ export const rootRoute = [
     component:Login
   },
   {
-    path:Paths.myartilcesPage,
+    path:Paths.myarticlesPage,
     component:MyArticles
   },
   {

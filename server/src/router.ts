@@ -10,7 +10,7 @@ export default function (): Router {
     router.get('/articles/:articleId', home)
     router.get('/', home)
     router.get('/login', home)
-    router.get('/myartilces', home)
+    router.get('/myarticles', home)
     //graphql
 
     //api
