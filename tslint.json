@@ -33,7 +33,7 @@
             "check-whitespace"
         ],
         "quotemark": [false],
-        "radix": true,
+        "radix": false,
         "semicolon": false,
         "typedef": [false],
         "typedef-whitespace": [true, ["callSignature", "noSpace"],
