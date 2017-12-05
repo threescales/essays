@@ -10,8 +10,10 @@ class MyArticles extends React.Component<any, any> {
         super(props)
     }
 
-    componentWillMount() {
-        this.props.dispatch(HomeActions.getMyArticles(this.props.session.toJS().user))
+    componentWillReceiveProps(nextProps) {
+        if (!this.props.session.toJS().user && nextProps.session.toJS().user) {
+            this.props.dispatch(HomeActions.getMyArticles(nextProps.session.toJS().user._id))
+        }
     }
     render() {
         let articleCards = map(this.props.home.toJS().articles, (article: any) => {

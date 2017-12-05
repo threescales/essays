@@ -36,7 +36,7 @@ export default class ArticleController {
 
     public static async saveBody(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
-        let data = await Article.update({ _id: request.id }, { body: request.body })
+        let data = await Article.update({ _id: request.id }, { body: request.body, updateTime: new Date() })
         ctx.body = {
             data
         }
@@ -50,7 +50,8 @@ export default class ArticleController {
     }
 
     public static async getMyArticles(ctx: koa.Context) {
-        let data = await Article.find({userId:parseGetData(ctx).userId}).sort({'_id':1})
+        let userId = parseGetData(ctx).userId;
+        let data = await Article.find({ userId: userId }).sort({ "updateTime": -1 })
         ctx.body = {
             data
         }

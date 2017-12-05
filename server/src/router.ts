@@ -23,9 +23,10 @@ export default function (): Router {
     router.get('/api/user', UserController.getUserById)
     //article
     router.put('/api/articles', ArticleController.createArticle)
-    router.get('/api/articles/:articleId', ArticleController.getArticleById)
     router.post('/api/articles/savebody', ArticleController.saveBody)
     router.get('/api/articles', ArticleController.getAllArticles)
-    router.get('/api/articles/getmyarticles', ArticleController.getMyArticles)
+    router.get('/api/articles/getMyArticles', ArticleController.getMyArticles)
+
+    router.get('/api/articles/:articleId', ArticleController.getArticleById)    
     return router
 }
