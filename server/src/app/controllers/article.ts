@@ -1,6 +1,7 @@
 import koa = require('koa')
 
 import { Article } from '../models/Article'
+import { Tag } from '../models/Tag'
 import { parsePostData, parseGetData } from '../utils/parseData'
 const user = require('./user.json')
 export default class ArticleController {
@@ -20,6 +21,17 @@ export default class ArticleController {
             readNum: 0,
             likeNum: 0
         }
+
+        let tagResult = await Tag.findOne({ tag: request.tag })
+        if (!tagResult) {
+            let tagDate = {
+                tag: request.tag,
+                createTime: nowTime
+            }
+            let tag = new Tag(tagDate)
+            let tagData = await tag.save()
+        }
+
         let article = new Article(requestData)
         let data = await article.save()
         ctx.body = {
