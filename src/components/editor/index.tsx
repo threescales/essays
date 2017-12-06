@@ -135,7 +135,7 @@ export default class JiglooEditor
     let newEditorState = selectBlock(editorState, block.getKey())
     let contentState = newEditorState.getCurrentContent()
     let selectionState = newEditorState.getSelection()
-    JSONPAjax('//staging.yibencezi.com:9000/link', { url: block.getText() })
+    JSONPAjax('//www.yibencezi.com:9000/link', { url: block.getText() })
       .then((res: any) => {
         let editorState = this.getEditorState()
         let contentState = editorState.getCurrentContent()
@@ -189,7 +189,7 @@ export default class JiglooEditor
           return 'handled'
         }
       } else {
-        //如果是引用 一级标题 二级标题则回车则新建新的 unstyle  block
+        //如果是引用 回车则新建新的 unstyle  block
         if (block.getType() === 'blockquote') {
           let newEditorState = focusSelectionAfter(editorState, block.getKey());
           this.onChange(newEditorState);
@@ -197,7 +197,7 @@ export default class JiglooEditor
         }
       }
     }
-    // return 'not-handled'
+    return 'not-handled'
   }
   //将img标签解析成image block映射算法
   getConvertOptions = () => {
