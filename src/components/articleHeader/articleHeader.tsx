@@ -11,6 +11,10 @@ interface IBookHeaderProps {
 export default class BookHeader extends React.Component<IBookHeaderProps, any> {
     constructor(props) {
         super(props)
+        this.state = {
+            width: document.documentElement.clientWidth,
+            height: document.documentElement.clientHeight
+        }
     }
     moveDown = () => {
         jump.default('#articleBody'),
@@ -26,8 +30,13 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
         return (
             <div>
                 <div className="article-header">
-                    <Background imageUrl={article.cover} isEditable={false} style={{ opacity: 0.6, position: 'absolute' }}>
-                    </Background>
+                    <Background
+                        imageUrl={article.cover}
+                        isEditable={false}
+                        style={{ opacity: 0.6, position: 'absolute' }}
+                        width={this.state.width}
+                        height={this.state.height}
+                    />
                     <div className="content">
                         <h1>{article.title}</h1>
                     </div>

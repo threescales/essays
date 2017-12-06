@@ -7,6 +7,8 @@ interface IBackgroundProps {
     uploadFinishCallback?: Function
     imageUrl?: string
     style?: any
+    width?
+    height?
 }
 
 export default class Background extends React.Component<IBackgroundProps, any> {
@@ -30,7 +32,7 @@ export default class Background extends React.Component<IBackgroundProps, any> {
         )
     }
     render() {
-        let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl)})` }
+        let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl,this.props.width,this.props.height)})` }
         style = Object.assign(this.props.style || {}, style)
         let background = <div
             className="jigloo-background"
