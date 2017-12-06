@@ -47,7 +47,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
                     {
                         this.props.isOwner &&
                         this.props.article &&
-                        <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '已发布' : '未发布'}</Button>
+                        <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
                     }
                     {user && !this.props.isOwner && <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />}
                 </div>
@@ -58,9 +58,11 @@ export default class Header extends React.Component<IHeaderProps, any> {
                     {
                         user &&
                         <OwnerAvatar src={user.avatar} >
-                            <li>
-                                <a href="/myarticles">我写过的</a>
-                            </li>
+                            <ul className="avatar-list">
+                                <li>
+                                    <a href="/myarticles">我写过的</a>
+                                </li>
+                            </ul>
                         </OwnerAvatar>
                     }
                 </div>
