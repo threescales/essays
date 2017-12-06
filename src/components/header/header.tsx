@@ -4,6 +4,7 @@ import { getCookie } from '../../utils/cookie'
 import CreateNewArticle from '../modal/createNewArticle'
 import { Button } from "../buttons/button"
 import * as ShowAction from "../../actions/show"
+import * as ArticleAction from "../../actions/article"
 import { EDITOR } from "../../constants/showKey"
 import { Editor } from 'draft-js';
 import './header.less';
@@ -13,6 +14,7 @@ interface IHeaderProps {
     user
     isOwner?
     showEditor?
+    article?
 }
 export default class Header extends React.Component<IHeaderProps, any> {
     constructor(props) {
@@ -32,12 +34,20 @@ export default class Header extends React.Component<IHeaderProps, any> {
             this.props.dispatch(ShowAction.show(EDITOR))
         }
     }
+    toogleArticlePublish = () => {
+        this.props.dispatch(ArticleAction.toggleArticlePublish(this.props.article._id, !this.props.article.isPublish))
+    }
     render() {
         const user = this.props.user
         return (
             <header className="root-header">
                 <div className="header-left">
                     {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '预览' : '编辑'}</Button>}
+                    {
+                        this.props.isOwner &&
+                        this.props.article &&
+                        <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '已发布' : '未发布'}</Button>
+                    }
                     {user && !this.props.isOwner && <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />}
                 </div>
                 <div className="header-center">

@@ -10,7 +10,7 @@ export const getArticle = (articleId: string): string => `/api/articles/${articl
 export const saveArticleBody = '/api/articles/savebody'
 export const getAllArticles = "/api/articles"
 export const getMyArticles = "/api/articles/getMyArticles"
-
+export const toggleArticlePublish = '/api/articles/togglePublish'
 //user
 export const login = '/api/user/login'
 export const getUserById = '/api/user'

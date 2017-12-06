@@ -1,8 +1,7 @@
 import { putAjax, getAjax, postAjax } from '../utils/ajax'
 import * as Path from '../constants/path'
-import { CREATE_ARTICLE_SUCCESS,GET_ARTICLE_SUCCESS,UPDATE_ARTICLE_BODY_SUCCESS } from '../constants/index'
-import { EditorState, convertToRaw } from 'draft-js'
-import { RawDraftContentState } from 'draft-js'
+import { CREATE_ARTICLE_SUCCESS,GET_ARTICLE_SUCCESS,UPDATE_ARTICLE_BODY_SUCCESS,TOGGLE_ARITCLE_PUBLISH } from '../constants/index'
+import { EditorState, convertToRaw,RawDraftContentState } from 'draft-js'
 
 export const getArticleSuccess = (data) => {
     return {
@@ -43,6 +42,19 @@ export const saveArticleBody = (id: string, contentState: RawDraftContentState) 
             dispatch({
                 type:UPDATE_ARTICLE_BODY_SUCCESS,
                 body
+            })
+        })
+    }
+}
+
+export const toggleArticlePublish = (articleId:string,isPublish:boolean) => {
+    return(dispatch:any,getState:Function) => {
+        return postAjax(Path.toggleArticlePublish,{
+            articleId,isPublish
+        }).then((result:any) => {
+            dispatch({
+                type:TOGGLE_ARITCLE_PUBLISH,
+                isPublish
             })
         })
     }

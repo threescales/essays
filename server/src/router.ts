@@ -24,9 +24,10 @@ export default function (): Router {
     //article
     router.put('/api/articles', ArticleController.createArticle)
     router.post('/api/articles/savebody', ArticleController.saveBody)
+    router.post('/api/articles/togglePublish', ArticleController.togglePublish)
     router.get('/api/articles', ArticleController.getAllArticles)
     router.get('/api/articles/getMyArticles', ArticleController.getMyArticles)
 
-    router.get('/api/articles/:articleId', ArticleController.getArticleById)    
+    router.get('/api/articles/:articleId', ArticleController.getArticleById)
     return router
 }

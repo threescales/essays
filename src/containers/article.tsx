@@ -14,9 +14,9 @@ import * as ShowKey from '../constants/showKey'
 
 import Catalogue from "../components/catalogue/catalogue"
 import ArticleHeader from '../components/articleHeader/articleHeader'
-import * as AricleAction from '../actions/article'
+import * as ArticleAction from '../actions/article'
 import Header from "../components/header/header"
-
+import { Button } from '../components/buttons/button'
 class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -25,7 +25,7 @@ class App extends React.Component<any, any> {
         }
     }
     componentWillMount() {
-        this.props.dispatch(AricleAction.getArticleById(this.props.match.params.articleId))
+        this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId))
     }
 
 
@@ -45,6 +45,7 @@ class App extends React.Component<any, any> {
         let article = this.props.article.toJS()
         let editorState = this.props.editorState
         let user = this.props.session.toJS().user
+        let isOwner = user && article.userId === user._id
         return (
             <div>
                 <ArticleHeader dispatch={this.props.dispatch} article={article} />
@@ -52,7 +53,8 @@ class App extends React.Component<any, any> {
                     dispatch={this.props.dispatch}
                     user={user}
                     showEditor={this.props.show.toJS().editor}
-                    isOwner={user && article.userId === user._id}
+                    isOwner={isOwner}
+                    article={article}
                 />
                 <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     {

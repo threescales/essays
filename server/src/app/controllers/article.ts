@@ -68,4 +68,13 @@ export default class ArticleController {
             data
         }
     }
+    public static async togglePublish(ctx: koa.Context) {
+        let request: any = await parsePostData(ctx)
+        let articleId = request.articleId
+        let isPublish = request.isPublish
+        let data = await Article.update({ _id: articleId }, { isPublish: isPublish, updateTime: new Date() })
+        ctx.body = {
+            data
+        }
+    }
 }
