@@ -1,6 +1,6 @@
 import { Document, Schema, Model, model } from "mongoose";
 
-import { ITag } from '../interfaces/Tag';
+import { ITag } from '../interfaces/tag';
 import { resolve } from "../../../../node_modules/@types/bluebird/index";
 
 export interface ITagModel extends ITag, Document {
