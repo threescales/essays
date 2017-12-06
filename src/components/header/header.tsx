@@ -7,6 +7,7 @@ import * as ShowAction from "../../actions/show"
 import * as ArticleAction from "../../actions/article"
 import { EDITOR } from "../../constants/showKey"
 import { Editor } from 'draft-js';
+import { OwnerAvatar } from '../../components/controlled/toggleableMenu'
 import './header.less';
 
 interface IHeaderProps {
@@ -54,7 +55,14 @@ export default class Header extends React.Component<IHeaderProps, any> {
                     <a href="/">{`张有明的随笔`}</a>
                 </div>
                 <div className="header-right">
-                    {user && <img src={user.avatar} />}
+                    {
+                        user &&
+                        <OwnerAvatar src={user.avatar} >
+                            <li>
+                                <a href="/myarticles">我写过的</a>
+                            </li>
+                        </OwnerAvatar>
+                    }
                 </div>
             </header>
         )
