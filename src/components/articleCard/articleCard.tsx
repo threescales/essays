@@ -24,7 +24,7 @@ export default class ArticleCard extends React.PureComponent<IArticleCardProps, 
                 <div className="right-info">
                     {!article.isPublish && <span>未发布</span>}
                 </div>
-                <img src={getImageUrl(article.cover)} />
+                <img src={getImageUrl(article.cover,750,400)} />
                 <article>
                     <h5>{article.title}</h5>
                     <p>{article.description}</p>
