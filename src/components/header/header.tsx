@@ -52,7 +52,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
                     {user && !this.props.isOwner && <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />}
                 </div>
                 <div className="header-center">
-                    <a href="/">{`张有明的随笔`}</a>
+                    <a href="/"><i className="iconfont icon-logo"></i></a>
                 </div>
                 <div className="header-right">
                     {

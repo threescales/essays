@@ -4,6 +4,6 @@
     "declaration-colon-newline-after": null,
     "font-family-name-quotes": null,
     "value-list-comma-newline-after": null,
-    "max-nesting-depth": 2
+    "max-nesting-depth": 3
   }
 }
