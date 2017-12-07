@@ -27,7 +27,7 @@ export function isUrl(string) {
     }
   }
 
-  export function getUrl(key) {
+  export function getImgUrl(key) {
     if(key.indexOf('//')>-1) {
       return key
     } else {
@@ -44,3 +44,7 @@ export function isUrl(string) {
       return domain[0]
     }
   }
+
+  export function getUrl(url) {
+    return decodeURIComponent(url)
+}

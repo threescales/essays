@@ -4,6 +4,7 @@ import { Article } from '../models/Article'
 import { Tag } from '../models/Tag'
 import { parsePostData, parseGetData } from '../utils/parseData'
 const user = require('./user.json')
+import rq = require("request-promise")
 export default class ArticleController {
     public static async createArticle(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
@@ -73,6 +74,16 @@ export default class ArticleController {
         let articleId = request.articleId
         let isPublish = request.isPublish
         let data = await Article.update({ _id: articleId }, { isPublish: isPublish, updateTime: new Date() })
+        ctx.body = {
+            data
+        }
+    }
+    //通过url获取网页预览信息
+    public static async getPageInfo(ctx: koa.Context) {
+        let requestData: any = parseGetData(ctx)
+        let data = await rq.get(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshareget_urlinfo?url=${requestData.url}`)
+        const length = data.length - 2
+        data = JSON.parse(data.toString().substring(10, length))
         ctx.body = {
             data
         }

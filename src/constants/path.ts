@@ -14,3 +14,6 @@ export const toggleArticlePublish = '/api/articles/togglePublish'
 //user
 export const login = '/api/user/login'
 export const getUserById = '/api/user'
+
+//pageInfo
+export const getPageInfo = '/api/pageInfo'

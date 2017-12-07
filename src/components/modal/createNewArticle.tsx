@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Modal from './components/modal'
 import { createArticle } from '../../actions/article'
-import { getUrl } from '../../utils/url'
+import { getImgUrl } from '../../utils/url'
 import Background from '../controlled/background'
 import { InputLabel, TextareaLabel } from '../controlled/input'
 import { Button } from '../buttons/button'
@@ -43,7 +43,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
     }
     toggleCover = (key) => {
         this.setState({
-            cover: getUrl(key)
+            cover: getImgUrl(key)
         })
     }
     toggleTag = (e) => {

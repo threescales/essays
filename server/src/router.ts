@@ -15,7 +15,7 @@ export default function (): Router {
 
     //api
     router.get('/api/uptoken', QiNiu.upTokenGen, )
-
+    router.get('/api/pageInfo',ArticleController.getPageInfo)
     //user
     // router.post('/api/user', UserController.getUserByName)
     router.put('/api/user', UserController.createUser)

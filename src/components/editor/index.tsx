@@ -30,7 +30,6 @@ import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
 import * as classnames from "classnames"
-declare var ajax
 import './draft.less'
 import './style.less'
 interface EditorProps {
@@ -43,8 +42,8 @@ interface EditorProps {
   readonly?: boolean
   autoFocus?: boolean
 }
-import { JSONPAjax } from '../../utils/ajax'
-
+import { getAjax } from '../../utils/ajax'
+import * as Paths from '../../constants/path'
 export default class JiglooEditor
   extends React.Component<EditorProps, any> {
   public static placeholder = ' '
@@ -135,17 +134,18 @@ export default class JiglooEditor
     let newEditorState = selectBlock(editorState, block.getKey())
     let contentState = newEditorState.getCurrentContent()
     let selectionState = newEditorState.getSelection()
-    JSONPAjax('//www.yibencezi.com:9000/link', { url: block.getText() })
-      .then((res: any) => {
+    getAjax(Paths.getPageInfo, { url: block.getText() })
+      .then(({data}) => {
+        console.log(data)
         let editorState = this.getEditorState()
         let contentState = editorState.getCurrentContent()
-        let previewImg = res.data.imgUrl.indexOf('/') > -1 ? res.data.imgUrl : `//images.yibencezi.com/${res.data.imgUrl}`
+        let previewImg = data.pics.split('|')[0]
         let newContentState = Modifier
           .setBlockType(contentState, selectionState, 'atomic')
           .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
             type: getEntityTypeByUrl(block.getText()),
-            title: res.data.text.substring(0, 50),
-            description: res.data.content.substring(0, 80),
+            title: data.title,
+            description: data.summary,
             src: block.getText(),
             previewImg
           })
