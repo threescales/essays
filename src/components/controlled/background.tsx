@@ -1,7 +1,8 @@
 import * as React from 'react'
 import Uploader from '../uploader/qiniuUploader'
-import {getImageUrl} from '../../utils/getInfo'
+import { getImageUrl } from '../../utils/getInfo'
 import './background.less'
+import { ProgressBar } from '../progress/progressBar'
 interface IBackgroundProps {
     isEditable?: boolean
     uploadFinishCallback?: Function
@@ -32,12 +33,13 @@ export default class Background extends React.Component<IBackgroundProps, any> {
         )
     }
     render() {
-        let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl,this.props.width,this.props.height)})` }
+        let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl, this.props.width, this.props.height)})` }
         style = Object.assign(this.props.style || {}, style)
         let background = <div
             className="jigloo-background"
             style={style}>
             {this.props.children}
+            <ProgressBar progress={this.state.progress} />
         </div>
         return (
             <div className="filling">
