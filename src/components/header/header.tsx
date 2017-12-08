@@ -43,7 +43,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
         return (
             <header className="root-header">
                 <div className="header-left">
-                    {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '预览' : '编辑'}</Button>}
+                    {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>}
                     {
                         this.props.isOwner &&
                         this.props.article &&
