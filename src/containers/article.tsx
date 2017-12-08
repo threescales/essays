@@ -31,6 +31,7 @@ class App extends React.Component<any, any> {
 
     componentDidMount() {
         // this.toggleShow()
+        this.props.dispatch(ArticleAction.updateArticleCount(this.props.match.params.articleId, 'read'))
     }
 
     toggleShow = () => {

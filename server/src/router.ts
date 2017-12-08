@@ -23,8 +23,9 @@ export default function (): Router {
     router.get('/api/user', UserController.getUserById)
     //article
     router.put('/api/articles', ArticleController.createArticle)
-    router.post('/api/articles/savebody', ArticleController.saveBody)
-    router.post('/api/articles/togglePublish', ArticleController.togglePublish)
+    router.post('/api/article/savebody', ArticleController.saveBody)
+    router.post('/api/article/togglePublish', ArticleController.togglePublish)
+    router.post('/api/article/updateCount',ArticleController.updateCount)
     router.get('/api/articles', ArticleController.getAllArticles)
     router.get('/api/articles/getMyArticles', ArticleController.getMyArticles)
 

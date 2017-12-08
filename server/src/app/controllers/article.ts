@@ -78,6 +78,20 @@ export default class ArticleController {
             data
         }
     }
+    public static async updateCount(ctx: koa.Context) {
+        let request: any = await parsePostData(ctx)
+        let article = await Article.findById(request.articleId)
+        if (request.type == "read") {
+            article.readNum++
+        } else {
+            article.likeNum++
+        }
+        let data = await article.save()
+        ctx.body = {
+            readNum: data.readNum,
+            likeNum: data.likeNum
+        }
+    }
     //通过url获取网页预览信息
     public static async getPageInfo(ctx: koa.Context) {
         let requestData: any = parseGetData(ctx)
