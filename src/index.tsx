@@ -17,6 +17,7 @@ import store from "./store/configure-store";
 import "./styles/index.less";
 
 declare const __TEST__: boolean;
+declare const __DEV__: boolean;
 
 const history = syncHistoryWithStore(createBrowserHistory(),store);
 if (!__TEST__) {
@@ -28,4 +29,14 @@ if (!__TEST__) {
     </div>,
     document.getElementById("root")
   );
+}
+
+if (!__DEV__) {
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?282b8bcdb026b98f041a9fc2703d182a";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
 }
