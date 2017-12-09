@@ -43,18 +43,6 @@ export default class Header extends React.Component<IHeaderProps, any> {
         return (
             <header className="root-header">
                 <div className="header-left">
-                    {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>}
-                    {
-                        this.props.isOwner &&
-                        this.props.article &&
-                        <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
-                    }
-                    {user && !this.props.isOwner && <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />}
-                </div>
-                <div className="header-center">
-                    <a href="/"><i className="iconfont icon-logo"></i></a>
-                </div>
-                <div className="header-right">
                     {
                         user &&
                         <OwnerAvatar src={user.avatar} >
@@ -65,6 +53,18 @@ export default class Header extends React.Component<IHeaderProps, any> {
                             </ul>
                         </OwnerAvatar>
                     }
+                </div>
+                <div className="header-center">
+                    <a href="/"><i className="iconfont icon-logo"></i></a>
+                </div>
+                <div className="header-right">
+                    {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>}
+                    {
+                        this.props.isOwner &&
+                        this.props.article &&
+                        <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
+                    }
+                    {user && !this.props.isOwner && <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />}
                 </div>
             </header>
         )
