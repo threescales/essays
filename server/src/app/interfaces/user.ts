@@ -1,7 +1,7 @@
 export interface IUser {
     name?: string;
     password?: string;
-    email?: string;
+    account?: string;
     createTimg?: Date;
     avatar?: string;
     isAdmin: boolean;

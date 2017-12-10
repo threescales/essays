@@ -11,10 +11,10 @@ export const getUserSuccess = (data) => {
     }
 }
 
-export const login = (email, password) => {
+export const login = (account, password) => {
     return (dispatch: any, getState: Function) => {
         return postAjax(Paths.login,
-            { email, password }).then((result: any) => {
+            { account, password }).then((result: any) => {
                 if (result.success) {
                     dispatch(getUserSuccess(result.data))
                 } else {

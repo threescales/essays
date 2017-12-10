@@ -7,7 +7,7 @@ export interface IUserModel extends IUser, Document {
 export const UserSchema: Schema = new Schema({
     name: String,
     password: String,
-    email: String,
+    account: String,
     createTime: Date,
     avatar: String,
     isAdmin: Boolean

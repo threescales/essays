@@ -6,14 +6,14 @@ export default class Login extends React.Component<any, any> {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
+            account: '',
             password: '',
             isActive: false
         }
     }
-    toggleEmail = (e) => {
+    toggleAccount = (e) => {
         this.setState({
-            email: e.target.value
+            account: e.target.value
         })
     }
     togglePassword = (e) => {
@@ -22,14 +22,14 @@ export default class Login extends React.Component<any, any> {
         })
     }
     login = () => {
-        let email = this.state.email
+        let account = this.state.account
         let password = this.state.password
-        this.props.dispatch(UserAction.login(email,password))
+        this.props.dispatch(UserAction.login(account,password))
     }
     render() {
         return (
             <div>
-                <Input value={this.state.email} placeholder="请输入您的邮箱" onChange={this.toggleEmail} />
+                <Input value={this.state.account} placeholder="请输入您的账号" onChange={this.toggleAccount} />
                 <Input value={this.state.password} placeholder="请输入您的密码" onChange={this.togglePassword} />
                 <Button onClick={this.login} isActive={this.state.isActive}>登录</Button>
             </div>

@@ -37,7 +37,7 @@ export default class UserController {
         let password = md5(request.password)
         console.log(password)
         const loginData = {
-            email: request.email,
+            account: request.account,
             password
         }
         let data: any = await User.findOne(loginData, { password: 0 })
@@ -59,7 +59,7 @@ export default class UserController {
         const userData = {
             name: request.name,
             password: request.password,
-            email: request.email,
+            account: request.account,
             avatar: request.avatar,
             isAdmin: request.isAdmin,
             createTime: nowTime
