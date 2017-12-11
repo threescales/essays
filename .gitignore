@@ -9,4 +9,4 @@ node_modules
 qiniu.json
 
 #token config
-server/src/controller/token.json
+server/src/app/controllers/token.json

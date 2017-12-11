@@ -17,7 +17,7 @@ export default function (): Router {
 
     //token
     router.get('/api/uptoken', TokenController.qiniuUpTokenGen)
-    router.get('/api/github/info',TokenController.githubInfo)
+    router.get('/api/token/github/info',TokenController.githubInfo)
 
 
     router.get('/api/pageInfo',ArticleController.getPageInfo)
