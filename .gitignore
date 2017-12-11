@@ -7,3 +7,6 @@ node_modules
 
 # qiniu.json
 qiniu.json
+
+#token config
+server/src/controller/token.json
