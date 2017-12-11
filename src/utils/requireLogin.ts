@@ -1,5 +1,5 @@
 import {bind} from 'lodash'
-
+import {getUserFromStorage} from '../utils/cookie'
 /**
  * @param  {Function} target
  * @param  {string} key
@@ -16,13 +16,11 @@ export const requireLogin = (target, key: string, descriptor: TypedPropertyDescr
   return {
     configurable: true,
     get() {
+      let user = getUserFromStorage()
       const method:any = descriptor.value
-      const openModalLogin = () => this.props.dispatch(openModal('login',{ body: { 
-        originProps: this.props,
-        originMethodName: key
-      }}))
+      const openModalLogin = this.props.history.push('/login')
       let boundFn = bind(method, this)
-      return () => { return (!this.props.currentUser && openModalLogin()) || boundFn() }
+      return () => { return (!user && openModalLogin()) || boundFn() }
     },
     set() {
 

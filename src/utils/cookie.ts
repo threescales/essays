@@ -4,11 +4,11 @@ export function getCookie(name: string) {
   return parts.length === 2 && parts.pop().split(";").shift();
 }
 
-export function saveUserToLocalStorage(user: any) {
+export function saveUserToStorage(user: any) {
   window.localStorage.setItem("user", JSON.stringify(user))
 }
 
-export function getUserFromLocalStorage() {
+export function getUserFromStorage() {
   let user = window.localStorage.getItem("user")
   return user ? JSON.parse(user) : null
 }

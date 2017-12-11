@@ -3,11 +3,11 @@ import {
 } from "../constants";
 
 import { fromJS } from "immutable";
-import { getCookie, saveUserToLocalStorage } from "../utils/cookie";
+import { getCookie, saveUserToStorage, getUserFromStorage } from "../utils/cookie";
 const INITIAL_STATE = fromJS({
   token: null,
   feedToken: null,
-  user: undefined,
+  user: getUserFromStorage() || null,
   hasError: false,
   isLoading: false,
   refreshToken: null
@@ -17,7 +17,7 @@ function sessionReducer(state: any = INITIAL_STATE,
   action: any = { type: "", data: null }) {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
-      saveUserToLocalStorage(action.data)
+      saveUserToStorage(action.data)
       return state.merge(fromJS({
         user: action.data,
       }));

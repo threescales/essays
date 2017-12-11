@@ -1,6 +1,6 @@
 import * as Router from 'koa-router'
 import { home } from './app/controllers/home'
-import QiNiu from './app/controllers/uptokenGen'
+import TokenController from './app/controllers/token'
 import UserController from './app/controllers/user'
 import ArticleController from './app/controllers/article'
 // import jsonWebToken,{ jwtPassthrough } from './middlewares/jsonWebToken'
@@ -14,7 +14,12 @@ export default function (): Router {
     //graphql
 
     //api
-    router.get('/api/uptoken', QiNiu.upTokenGen, )
+
+    //token
+    router.get('/api/uptoken', TokenController.qiniuUpTokenGen)
+    router.get('/api/github/info',TokenController.githubInfo)
+
+
     router.get('/api/pageInfo',ArticleController.getPageInfo)
     //user
     // router.post('/api/user', UserController.getUserByName)

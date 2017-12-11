@@ -3,7 +3,7 @@ import {
 } from "../constants";
 import { postAjax, getAjax } from '../utils/ajax'
 import * as Paths from '../constants/path'
-import { saveUserToLocalStorage, getUserFromLocalStorage, getCookie } from "../utils/cookie"
+import { saveUserToStorage, getUserFromStorage, getCookie } from "../utils/cookie"
 export const getUserSuccess = (data) => {
     return {
         type: LOGIN_USER_SUCCESS,
@@ -29,7 +29,7 @@ export const login = (account, password) => {
 export const getUserById = () => {
     return (dispatch: any, getState: Function) => {
         let userId = getCookie("userId")
-        let user = getUserFromLocalStorage()
+        let user = getUserFromStorage()
         if (user) {
             dispatch(getUserSuccess(user))
             return
