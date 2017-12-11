@@ -11,9 +11,9 @@ class MyArticles extends React.Component<any, any> {
         super(props)
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (!this.props.session.toJS().user && nextProps.session.toJS().user) {
-            this.props.dispatch(HomeActions.getMyArticles(nextProps.session.toJS().user._id))
+    componentDidMount() {
+        if(this.props.session.toJS().user) {
+            this.props.dispatch(HomeActions.getMyArticles(this.props.session.toJS().user._id))
         }
     }
     componentWillUnmount() {

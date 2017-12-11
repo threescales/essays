@@ -64,7 +64,7 @@ export default class ArticleController {
 
     public static async getMyArticles(ctx: koa.Context) {
         let userId = parseGetData(ctx).userId;
-        let data = await Article.find({ userId: userId }).sort({ "updateTime": -1 })
+        let data = await Article.find({ userId: userId }).sort({ "isPublish": -1, "updateTime": -1 })
         ctx.body = {
             data
         }
