@@ -34,7 +34,7 @@ export default class TokenController {
     console.log(`github access_token data is: ${data}`)
     let access_token = JSON.parse(data).access_token
     console.log(`github access_tokent is:${access_token}`);
-    let userData = await rq(`https://api.github.com/user?access_token=${access_token}`)
+    let userData = await rq.get(`https://api.github.com/user?access_token=${access_token}`)
     console.log(userData)
   }
 }
