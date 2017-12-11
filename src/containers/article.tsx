@@ -24,6 +24,7 @@ class App extends React.Component<any, any> {
         this.state = {
             editorState: EditorState.createEmpty()
         }
+        initPosition()
     }
     componentWillMount() {
         this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId))
