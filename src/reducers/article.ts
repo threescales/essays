@@ -2,7 +2,8 @@ import {
     GET_ARTICLE_SUCCESS,
     UPDATE_ARTICLE_BODY_SUCCESS,
     TOGGLE_ARITCLE_PUBLISH,
-    UPDATA_ARTICLE_COUNT
+    UPDATA_ARTICLE_COUNT,
+    ARTICLE_INIT
 } from '../constants'
 
 import { fromJS, } from 'immutable'
@@ -18,6 +19,8 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
             return state.merge(fromJS({ isPublish: action.isPublish }))
         case UPDATA_ARTICLE_COUNT:
             return state
+        case ARTICLE_INIT:
+            return INITIAL_STATE
         default:
             return state;
     }

@@ -5,7 +5,8 @@ import {
     GET_ARTICLE_SUCCESS,
     UPDATE_ARTICLE_BODY_SUCCESS,
     TOGGLE_ARITCLE_PUBLISH,
-    UPDATA_ARTICLE_COUNT
+    UPDATA_ARTICLE_COUNT,
+    ARTICLE_INIT
 } from '../constants/index'
 
 import { EditorState, convertToRaw, RawDraftContentState } from 'draft-js'
@@ -78,5 +79,11 @@ export const updateArticleCount = (articleId: string, type: 'read' | 'like') => 
                 readNum:result.readNum
             })
         })
+    }
+}
+
+export const initArticle = ()=> {
+    return{
+        type:ARTICLE_INIT
     }
 }

@@ -9,6 +9,7 @@ import { EDITOR } from "../../constants/showKey"
 import { Editor } from 'draft-js';
 import { OwnerAvatar } from '../controlled/toggleableMenu'
 import { Popover } from '../popover/popover'
+import { Link } from 'react-router-dom'
 import './header.less';
 
 interface IHeaderProps {
@@ -50,15 +51,15 @@ export default class Header extends React.Component<IHeaderProps, any> {
                             <Popover>
                                 <ul className="avatar-list">
                                     <li>
-                                        <a href="/myarticles">我写过的</a>
+                                        <Link to="/myarticles">我写过的</Link>
                                     </li>
                                 </ul>
                             </Popover>
                         </OwnerAvatar>
                     }
                 </div>
-                <div className="header-center">
-                    <a href="/"><i className="iconfont icon-logo"></i></a>
+                <div className="header-center animated wobble">
+                    <Logo />
                 </div>
                 <div className="header-right">
                     {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>}
@@ -72,4 +73,9 @@ export default class Header extends React.Component<IHeaderProps, any> {
             </header>
         )
     }
+}
+
+const Logo = ({ className = "" }) => {
+    return <Link to="/" className={className}><i className="iconfont icon-logo"></i></Link>
+
 }

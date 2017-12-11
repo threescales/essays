@@ -1,6 +1,7 @@
 import {
     SHOW,
-    HIDE
+    HIDE,
+    SHOW_INIT
 } from "../constants";
 
 import { fromJS } from "immutable";
@@ -23,6 +24,8 @@ function showReducer(state: any = INITIAL_STATE,
             return state.merge(fromJS({
                 [action.something]: false
             }))
+        case SHOW_INIT:
+            return INITIAL_STATE;
         default:
             return state;
     }

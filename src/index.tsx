@@ -6,9 +6,8 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { Router } from "react-router";
-import createBrowserHistory from "history/createBrowserHistory";
 import { syncHistoryWithStore } from "react-router-redux";
-
+import history1 from './utils/history'
 import './utils/ajax'
 
 import routes from "./store/routes";
@@ -19,7 +18,7 @@ import "./styles/index.less";
 declare const __TEST__: boolean;
 declare const __DEV__: boolean;
 
-const history = syncHistoryWithStore(createBrowserHistory(),store);
+const history = syncHistoryWithStore(history1,store);
 if (!__TEST__) {
   ReactDOM.render(
     <div>

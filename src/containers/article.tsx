@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { EditorState, convertFromRaw, EditorBlock, convertToRaw } from "draft-js";
-import { show, hide } from "../actions/show";
+import { show, hide, initShow } from "../actions/show";
 import { Link } from "react-router-dom";
 import * as classnames from 'classnames'
 import { assign } from "lodash"
@@ -17,6 +17,7 @@ import ArticleHeader from '../components/articleHeader/articleHeader'
 import * as ArticleAction from '../actions/article'
 import Header from "../components/header/header"
 import { Button } from '../components/buttons/button'
+import { initPosition } from '../utils/position'
 class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);
@@ -40,7 +41,11 @@ class App extends React.Component<any, any> {
             this.props.dispatch(show(ShowKey.EDITOR))
         }
     }
-
+    componentWillUnmount() {
+        this.props.dispatch(initShow())
+        this.props.dispatch(ArticleAction.initArticle())
+        initPosition()
+    }
     render() {
         let article = this.props.article.toJS()
         let editorState = this.props.editorState
