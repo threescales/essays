@@ -53,7 +53,7 @@ class App extends React.Component<any, any> {
         let user = this.props.session.toJS().user
         let isOwner = user && article.userId === user._id
         return (
-            <div>
+            <div className="animated zoomIn">
                 <ArticleHeader dispatch={this.props.dispatch} article={article} />
                 <Header
                     dispatch={this.props.dispatch}
