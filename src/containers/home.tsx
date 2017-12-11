@@ -17,7 +17,7 @@ class Index extends React.Component<any, any> {
         this.props.dispatch(HomeActions.getAllArticles())
     }
     componentWillUnmount() {
-        initPosition()
+        // initPosition()
     }
     render() {
         let articleCards = map(this.props.home.toJS().articles, (article: any) => {

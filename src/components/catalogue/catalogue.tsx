@@ -95,7 +95,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
         window.addEventListener("scroll", this.scrollToWhere, false)
     }
     componentWillUnmount() {
-
+        window.removeEventListener("scroll",this.scrollToWhere)
     }
     toggleShow = () => {
         if (this.props.show) {

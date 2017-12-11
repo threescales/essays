@@ -32,7 +32,7 @@ class App extends React.Component<any, any> {
 
     componentDidMount() {
         this.props.dispatch(ArticleAction.updateArticleCount(this.props.match.params.articleId, 'read'))
-        initPosition()        
+        // initPosition()        
     }
 
     toggleShow = () => {
@@ -53,7 +53,7 @@ class App extends React.Component<any, any> {
         let user = this.props.session.toJS().user
         let isOwner = user && article.userId === user._id
         return (
-            <div className="animated zoomIn">
+            <div className="animated fadeInLeft">
                 <ArticleHeader dispatch={this.props.dispatch} article={article} />
                 <Header
                     dispatch={this.props.dispatch}
