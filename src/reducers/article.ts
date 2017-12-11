@@ -1,6 +1,6 @@
-import { 
-    GET_ARTICLE_SUCCESS, 
-    UPDATE_ARTICLE_BODY_SUCCESS, 
+import {
+    GET_ARTICLE_SUCCESS,
+    UPDATE_ARTICLE_BODY_SUCCESS,
     TOGGLE_ARITCLE_PUBLISH,
     UPDATA_ARTICLE_COUNT
 } from '../constants'
@@ -17,8 +17,7 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
         case TOGGLE_ARITCLE_PUBLISH:
             return state.merge(fromJS({ isPublish: action.isPublish }))
         case UPDATA_ARTICLE_COUNT:
-            let data = {likeNum:action.likeNum,readNum:action.readNum}
-            return state.merge(fromJS(data))            
+            return state.merge(fromJS({ likeNum: action.likeNum, readNum: action.readNum }))
         default:
             return state;
     }
