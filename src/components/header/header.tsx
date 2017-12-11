@@ -7,7 +7,8 @@ import * as ShowAction from "../../actions/show"
 import * as ArticleAction from "../../actions/article"
 import { EDITOR } from "../../constants/showKey"
 import { Editor } from 'draft-js';
-import { OwnerAvatar } from '../../components/controlled/toggleableMenu'
+import { OwnerAvatar } from '../controlled/toggleableMenu'
+import { Popover } from '../popover/popover'
 import './header.less';
 
 interface IHeaderProps {
@@ -46,11 +47,13 @@ export default class Header extends React.Component<IHeaderProps, any> {
                     {
                         user &&
                         <OwnerAvatar src={user.avatar} >
-                            <ul className="avatar-list">
-                                <li>
-                                    <a href="/myarticles">我写过的</a>
-                                </li>
-                            </ul>
+                            <Popover>
+                                <ul className="avatar-list">
+                                    <li>
+                                        <a href="/myarticles">我写过的</a>
+                                    </li>
+                                </ul>
+                            </Popover>
                         </OwnerAvatar>
                     }
                 </div>

@@ -22,11 +22,12 @@ export default function makeToggleable(Clickable) {
                 <div 
                 onMouseLeave={ this.hide }
                 onMouseEnter={ this.show }
+                style={{position:'relative'}}
                 >
                     <Clickable
                         {...this.props}
                     />
-                    {this.state.show && this.props.children}
+                    {true && this.props.children}
                 </div>
             )
         }
