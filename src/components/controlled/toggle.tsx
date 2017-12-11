@@ -15,19 +15,19 @@ export default function makeToggleable(Clickable) {
         hide = () => {
             this.setState({
                 show: false
-            }) 
+            })
         }
         render() {
             return (
-                <div 
-                onMouseLeave={ this.hide }
-                onMouseEnter={ this.show }
-                style={{position:'relative'}}
+                <div
+                    onMouseLeave={this.hide}
+                    onMouseEnter={this.show}
+                    style={{ position: 'relative' }}
                 >
                     <Clickable
                         {...this.props}
                     />
-                    {true && this.props.children}
+                    {this.state.show && this.props.children}
                 </div>
             )
         }
