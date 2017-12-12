@@ -62,7 +62,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
         })
     }
     isScrollToElement = (el): boolean => {
-        return (el.offsetTop+el.clientHeight) < (window.scrollY - document.documentElement.clientHeight)
+        return el ? (el.offsetTop + el.clientHeight) < (window.scrollY - document.documentElement.clientHeight) : false
     }
     setSelectedKey = (selectedKey: string) => {
         if (this.state.selectedKey !== selectedKey) {
@@ -95,7 +95,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
         window.addEventListener("scroll", this.scrollToWhere, false)
     }
     componentWillUnmount() {
-        window.removeEventListener("scroll",this.scrollToWhere)
+        window.removeEventListener("scroll", this.scrollToWhere)
     }
     toggleShow = () => {
         if (this.props.show) {
