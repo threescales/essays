@@ -35,9 +35,12 @@ export default class TokenController {
     let access_token = JSON.parse(data).access_token
     console.log(`github access_tokent is:${access_token}`);
     let userData = await rq.get(`https://api.github.com/user?access_token=${access_token}&scope=user`, {
-      host: 'github.com',
-      port: 443,
-      headers: ctx.headers,
+      headers: {
+        'User-Agent': '3142717@qq.com',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Expose-Headers':
+          'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
+      },
     })
     console.log(userData)
   }
