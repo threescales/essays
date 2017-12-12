@@ -3,6 +3,9 @@ import { getUpToken } from '../components/qiniuSDK/index'
 import { parseGetData } from '../utils/parseData'
 import rq = require("request-promise")
 const config = require("./token.json")
+import { User } from '../models/User';
+import { UserAssociation } from '../models/UserAssociation'
+
 export default class TokenController {
   public static qiniuUpTokenGen(ctx: Koa.Context) {
     const uptoken = getUpToken()

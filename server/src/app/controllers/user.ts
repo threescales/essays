@@ -1,6 +1,7 @@
 import koa = require('koa')
 
 import { User } from '../models/User';
+import { UserAssociation } from '../models/UserAssociation'
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getExpires, maxAge } from '../utils/date'
 import { getRememberMeToken } from '../utils/encryption'

@@ -8,6 +8,8 @@ export const UserSchema: Schema = new Schema({
     name: String,
     password: String,
     account: String,
+    phone:String,
+    email:String,
     createTime: Date,
     avatar: String,
     isAdmin: Boolean
