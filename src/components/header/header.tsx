@@ -24,12 +24,6 @@ export default class Header extends React.Component<IHeaderProps, any> {
         super(props)
     }
 
-    componentWillMount() {
-        if (!this.props.user) {
-            let userId =
-                this.props.dispatch(UserAction.getUserById())
-        }
-    }
     toggleEditor = () => {
         if (this.props.showEditor) {
             this.props.dispatch(ShowAction.hide(EDITOR))

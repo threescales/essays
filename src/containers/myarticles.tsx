@@ -6,6 +6,9 @@ import * as HomeActions from '../actions/home'
 import ArticleCard from '../components/articleCard/articleCard'
 import LazyLoad from "react-lazyload"
 import {initPosition} from '../utils/position'
+import {AppContainer} from './app'
+
+@AppContainer
 class MyArticles extends React.Component<any, any> {
     constructor(props) {
         super(props)

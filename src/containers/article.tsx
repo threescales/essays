@@ -18,6 +18,9 @@ import * as ArticleAction from '../actions/article'
 import Header from "../components/header/header"
 import { Button } from '../components/buttons/button'
 import { initPosition } from '../utils/position'
+import {AppContainer} from './app'
+
+@AppContainer
 class App extends React.Component<any, any> {
     constructor(props: any) {
         super(props);

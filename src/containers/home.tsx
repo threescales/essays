@@ -9,6 +9,9 @@ import LazyLoad from "react-lazyload"
 import { initPosition } from '../utils/position'
 
 import './styles/home.less'
+import {AppContainer} from './app'
+
+@AppContainer
 class Index extends React.Component<any, any> {
     constructor(props) {
         super(props)
