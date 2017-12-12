@@ -11,15 +11,10 @@ export default class TokenController {
     }
   }
   public static async githubInfo(ctx: Koa.Context) {
-    console.log(ctx)
     const code: string = parseGetData(ctx).code
-    console.log(code)
     const client_id = config.github_client_id
     const client_secret = config.github_secret
     const url: string = "https://github.com/login/oauth/access_token";
-    console.log(`github code id${code}`)
-    console.log(`github client_id id${client_id}`)
-    console.log(`github client_secret id${client_secret}`)
     let options = {
       method: 'POST',
       uri: url,
@@ -31,7 +26,6 @@ export default class TokenController {
       }
     }
     let data = await rq(url, options)
-    console.log(`github access_token data is: ${data}`)
     let access_token = JSON.parse(data).access_token
     console.log(`github access_tokent is:${access_token}`);
     let userData = await rq.get(`https://api.github.com/user?access_token=${access_token}&scope=user`, {
@@ -42,6 +36,8 @@ export default class TokenController {
           'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
       },
     })
-    console.log(userData)
+    ctx.body= {
+      userData
+    }
   }
 }

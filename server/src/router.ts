@@ -3,6 +3,7 @@ import { home } from './app/controllers/home'
 import TokenController from './app/controllers/token'
 import UserController from './app/controllers/user'
 import ArticleController from './app/controllers/article'
+import * as OAuthUrl from './utils/getOAuthUrl'
 // import jsonWebToken,{ jwtPassthrough } from './middlewares/jsonWebToken'
 
 export default function (): Router {
@@ -11,6 +12,7 @@ export default function (): Router {
     router.get('/', home)
     router.get('/login', home)
     router.get('/myarticles', home)
+    router.redirect('/github_login',OAuthUrl.getGithubUrl())
     //graphql
 
     //api
