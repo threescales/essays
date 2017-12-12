@@ -23,21 +23,21 @@ export default class TokenController {
     let options = {
       method: 'POST',
       uri: url,
-      headers:{
-        Accept: "application/json"        
+      headers: {
+        Accept: "application/json"
       },
       form: {
-        code, client_id, client_secret,accept:'json'
+        code, client_id, client_secret, accept: 'json'
       }
     }
     let data = await rq(url, options)
     console.log(`github access_token data is: ${data}`)
     let access_token = JSON.parse(data).access_token
     console.log(`github access_tokent is:${access_token}`);
-    let userData = await rq.get(`https://api.github.com/user?access_token=${access_token}&scope=user`,{
-      headers:ctx.headers,
-      host:'github.com',
-      port:'443'
+    let userData = await rq.get(`https://api.github.com/user?access_token=${access_token}&scope=user`, {
+      host: 'github.com',
+      port: 443,
+      headers: ctx.headers,
     })
     console.log(userData)
   }
