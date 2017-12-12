@@ -9,6 +9,7 @@ import MyArticles from '../containers/myarticles'
 import toJS from "../utils/immutable-to-js";
 import store from "../store/configure-store";
 import * as Paths from '../constants/path'
+import {requireLogin} from '../utils/requireLogin';
 
 declare var require;
 
@@ -23,7 +24,7 @@ export const rootRoute = [
   },
   {
     path:Paths.myarticlesPage,
-    component:MyArticles
+    component:MyArticles,
   },
   {
     path: Paths.indexPage,
