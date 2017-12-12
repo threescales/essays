@@ -1,0 +1,24 @@
+@import '../../../styles/screen.less';
+.modal-frame{
+    position: absolute;
+    background: #fff;
+    padding: 40px 20px 20px;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    @media @phone{
+        width: 80%;
+    }
+    .close-modal{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        i{
+            font-size: 20px;
+        }
+    }
+}

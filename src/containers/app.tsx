@@ -1,7 +1,9 @@
 import * as React from 'react';
 import * as UserAction from '../actions/session'
+import * as ShowAction from '../actions/show'
 import { LOGIN_MODAL } from '../constants/showKey'
-import Login from '../components/login/login'
+import LoginModal from '../components/modal/loginModal'
+
 export const AppContainer = (Container: any): any =>
     class CommonContainer extends React.Component<any, any> {
         constructor(props) {
@@ -9,6 +11,7 @@ export const AppContainer = (Container: any): any =>
         }
         componentWillMount() {
             this.props.dispatch(UserAction.getUserById())
+            // this.props.dispatch(ShowAction.show(LOGIN_MODAL))
         }
         render() {
             let show = true
@@ -21,11 +24,7 @@ export const AppContainer = (Container: any): any =>
             return (
                 <div>
                     {show && <Container {...this.props} />}
-                    {this.props.show.toJS()[LOGIN_MODAL] &&
-                        <div className="login-modal">
-                            <Login/>
-                        </div>
-                    }
+                    <LoginModal show={this.props.show.toJS()[LOGIN_MODAL]} dispatch={this.props.dispatch}/>
                 </div>
             )
         }
