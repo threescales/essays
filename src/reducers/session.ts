@@ -8,7 +8,7 @@ import { getCookie, saveUserToStorage, getUserFromStorage } from "../utils/cooki
 const INITIAL_STATE = fromJS({
   token: null,
   feedToken: null,
-  user: getUserFromStorage() || null,
+  user: null,
   hasError: false,
   isLoading: false,
   refreshToken: null
@@ -18,7 +18,7 @@ function sessionReducer(state: any = INITIAL_STATE,
   action: any = { type: "", data: null }) {
   switch (action.type) {
     case LOGIN_USER_SUCCESS:
-      saveUserToStorage(action.data)
+      // saveUserToStorage(action.data)
       return state.merge(fromJS({
         user: action.data,
       }));

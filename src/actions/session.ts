@@ -37,11 +37,11 @@ export const login = (account, password) => {
 export const getUserById = () => {
     return (dispatch: any, getState: Function) => {
         let userId = getCookie("userId")
-        let user = getUserFromStorage()
-        if (user) {
-            dispatch(getUserSuccess(user))
-            return
-        }
+        // let user = getUserFromStorage()
+        // if (user) {
+        //     dispatch(getUserSuccess(user))
+        //     return
+        // }
         return getAjax(Paths.getUserById).then((result: any) => {
             if (result.success) {
                 dispatch(getUserSuccess(result.data))

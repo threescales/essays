@@ -27,6 +27,8 @@ export default class UserController {
             user.password = null
             data = user
             success = true
+            let accouts: any = await UserAssociation.find({"userId":data._id})
+            data.accouts = accouts   
         }
         ctx.body = {
             success,
@@ -46,6 +48,9 @@ export default class UserController {
             ctx.cookies.set('userId', data._id, cookieSetting)
             ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data._id), cookieSetting)
             success = true
+
+            let accouts: any = await UserAssociation.find({"userId":data._id})
+            data.accouts = accouts            
         }
         ctx.body = {
             success,

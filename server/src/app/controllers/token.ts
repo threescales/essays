@@ -6,7 +6,10 @@ const config = require("./token.json")
 import { User } from '../models/User';
 import { UserAssociation } from '../models/UserAssociation'
 import * as OAuthUtils from '../utils/oauth'
-import {getRememberMeToken} from '../utils/encryption'
+import { getRememberMeToken } from '../utils/encryption'
+import { getExpires, maxAge } from '../utils/date'
+
+const cookieSetting = { maxAge: maxAge, overwrite: false, expires: getExpires(), httpOnly: false }
 export default class TokenController {
   public static qiniuUpTokenGen(ctx: Koa.Context) {
     const uptoken = getUpToken()
@@ -16,58 +19,53 @@ export default class TokenController {
   }
   public static async githubInfo(ctx: Koa.Context) {
     const code: string = parseGetData(ctx).code
-    const params: string = parseGetData(ctx).state
-    const userId = params.split(",")[0]
-    const userToken = params.split(",")[1]
-    if(userToken!=getRememberMeToken(userId)) {
+    const params: string = parseGetData(ctx).state.split(",")
+    const userId = params[0]
+    const userToken = params[1]
+    const type = params[2]
+    //校验用户
+    if (userToken != getRememberMeToken(userId)) {
       ctx.redirect("/")
     }
+
+    //获取github信息
     const client_id = config.github_client_id
     const client_secret = config.github_secret
     let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
     console.log(`github access_tokent is:${access_token}`);
     let data = await OAuthUtils.getGithubData(access_token);
     console.log(data.toString())
-    
+
+    //获取user
     let user = await User.findById(userId)
-
-    let userAssociationData = {
-      userId:userId,
-      openid:data.openid,
-      type:'github',
-      info:data.current_user_url,
-      createTime:new Date()
+    if(!user) {
+      let userData = {
+        name: data.login,
+        password: "111111",
+        email: data.email||' ',
+        avatar: data.avatar_url,
+        isAdmin: false,
+        createTime: new Date()
+      }
+      user = new User(userData)
+      let result = user.save()
     }
-    let userAssociation = new UserAssociation(userAssociationData)
-    let result = userAssociation.save()
-    ctx.redirect("/account")
-  }
 
-  public static async bindGithub(ctx: Koa.Context) {
-    const code: string = parseGetData(ctx).code
-    const params: string = parseGetData(ctx).state
-    const userId = params.split(",")[0]
-    const userToken = params.split(",")[1]
-    if(userToken!=getRememberMeToken(userId)) {
-
+    //获取用户关联的github
+    let oldUserAssociation = await User.findOne({ userId: userId,type: 'github' })
+    if (!oldUserAssociation) {
+      let userAssociationData = {
+        userId: userId,
+        openid: data.id,
+        type: 'github',
+        info: data.html_url,
+        createTime: new Date()
+      }
+      let userAssociation = new UserAssociation(userAssociationData)
+      let result = userAssociation.save()
     }
-    const client_id = config.github_client_id
-    const client_secret = config.github_secret
-    let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
-    console.log(`github access_tokent is:${access_token}`);
-    let data = await OAuthUtils.getGithubData(access_token);
-    console.log(data.toString())
-    let user = await User.findById(userId)
-
-    let userAssociationData = {
-      userId:userId,
-      openid:data.openid,
-      type:'github',
-      info:data.current_user_url,
-      createTime:new Date()
-    }
-    let userAssociation = new UserAssociation(userAssociationData)
-    let result = userAssociation.save()
+    ctx.cookies.set('userId', user._id, cookieSetting)
+    ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
     ctx.redirect("/account")
   }
 }

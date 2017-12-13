@@ -10,7 +10,9 @@ export const AppContainer = (Container: any): any =>
             super(props)
         }
         componentWillMount() {
-            this.props.dispatch(UserAction.getUserById())
+            if(!this.props.session.toJS().user) {
+                this.props.dispatch(UserAction.getUserById())    
+            }
             // this.props.dispatch(ShowAction.show(LOGIN_MODAL))
         }
         shouldLogin() {

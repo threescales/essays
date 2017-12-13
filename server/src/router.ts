@@ -12,9 +12,11 @@ export default function (): Router {
     router.get('/', home)
     router.get('/login', home)
     router.get('/myarticles', home)
-    router.redirect('/github_login', OAuthUrl.getGithubUrl())
+    router.get('/github_login', (ctx) => {
+        ctx.redirect(OAuthUrl.getGithubUrl(`${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')},login`))
+    })
     router.get('/github_bind', (ctx) => {
-        ctx.redirect(OAuthUrl.getGithubUrl(`${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')}`))
+        ctx.redirect(OAuthUrl.getGithubUrl(`${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')},bind`))
     })
     router.get('/account', home)
     //graphql
@@ -24,7 +26,6 @@ export default function (): Router {
     //token
     router.get('/api/uptoken', TokenController.qiniuUpTokenGen)
     router.get('/api/token/github/info', TokenController.githubInfo)
-    router.get('/api/token/bind/github', TokenController.bindGithub)
 
     router.get('/api/pageInfo', ArticleController.getPageInfo)
     //user
