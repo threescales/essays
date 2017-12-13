@@ -3,6 +3,9 @@ export const indexPage = '/';
 export const loginPage = '/login'
 export const myarticlesPage = '/myarticles'
 export const accountPage = '/account'
+
+//oauth
+export const bindGithub = (userId) => `/github_bind/${userId}`
 //api
 
 //article

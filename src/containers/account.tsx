@@ -5,6 +5,7 @@ import './styles/account.less';
 import Header from '../components/header/header'
 import { LayoutLeft, LayoutRight, LayoutLR } from '../components/layout/layoutLR';
 import { Button } from '../components/buttons/button'
+import { bindGithub } from '../constants/path'
 @AppContainer
 class AccountContainer extends React.Component<any, any> {
     constructor(props) {
@@ -17,7 +18,7 @@ class AccountContainer extends React.Component<any, any> {
                 <Header dispatch={this.props.dispatch} user={this.props.session.toJS().user} />
                 <div className="account-page">
                     <div>
-                    <Box title="姓名">
+                        <Box title="姓名">
                             <LayoutLR>
                                 <LayoutLeft>
                                     <p>{user.name}</p>
@@ -53,7 +54,7 @@ class AccountContainer extends React.Component<any, any> {
                                     <p>未绑定</p>
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { }}>绑定</Button>
+                                    <Button onClick={() => { window.location.href = bindGithub(user._id) }}>绑定</Button>
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>

@@ -5,7 +5,7 @@ import rq = require("request-promise")
 const config = require("./token.json")
 import { User } from '../models/User';
 import { UserAssociation } from '../models/UserAssociation'
-
+import * as OAuthUtils from '../utils/oauth'
 export default class TokenController {
   public static qiniuUpTokenGen(ctx: Koa.Context) {
     const uptoken = getUpToken()
@@ -17,30 +17,36 @@ export default class TokenController {
     const code: string = parseGetData(ctx).code
     const client_id = config.github_client_id
     const client_secret = config.github_secret
-    const url: string = "https://github.com/login/oauth/access_token";
-    let options = {
-      method: 'POST',
-      uri: url,
-      headers: {
-        Accept: "application/json"
-      },
-      form: {
-        code, client_id, client_secret, accept: 'json'
-      }
-    }
-    let data = await rq(url, options)
-    let access_token = JSON.parse(data).access_token
+    let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
+
     console.log(`github access_tokent is:${access_token}`);
-    let userData = await rq.get(`https://api.github.com/user?access_token=${access_token}&scope=user`, {
-      headers: {
-        'User-Agent': '3142717@qq.com',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Expose-Headers':
-          'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
-      },
-    })
-    ctx.body= {
-      userData
+    let data = await OAuthUtils.getGithubData(access_token);
+    ctx.body = {
+      data
     }
   }
+
+  public static async bindGithub(ctx: Koa.Context) {
+    const code: string = parseGetData(ctx).code
+    const userId: string = parseGetData(ctx).state
+    const client_id = config.github_client_id
+    const client_secret = config.github_secret
+    let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
+    console.log(`github access_tokent is:${access_token}`);
+    let data = await OAuthUtils.getGithubData(access_token);
+
+    let user = await User.findById(userId)
+
+    let userAssociationData = {
+      userId:userId,
+      openid:data.openid,
+      type:'github',
+      info:data.current_user_url,
+      createTime:new Date()
+    }
+    let userAssociation = new UserAssociation(userAssociationData)
+    let result = userAssociation.save()
+    ctx.redirect("/account")
+  }
 }
+
