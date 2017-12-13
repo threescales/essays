@@ -62,7 +62,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
                         user.isAdmin &&
                         <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
                     }
-                    <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />
+                    {user&&<CreateNewArticle dispatch={this.props.dispatch} user={user} />}
                 </div>
             </header>
         )
