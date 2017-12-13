@@ -14,7 +14,7 @@ export default function (): Router {
     router.get('/myarticles', home)
     router.redirect('/github_login', OAuthUrl.getGithubUrl())
     router.get('/github_bind/:userId', (ctx) => {
-        ctx.redirect(OAuthUrl.getGithubUrl(ctx.params.userId) + `&redirect_uri=http://www.zymlj.net/api/token/bind/github`)
+        ctx.redirect(OAuthUrl.getGithubUrl(ctx.params.userId))
     })
     router.get('/account', home)
     //graphql
