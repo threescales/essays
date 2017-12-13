@@ -27,7 +27,8 @@ export default class TokenController {
     let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
     console.log(`github access_tokent is:${access_token}`);
     let data = await OAuthUtils.getGithubData(access_token);
-
+    console.log(data.toString())
+    
     let user = await User.findById(userId)
 
     let userAssociationData = {
