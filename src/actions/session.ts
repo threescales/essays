@@ -1,16 +1,24 @@
 import {
     LOGIN_USER_SUCCESS,
+    LOGIN_OUT
 } from "../constants";
 import { postAjax, getAjax } from '../utils/ajax'
 import * as Paths from '../constants/path'
-import { saveUserToStorage, getUserFromStorage, getCookie } from "../utils/cookie"
+import { saveUserToStorage, getUserFromStorage, getCookie, delCookie, delUserFromStorage } from "../utils/cookie"
 export const getUserSuccess = (data) => {
     return {
         type: LOGIN_USER_SUCCESS,
         data: data
     }
 }
-
+export const loginOut = () => {
+    delUserFromStorage()
+    delCookie('essays_rememberMe_token')
+    delCookie('userId')
+    return {
+        type: LOGIN_OUT
+    }
+}
 export const login = (account, password) => {
     return (dispatch: any, getState: Function) => {
         return postAjax(Paths.login,

@@ -10,6 +10,7 @@ import { Editor } from 'draft-js';
 import { OwnerAvatar } from '../controlled/toggleableMenu'
 import { Popover } from '../popover/popover'
 import { Link } from 'react-router-dom'
+import UserOpera from '../userOpera/userOpera'
 import './header.less';
 
 interface IHeaderProps {
@@ -43,11 +44,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
                         user &&
                         <OwnerAvatar src={user.avatar} >
                             <Popover>
-                                <ul className="avatar-list">
-                                    <li>
-                                        <Link to="/myarticles">我写过的</Link>
-                                    </li>
-                                </ul>
+                                <UserOpera user={user} dispatch={this.props.dispatch}/>
                             </Popover>
                         </OwnerAvatar>
                     }

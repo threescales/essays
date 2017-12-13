@@ -1,5 +1,6 @@
 import {
   LOGIN_USER_SUCCESS,
+  LOGIN_OUT
 } from "../constants";
 
 import { fromJS } from "immutable";
@@ -20,6 +21,10 @@ function sessionReducer(state: any = INITIAL_STATE,
       saveUserToStorage(action.data)
       return state.merge(fromJS({
         user: action.data,
+      }));
+    case LOGIN_OUT:
+      return state.merge(fromJS({
+        user:null
       }));
     default:
       return state;
