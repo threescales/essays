@@ -48,15 +48,17 @@ export default class TokenController {
         createTime: new Date()
       }
       user = new User(userData)
-      let result = user.save()
+      user = await user.save()
     }
 
     //获取用户关联的github
-    let oldUserAssociation = await User.findOne({ userId: userId,type: 'github' })
+    let oldUserAssociation = await UserAssociation.findOne({ userId: userId,type: 'github' })
     if (!oldUserAssociation) {
+      console.log("github html_url is :"+data.html_url)
+      console.log("github openid is:"+data.id)
       let userAssociationData = {
         userId: userId,
-        openid: data.id,
+        openid: data.id.toString(),
         type: 'github',
         info: data.html_url,
         createTime: new Date()
