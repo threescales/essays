@@ -1,7 +1,7 @@
 import { Document, Schema, Model, model } from "mongoose";
 import {IUserAssociation} from '../interfaces/userAssociation'
 import { resolve } from "../../../../node_modules/@types/bluebird/index";
-export interface IUserAssociationModel extends IUserAssociation,Document{
+export interface IUserAssociationModel extends IUserAssociation,Document {
 
 }
 

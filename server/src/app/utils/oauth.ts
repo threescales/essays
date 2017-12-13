@@ -26,5 +26,5 @@ export async function getGithubData(access_token) {
         'ETag, Link, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval'
     },
   })
-  return data
+  return JSON.parse(data)
 }
