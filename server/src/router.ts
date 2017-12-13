@@ -13,8 +13,8 @@ export default function (): Router {
     router.get('/login', home)
     router.get('/myarticles', home)
     router.redirect('/github_login', OAuthUrl.getGithubUrl())
-    router.get('/github_bind/:userId', (ctx) => {
-        ctx.redirect(OAuthUrl.getGithubUrl(ctx.params.userId))
+    router.get('/github_bind', (ctx) => {
+        ctx.redirect(OAuthUrl.getGithubUrl(`${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')}`))
     })
     router.get('/account', home)
     //graphql

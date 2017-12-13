@@ -54,7 +54,7 @@ class AccountContainer extends React.Component<any, any> {
                                     <p>未绑定</p>
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { window.location.href = bindGithub(user._id) }}>绑定</Button>
+                                    <Button onClick={() => { window.location.href = bindGithub }}>绑定</Button>
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>

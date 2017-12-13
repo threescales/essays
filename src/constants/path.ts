@@ -5,7 +5,7 @@ export const myarticlesPage = '/myarticles'
 export const accountPage = '/account'
 
 //oauth
-export const bindGithub = (userId) => `/github_bind/${userId}`
+export const bindGithub = `/github_bind`
 //api
 
 //article
