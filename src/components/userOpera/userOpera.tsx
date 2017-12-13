@@ -22,10 +22,10 @@ export default class UserOpera extends React.Component<IUserOperaProps, any> {
                     <Link to="/myarticles">我写过的</Link>
                 </li>
                 <li>
-                    <a onClick={this.signOut}>退出登录</a>
+                    <Link to="/account">账户设置</Link>
                 </li>
                 <li>
-                    <Link to="/account">账户设置</Link>
+                    <a onClick={this.signOut}>退出登录</a>
                 </li>
             </ul>
         )
