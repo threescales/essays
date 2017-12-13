@@ -20,7 +20,7 @@ export default class TokenController {
     const userId = params.split(",")[0]
     const userToken = params.split(",")[1]
     if(userToken!=getRememberMeToken(userId)) {
-      ctx.redirect("/account")
+      ctx.redirect("/")
     }
     const client_id = config.github_client_id
     const client_secret = config.github_secret
