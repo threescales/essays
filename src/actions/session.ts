@@ -24,7 +24,9 @@ export const login = (account, password) => {
         return postAjax(Paths.login,
             { account, password }).then((result: any) => {
                 if (result.success) {
-                    dispatch(getUserSuccess(result.data))
+                    let data = result.data
+                    data.accounts = result.accounts
+                    dispatch(getUserSuccess(data))
                 } else {
                     console.error("登录失败，账号或密码不正确")
                 }
@@ -44,7 +46,9 @@ export const getUserById = () => {
         // }
         return getAjax(Paths.getUserById).then((result: any) => {
             if (result.success) {
-                dispatch(getUserSuccess(result.data))
+                let data = result.data
+                data.accounts = result.accounts
+                dispatch(getUserSuccess(data))
             } else {
                 console.error("登录失败，账号或密码不正确")
             }

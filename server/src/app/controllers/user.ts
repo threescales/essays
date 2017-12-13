@@ -22,17 +22,18 @@ export default class UserController {
         let token = ctx.cookies.get('essays_rememberMe_token')
         let user: any = await User.findById(userId)
         let data = null
+        let accounts = []
         let success = false
         if (token === getRememberMeToken(userId)) {
             user.password = null
             data = user
             success = true
-            let accouts: any = await UserAssociation.find({"userId":data._id})
-            data.accouts = accouts   
+            accounts = await UserAssociation.find({ "userId": data._id })
         }
         ctx.body = {
             success,
-            data
+            data,
+            accounts
         }
     }
     public static async login(ctx: koa.Context) {
@@ -44,17 +45,18 @@ export default class UserController {
         }
         let data: any = await User.findOne(loginData, { password: 0 })
         let success = false
+        let accounts = []
         if (data) {
             ctx.cookies.set('userId', data._id, cookieSetting)
             ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data._id), cookieSetting)
             success = true
 
-            let accouts: any = await UserAssociation.find({"userId":data._id})
-            data.accouts = accouts            
+            accounts = await UserAssociation.find({ "userId": data._id })
         }
         ctx.body = {
             success,
             data,
+            accounts
         }
     }
 
