@@ -6,6 +6,7 @@ import Background from '../controlled/background'
 import { InputLabel, TextareaLabel } from '../controlled/input'
 import { Button } from '../buttons/button'
 import {ModalFrame,IModalFrameProps} from './components/modalFrame'
+import {requireLogin} from '../../utils/requireLogin'
 interface ICreateNewArticleProps extends IModalFrameProps {
     dispatch
     user
@@ -30,6 +31,12 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
             tag: '',
             isActive:false
         };
+        this.openCreateArticle = this.openCreateArticle.bind(this)
+    }
+
+    @requireLogin
+    openCreateArticle() {
+        this.props.openModal()
     }
     toggleTitle = (e) => {
         this.setState({
@@ -59,7 +66,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
     render() {
         return (
             <div className="create-article-area">
-                <Button onClick={this.props.openModal} onlyPC={true}>创建文章</Button>
+                <Button onClick={this.openCreateArticle} onlyPC={true}>创建文章</Button>
                 <Modal isOpen={this.props.modalIsOpen} contentLabel="创建文章" close={this.props.closeModal}>
                     <InputLabel value={this.state.title} onChange={this.toggleTitle} placeholder="请输入文章标题" label="标题：" />
                     <TextareaLabel placeholder="请输入文章简介" onChange={this.toggleDescription} value={this.state.description} label="简介：" />

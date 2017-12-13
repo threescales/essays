@@ -12,7 +12,7 @@ import { Popover } from '../popover/popover'
 import { Link } from 'react-router-dom'
 import UserOpera from '../userOpera/userOpera'
 import './header.less';
-
+import { requireLogin } from '../../utils/requireLogin'
 interface IHeaderProps {
     dispatch
     user
@@ -23,9 +23,11 @@ interface IHeaderProps {
 export default class Header extends React.Component<IHeaderProps, any> {
     constructor(props) {
         super(props)
+        this.toggleEditor = this.toggleEditor.bind(this)
     }
 
-    toggleEditor = () => {
+    @requireLogin
+    toggleEditor() {
         if (this.props.showEditor) {
             this.props.dispatch(ShowAction.hide(EDITOR))
         } else {
@@ -44,7 +46,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
                         user &&
                         <OwnerAvatar src={user.avatar} >
                             <Popover>
-                                <UserOpera user={user} dispatch={this.props.dispatch}/>
+                                <UserOpera user={user} dispatch={this.props.dispatch} />
                             </Popover>
                         </OwnerAvatar>
                     }
@@ -57,9 +59,10 @@ export default class Header extends React.Component<IHeaderProps, any> {
                     {
                         this.props.isOwner &&
                         this.props.article &&
+                        user.isAdmin &&
                         <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
                     }
-                    {user && !this.props.isOwner && <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />}
+                    <CreateNewArticle dispatch={this.props.dispatch} user={this.props.user} />
                 </div>
             </header>
         )
