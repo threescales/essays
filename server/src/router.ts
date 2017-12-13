@@ -13,6 +13,7 @@ export default function (): Router {
     router.get('/login', home)
     router.get('/myarticles', home)
     router.redirect('/github_login',OAuthUrl.getGithubUrl())
+    router.get('/account',home)
     //graphql
 
     //api

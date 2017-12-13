@@ -24,6 +24,9 @@ export default class UserOpera extends React.Component<IUserOperaProps, any> {
                 <li>
                     <a onClick={this.signOut}>退出登录</a>
                 </li>
+                <li>
+                    <Link to="/account">账户设置</Link>
+                </li>
             </ul>
         )
     }

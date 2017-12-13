@@ -2,6 +2,7 @@ export const articlePage = '/articles/:articleId';
 export const indexPage = '/';
 export const loginPage = '/login'
 export const myarticlesPage = '/myarticles'
+export const accountPage = '/account'
 //api
 
 //article

@@ -13,9 +13,12 @@ export const AppContainer = (Container: any): any =>
             this.props.dispatch(UserAction.getUserById())
             // this.props.dispatch(ShowAction.show(LOGIN_MODAL))
         }
+        shouldLogin() {
+            return window.location.href.indexOf("myarticles") > 0 || window.location.href.indexOf("account") > 0
+        }
         render() {
             let show = true
-            if (window.location.href.indexOf("myarticles") > 0) {
+            if (this.shouldLogin()) {
                 show = false
                 if (this.props.session.toJS().user) {
                     show = true
@@ -24,7 +27,7 @@ export const AppContainer = (Container: any): any =>
             return (
                 <div>
                     {show && <Container {...this.props} />}
-                    <LoginModal show={this.props.show.toJS()[LOGIN_MODAL]} dispatch={this.props.dispatch}/>
+                    <LoginModal show={this.props.show.toJS()[LOGIN_MODAL]} dispatch={this.props.dispatch} />
                 </div>
             )
         }
