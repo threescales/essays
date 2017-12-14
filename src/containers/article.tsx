@@ -63,14 +63,7 @@ class App extends React.Component<any, any> {
         let owner = this.props.user.toJS()
         return (
             <div className="animated fadeInLeft">
-                <ArticleHeader dispatch={this.props.dispatch} article={article} user={owner}/>
-                <Header
-                    dispatch={this.props.dispatch}
-                    user={currentUser}
-                    showEditor={this.props.show.toJS().editor}
-                    isOwner={isOwner}
-                    article={article}
-                />
+                <ArticleHeader dispatch={this.props.dispatch} article={article} user={owner} isOwner={isOwner} showEditor={this.props.show.toJS().editor}/>
                 <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     {
                         !!editorState ?

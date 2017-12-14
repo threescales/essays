@@ -2,7 +2,6 @@ import * as React from 'react';
 import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 import map = require("lodash/map")
-import Header from '../components/header/header'
 import * as HomeActions from '../actions/home'
 import ArticleCard from '../components/articleCard/articleCard'
 import LazyLoad from "react-lazyload"
@@ -28,7 +27,6 @@ class Index extends React.Component<any, any> {
         })
         return (
             <div>
-                <Header dispatch={this.props.dispatch} user={this.props.session.toJS().user}/>
                 <div className="article-list">
                     {articleCards}
                 </div>

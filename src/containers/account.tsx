@@ -2,7 +2,6 @@ import * as React from 'react'
 import { connect } from 'react-redux'
 import { AppContainer } from './app'
 import './styles/account.less';
-import Header from '../components/header/header'
 import { LayoutLeft, LayoutRight, LayoutLR } from '../components/layout/layoutLR';
 import { Button } from '../components/buttons/button'
 import { bindGithub } from '../constants/path'
@@ -28,7 +27,6 @@ class AccountContainer extends React.Component<any, any> {
         }
         return (
             <div>
-                <Header dispatch={this.props.dispatch} user={this.props.session.toJS().user} />
                 <div className="account-page">
                     <div>
                         <Box title="姓名">
