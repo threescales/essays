@@ -11,6 +11,7 @@ export const UserSchema: Schema = new Schema({
     email:String,
     createTime: Date,
     avatar: String,
+    introduction:String,
     isAdmin: Boolean
 })
 

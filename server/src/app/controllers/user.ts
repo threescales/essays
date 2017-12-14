@@ -25,7 +25,6 @@ export default class UserController {
         let accounts = []
         let success = false
         if (token === getRememberMeToken(userId)) {
-            user.password = null
             data = user
             success = true
             accounts = await UserAssociation.find({ "userId": data._id })
@@ -36,6 +35,22 @@ export default class UserController {
             accounts
         }
     }
+
+    public static async getUserInfo(ctx: koa.Context) {
+        let userId = parseGetData(ctx).userId
+        let user: any = await User.findById(userId)
+        let userAssociation: any = await UserAssociation.find({ userId: userId })
+        
+        user.password = null;
+        user.phone = null;
+
+        ctx.body = {
+            success: true,
+            data: user,
+            accounts: userAssociation || []
+        }
+    }
+
     public static async login(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let password = md5(request.password)

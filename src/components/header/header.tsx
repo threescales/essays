@@ -10,7 +10,7 @@ import { Editor } from 'draft-js';
 import { OwnerAvatar } from '../controlled/toggleableMenu'
 import { Popover } from '../popover/popover'
 import { Link } from 'react-router-dom'
-import UserOpera from '../userOpera/userOpera'
+import UserOpera from '../user/userOpera'
 import './header.less';
 import { requireLogin } from '../../utils/requireLogin'
 interface IHeaderProps {

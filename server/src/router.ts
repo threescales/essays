@@ -32,7 +32,7 @@ export default function (): Router {
     router.get('/github_bind', (ctx) => {
         ctx.redirect(OAuthUrl.getGithubUrl(`bind,${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')}`))
     })
-    
+
     /**
      * api
      */
@@ -47,6 +47,9 @@ export default function (): Router {
     router.put('/api/user', UserController.createUser)
     router.post('/api/user/login', UserController.login)
     router.get('/api/user', UserController.getUserById)
+
+    router.get('/api/user/getInfo', UserController.getUserInfo)
+
     //article
     router.put('/api/articles', ArticleController.createArticle)
     router.post('/api/article/savebody', ArticleController.saveBody)

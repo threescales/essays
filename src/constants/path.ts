@@ -16,9 +16,12 @@ export const getAllArticles = "/api/articles"
 export const getMyArticles = "/api/articles/getMyArticles"
 export const toggleArticlePublish = '/api/article/togglePublish'
 export const updateCount = '/api/article/updateCount'
-//user
+//session
 export const login = '/api/user/login'
 export const getUserById = '/api/user'
+
+//user
+export const getUserInfo = (userId) => `/api/user/getInfo?userId=${userId}`
 
 //pageInfo
 export const getPageInfo = '/api/pageInfo'

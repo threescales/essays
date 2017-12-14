@@ -37,6 +37,7 @@ export const getArticleById = (id: string) => {
         }).then((result: any) => {
             window.document.title = result.data.title
             dispatch(getArticleSuccess(result.data))
+            return result
         })
     }
 }

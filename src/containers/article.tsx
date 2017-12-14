@@ -15,6 +15,7 @@ import * as ShowKey from '../constants/showKey'
 import Catalogue from "../components/catalogue/catalogue"
 import ArticleHeader from '../components/articleHeader/articleHeader'
 import * as ArticleAction from '../actions/article'
+import * as UserAction from '../actions/user'
 import Header from "../components/header/header"
 import { Button } from '../components/buttons/button'
 import { initPosition } from '../utils/position'
@@ -29,7 +30,11 @@ class App extends React.Component<any, any> {
         }
     }
     componentWillMount() {
-        this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId))
+        this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId)).then((res)=> {
+            if(res&&res.data) {
+                this.props.dispatch(UserAction.getUserInfo(res.data.userId))                
+            }
+        })
     }
 
 
@@ -53,14 +58,15 @@ class App extends React.Component<any, any> {
     render() {
         let article = this.props.article.toJS()
         let editorState = this.props.editorState
-        let user = this.props.session.toJS().user
-        let isOwner = user && article.userId === user._id
+        let currentUser = this.props.session.toJS().user
+        let isOwner = currentUser && article.userId === currentUser._id
+        let owner = this.props.user.toJS()
         return (
             <div className="animated fadeInLeft">
-                <ArticleHeader dispatch={this.props.dispatch} article={article} />
+                <ArticleHeader dispatch={this.props.dispatch} article={article} user={owner}/>
                 <Header
                     dispatch={this.props.dispatch}
-                    user={user}
+                    user={currentUser}
                     showEditor={this.props.show.toJS().editor}
                     isOwner={isOwner}
                     article={article}

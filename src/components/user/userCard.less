@@ -1,0 +1,35 @@
+@import '../../styles/screen.less';
+.user-profile{
+    position: absolute;
+    top:32%;
+    right: 20px;
+    opacity: 0.4;
+    width: 250px;
+    z-index: 1;
+    color: #fff;
+    text-align: center;
+    &:hover{
+        opacity: 1;
+    }
+    @media @desktopMax {
+        display: none;
+    }
+    img{
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+    }
+    h4{
+        padding: 15px 0;
+        font-size: 20px;
+        font-weight: 600;
+        line-height: 27px;
+    }
+    p{
+        line-height: 28px;
+        font-size: 15px;
+        text-overflow: ellipsis;
+        padding: 20px 0;
+        font-weight: 400;
+    }
+}

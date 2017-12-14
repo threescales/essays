@@ -2,10 +2,11 @@ import * as React from 'react'
 import Background from '../controlled/background'
 import './articleHeader.less'
 const jump = require("jump.js")
-
+import UserCard from '../user/userCard'
 interface IBookHeaderProps {
     article
     dispatch
+    user
 }
 
 export default class BookHeader extends React.Component<IBookHeaderProps, any> {
@@ -37,6 +38,9 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
                         width={this.state.width}
                         height={this.state.height}
                     />
+                    <div className="">
+                        <UserCard user={this.props.user} />
+                    </div>
                     <div className="content">
                         <h1>{article.title}</h1>
                     </div>
