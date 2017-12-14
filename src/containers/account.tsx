@@ -6,13 +6,26 @@ import Header from '../components/header/header'
 import { LayoutLeft, LayoutRight, LayoutLR } from '../components/layout/layoutLR';
 import { Button } from '../components/buttons/button'
 import { bindGithub } from '../constants/path'
+import { GITHUB } from '../constants/accountType'
 @AppContainer
 class AccountContainer extends React.Component<any, any> {
     constructor(props) {
         super(props)
     }
+
+    unbind(type) {
+        console.log("解绑")
+    }
+
     render() {
         const user = this.props.session.toJS().user
+
+        let githubAccount = null;
+        for (let account of user.accounts) {
+            if (account.type == GITHUB) {
+                githubAccount = account
+            }
+        }
         return (
             <div>
                 <Header dispatch={this.props.dispatch} user={this.props.session.toJS().user} />
@@ -51,10 +64,15 @@ class AccountContainer extends React.Component<any, any> {
                         <Box title="Github">
                             <LayoutLR>
                                 <LayoutLeft>
-                                    <p>未绑定</p>
+                                    <p>{githubAccount ? '已绑定' : '未绑定'}</p>
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { window.location.href = bindGithub }}>绑定</Button>
+                                    {
+                                        !githubAccount ?
+                                            <Button onClick={() => { window.location.href = bindGithub }}>绑定</Button>
+                                            // : <Button onClick={()=>this.unbind(GITHUB)}>解绑</Button>
+                                            : null
+                                    }
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>
