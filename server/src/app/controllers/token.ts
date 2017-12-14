@@ -20,11 +20,17 @@ export default class TokenController {
   public static async githubInfo(ctx: Koa.Context) {
     const code: string = parseGetData(ctx).code
     const params: string = parseGetData(ctx).state.split(",")
-    const userId = params[0]
-    const userToken = params[1]
-    const type = params[2]
+
+    const type = params[0]
+
+    let userId = ""
+    let userToken = ""
+    if (type == "bind") {
+      userId = params[1]
+      userToken = params[2]
+    }
     //校验用户
-    if (userToken != getRememberMeToken(userId)) {
+    if ((!userId || userToken != getRememberMeToken(userId)) && type == 'bind') {
       ctx.redirect("/")
     }
 
@@ -32,17 +38,23 @@ export default class TokenController {
     const client_id = config.github_client_id
     const client_secret = config.github_secret
     let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
-    console.log(`github access_tokent is:${access_token}`);
     let data = await OAuthUtils.getGithubData(access_token);
-    console.log(data.toString())
+    console.log(`github get data is :${data.toString()}`)
+
+    //通过github授权获取的id获取userId
+    if (type == "login" && !userId) {
+      let userAssociation: any = UserAssociation.findOne({ openid: data.id.toString() })
+      userId = userAssociation.userId
+    }
 
     //获取user
     let user = await User.findById(userId)
-    if(!user) {
+    //若查询不到，则新建user
+    if (!user) {
       let userData = {
         name: data.login,
-        password: "111111",
-        email: data.email||' ',
+        password: " ",
+        email: data.email || ' ',
         avatar: data.avatar_url,
         isAdmin: false,
         createTime: new Date()
@@ -52,10 +64,8 @@ export default class TokenController {
     }
 
     //获取用户关联的github
-    let oldUserAssociation = await UserAssociation.findOne({ userId: userId,type: 'github' })
+    let oldUserAssociation = await UserAssociation.findOne({ userId: user._id, type: 'github' })
     if (!oldUserAssociation) {
-      console.log("github html_url is :"+data.html_url)
-      console.log("github openid is:"+data.id)
       let userAssociationData = {
         userId: userId,
         openid: data.id.toString(),
@@ -66,6 +76,8 @@ export default class TokenController {
       let userAssociation = new UserAssociation(userAssociationData)
       let result = userAssociation.save()
     }
+
+    //将userId，token存入cookie，完成登录
     ctx.cookies.set('userId', user._id, cookieSetting)
     ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
     ctx.redirect("/account")

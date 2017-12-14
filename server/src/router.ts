@@ -8,20 +8,34 @@ import * as OAuthUrl from './utils/getOAuthUrl'
 
 export default function (): Router {
     var router = new Router()
+
+    /**
+     * page
+     */
+
     router.get('/articles/:articleId', home)
     router.get('/', home)
     router.get('/login', home)
     router.get('/myarticles', home)
-    router.get('/github_login', (ctx) => {
-        ctx.redirect(OAuthUrl.getGithubUrl(`${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')},login`))
-    })
-    router.get('/github_bind', (ctx) => {
-        ctx.redirect(OAuthUrl.getGithubUrl(`${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')},bind`))
-    })
     router.get('/account', home)
     //graphql
 
-    //api
+
+    /**
+     * ouath
+     */
+
+    //github
+    router.get('/github_login', (ctx) => {
+        ctx.redirect(OAuthUrl.getGithubUrl(`login,`))
+    })
+    router.get('/github_bind', (ctx) => {
+        ctx.redirect(OAuthUrl.getGithubUrl(`bind,${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')}`))
+    })
+    
+    /**
+     * api
+     */
 
     //token
     router.get('/api/uptoken', TokenController.qiniuUpTokenGen)
