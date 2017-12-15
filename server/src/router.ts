@@ -18,6 +18,11 @@ export default function (): Router {
     router.get('/login', home)
     router.get('/myarticles', home)
     router.get('/account', home)
+
+    //validate
+    router.get('/validate/change_email', UserController.validateChangeEmail)
+    router.get('/validate/change_password', UserController.validateChangePassword)
+    
     //graphql
 
 
@@ -33,6 +38,9 @@ export default function (): Router {
         ctx.redirect(OAuthUrl.getGithubUrl(`bind,${ctx.cookies.get('userId')},${ctx.cookies.get('essays_rememberMe_token')}`))
     })
 
+    //email
+    router.post('/send_email', UserController.sendEmail)
+
     /**
      * api
      */
@@ -47,7 +55,7 @@ export default function (): Router {
     router.put('/api/user', UserController.createUser)
     router.post('/api/user/login', UserController.login)
     router.get('/api/user', UserController.getUserById)
-    router.post('/api/user/update',UserController.updateUser)
+    router.post('/api/user/update', UserController.updateUser)
     router.get('/api/user/getInfo', UserController.getUserInfo)
 
     //article

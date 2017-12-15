@@ -6,6 +6,8 @@ export const accountPage = '/account'
 
 //oauth
 export const bindGithub = `/github_bind`
+
+export const sendEmail = '/send_email'
 //api
 
 //article

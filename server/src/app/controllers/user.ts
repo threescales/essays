@@ -4,9 +4,9 @@ import { User } from '../models/User';
 import { UserAssociation } from '../models/UserAssociation'
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getExpires, maxAge } from '../utils/date'
-import { getRememberMeToken } from '../utils/encryption'
+import { getRememberMeToken, getAuthcode } from '../utils/encryption'
 const md5 = require("md5")
-import {sendMail} from '../utils/email'
+import { sendMail } from '../utils/email'
 
 const cookieSetting = { maxAge: maxAge, overwrite: false, expires: getExpires(), httpOnly: false }
 export default class UserController {
@@ -118,5 +118,56 @@ export default class UserController {
             accounts,
             success
         }
+    }
+
+    public static async sendEmail(ctx: koa.Context) {
+        let request: any = await parsePostData(ctx)
+        let userId = request.userId
+        let type: 'email' | 'password' = request.type
+
+        let user = await User.findById(userId)
+        let email = user.email
+
+        let title = ''
+        let url = ctx.request.origin
+        if (type == 'email') {
+            title = '验证您的邮箱'
+            url = `${url}/validate/change_email?uid=${userId}&authcode=${getAuthcode(userId)}`
+        } else if (type == 'password') {
+            title = '修改您的密码'
+            url = `${url}/validate/change_password?uid=${userId}&authcode=${getAuthcode(userId)}`
+
+        }
+        sendMail(email, title, url)
+        ctx.body = {
+            success: true
+        }
+    }
+
+    public static async validateChangeEmail(ctx: koa.Context) {
+        let request = parseGetData(ctx)
+        let userId = request.uid
+        let authcode = request.authcode
+        let user = await User.findById(userId)
+        if (user && authcode == getAuthcode(userId)) {
+            let userAssociationData = {
+                userId: userId,
+                openid: user.email,
+                type: 'email',
+                info: user.email,
+                createTime: new Date()
+            }
+            let userAssociation = new UserAssociation(userAssociationData)
+            let result = await userAssociation.save()
+        }
+        ctx.redirect('/')
+    }
+
+    public static async validateChangePassword(ctx: koa.Context) {
+        let request = parseGetData(ctx)
+        let userId = request.uid
+        let authcode = request.authcode
+
+        ctx.redirect("/")
     }
 }

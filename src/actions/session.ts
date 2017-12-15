@@ -64,13 +64,40 @@ export const updateUser = (user) => {
         let name = user.name
         let introduction = user.introduction
 
-        return postAjax(Paths.updateUser,{
-            email,name,introduction
-        }).then((result:any) => {
-            if(result.success) {
+        return postAjax(Paths.updateUser, {
+            email, name, introduction
+        }).then((result: any) => {
+            if (result.success) {
                 let data = result.data
                 data.accounts = result.accounts
-                dispatch(getUserSuccess(data))                
+                dispatch(getUserSuccess(data))
+            } else {
+                console.error("更新失败")
+            }
+        })
+    }
+}
+
+export const sendMail = (user) => {
+    return (dispatch: any, getState: Function) => {
+        let email = user.email
+        let name = user.name
+        let introduction = user.introduction
+        return postAjax(Paths.updateUser, {
+            email, name, introduction
+        }).then((result: any) => {
+            if (result.success) {
+
+                postAjax(Paths.sendEmail, { userId: user._id, type: 'email' }).then((res: any) => {
+                    if (res.success) {
+                        console.log("发送邮件成功")
+                    }
+                })
+
+
+                let data = result.data
+                data.accounts = result.accounts
+                dispatch(getUserSuccess(data))
             } else {
                 console.error("更新失败")
             }

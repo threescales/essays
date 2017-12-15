@@ -40,7 +40,11 @@ class AccountContainer extends React.Component<any, any> {
         user[key] = this.state[key]
         this.props.dispatch(SessionActions.updateUser(user))
     }
-
+    sendEmail = () => {
+        let user = this.state.user
+        user.email = this.state.email
+        this.props.dispatch(SessionActions.sendMail(user))
+    }
     render() {
         const user = this.state.user
 
@@ -77,7 +81,7 @@ class AccountContainer extends React.Component<any, any> {
                                     }
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    {!!emailAccount ? <span>已绑定</span> : <Button onClick={() => { this.confirmChange("email") }}>发送</Button>}
+                                    {!!emailAccount ? <span>已绑定</span> : <Button onClick={this.sendEmail}>发送</Button>}
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>

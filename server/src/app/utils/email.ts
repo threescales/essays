@@ -1,6 +1,6 @@
 var nodemailer = require("nodemailer")
-const email = require("../../../../config/email.json")
-export function sendMail(email, title, url) {
+const email = require("../../config/email.json")
+export function sendMail(toEmail, title, url) {
     var transporter = nodemailer.createTransport({
         service: email.service,
         port: email.port,
@@ -13,10 +13,10 @@ export function sendMail(email, title, url) {
 
     var mailOptions = ({
         from: `随笔 <${email.account}>`,
-        to: email,
+        to: toEmail,
         subject: '随笔',
         text: title,
-        html: `<a href={${url}}>${url}</a>`
+        html: `<p>点击此链接：<a href=${url}>${url}</a>完成后续操作</p>`
     })
 
     transporter.sendMail(mailOptions, function (error, info) {
