@@ -6,6 +6,7 @@ import { parsePostData, parseGetData } from '../utils/parseData'
 import { getExpires, maxAge } from '../utils/date'
 import { getRememberMeToken } from '../utils/encryption'
 const md5 = require("md5")
+import {sendMail} from '../utils/email'
 
 const cookieSetting = { maxAge: maxAge, overwrite: false, expires: getExpires(), httpOnly: false }
 export default class UserController {

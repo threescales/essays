@@ -83,13 +83,13 @@ if (process.env.NODE_ENV === 'production' && cdn) {
     }
 
     const fs = require('fs')
-    const existCDNConfig = fs.existsSync(path.join(__dirname, '../qiniu.json'))
+    const existCDNConfig = fs.existsSync(path.join(__dirname, '../config/qiniu.json'))
         /* eslint-disable */
 
     console.log('existCDNConfig=>', existCDNConfig)
         /* eslint-enable */
     if (existCDNConfig) {
-        const config = require('../qiniu.json')
+        const config = require('../config/qiniu.json')
         prodPlugins.push(new QiniuPlugin({
             accessKey: config.accessKey,
             secretKey: config.secretKey,

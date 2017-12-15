@@ -1,5 +1,5 @@
 import { UploaderBuilder, Uploader } from "qiniu4js";
-const qiniu = require('../../../qiniu.json')
+const qiniu = require('../../../config/qiniu.json')
 declare var __DEV__;
 declare var __TEST__;
 

@@ -1,4 +1,4 @@
-const config = require("../../qiniu.json")
+const config = require("../../config/qiniu.json")
 export function getImageUrl(url, width?, height?) {
     if (url && url.indexOf(config.cdn) > -1) {
         if (width && height) {

@@ -5,7 +5,7 @@ const proxy = require('./proxy/webpack-dev-proxy');
 const loaders = require('./webpack/loaders');
 const plugins = require('./webpack/plugins');
 const localIp = require('ip').address()
-const config = require('./qiniu.json')
+const config = require('./config/qiniu.json')
     // const applicationEntries = process.env.NODE_ENV === 'development'
     //   ? ['webpack-hot-middleware/client?reload=true']
     //   : [];

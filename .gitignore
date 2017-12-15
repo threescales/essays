@@ -5,8 +5,5 @@ server/build/out
 # node_modules
 node_modules
 
-# qiniu.json
-qiniu.json
-
-#token config
-server/src/app/controllers/token.json
+#config
+config
