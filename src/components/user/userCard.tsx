@@ -23,7 +23,6 @@ export default class UserCard extends React.Component<IUserCardProps, any> {
                 <h4>{user.name}</h4>
                 <p>{user.introduction}</p>
                 <div className="account-icons">
-                    {user.email&&<AccountIcon key={-1} info={user.email} type={AccountTypes.EMAIL}/>}
                     {accoutIconList}
                 </div>
             </div>
