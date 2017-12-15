@@ -22,7 +22,8 @@ export default class UserCard extends React.Component<IUserCardProps, any> {
                 </div>
                 <h4>{user.name}</h4>
                 <p>{user.introduction}</p>
-                <div>
+                <div className="account-icons">
+                    {user.email&&<AccountIcon key={-1} info={user.email} type={AccountTypes.EMAIL}/>}
                     {accoutIconList}
                 </div>
             </div>
@@ -40,19 +41,23 @@ class AccountIcon extends React.PureComponent<IAccountIconProps, any> {
     click = () => {
         if (AccountTypes.GITHUB == this.props.type) {
             window.open(this.props.info,'_blank')
+        } else if(AccountTypes.EMAIL == this.props.type) {
+
         }
     }
     getIconName(type) {
         switch(type) {
             case AccountTypes.GITHUB:
                 return 'icon-github'
+            case AccountTypes.EMAIL:
+                return 'icon-email'
             default :
                 return ''
         }
     }
     render() {
         let iconName = this.getIconName(this.props.type)
-        return <a onClick={this.click}>
+        return <a className={`account-icon ${this.props.type}`} onClick={this.click}>
             <i className={`iconfont ${iconName}`}></i>
         </a>
     }
