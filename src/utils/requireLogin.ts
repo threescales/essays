@@ -22,7 +22,7 @@ export const requireLogin = (target, key: string, descriptor: TypedPropertyDescr
     get() {
       let user = store.getState().session.toJS().user
       const method: any = descriptor.value
-      const openModalLogin = () => this.props.dispatch(ShowAction.show(LOGIN_MODAL))
+      const openModalLogin = () => store.dispatch(ShowAction.show(LOGIN_MODAL))
       let boundFn = bind(method, this)
       return () => { return (!user && openModalLogin()) || boundFn() }
     },
