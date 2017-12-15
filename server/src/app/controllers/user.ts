@@ -159,6 +159,8 @@ export default class UserController {
             }
             let userAssociation = new UserAssociation(userAssociationData)
             let result = await userAssociation.save()
+            ctx.cookies.set('userId', user._id, cookieSetting)
+            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
         }
         ctx.redirect('/')
     }
