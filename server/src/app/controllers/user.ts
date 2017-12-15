@@ -40,7 +40,7 @@ export default class UserController {
         let userId = parseGetData(ctx).userId
         let user: any = await User.findById(userId)
         let userAssociation: any = await UserAssociation.find({ userId: userId })
-        
+
         user.password = null;
         user.phone = null;
 
@@ -58,7 +58,7 @@ export default class UserController {
             email: request.account,
             password
         }
-        let data: any = await User.findOne(loginData, { password: 0 })
+        let data: any = await User.findOne(loginData)
         let success = false
         let accounts = []
         if (data) {
@@ -90,6 +90,32 @@ export default class UserController {
         let data = await user.save()
         ctx.body = {
             data
+        }
+    }
+
+    public static async updateUser(ctx: koa.Context) {
+        let request: any = await parsePostData(ctx)
+
+        let userId = ctx.cookies.get('userId')
+        let token = ctx.cookies.get('essays_rememberMe_token')
+
+        let success = false
+        let accounts = []
+        let user = request
+        if (token == getRememberMeToken(userId)) {
+            await User.update({ _id: userId }, { email: request.email, name: request.name, introduction: request.introduction })
+            user = await User.findById(userId)
+            if (user) {
+                accounts = await UserAssociation.find({ "userId": user._id })
+
+            }
+            success = true
+        }
+
+        ctx.body = {
+            data: user,
+            accounts,
+            success
         }
     }
 }

@@ -5,24 +5,52 @@ import './styles/account.less';
 import { LayoutLeft, LayoutRight, LayoutLR } from '../components/layout/layoutLR';
 import { Button } from '../components/buttons/button'
 import { bindGithub } from '../constants/path'
-import { GITHUB } from '../constants/accountType'
+import { GITHUB, EMAIL } from '../constants/accountType'
+import { Input, Textarea } from "../components/controlled/input"
+import * as SessionActions from "../actions/session"
 @AppContainer
 class AccountContainer extends React.Component<any, any> {
     constructor(props) {
         super(props)
+        let user = this.props.session.toJS().user
+        this.state = {
+            user: user,
+            name: user.name,
+            email: user.email,
+            introduction: user.introduction
+        }
     }
-
-    unbind(type) {
-        console.log("解绑")
+    changeName = (e) => {
+        this.setState({
+            name: e.target.value
+        })
+    }
+    changeIntroduction = (e) => {
+        this.setState({
+            introduction: e.target.value
+        })
+    }
+    changeEmail = (e) => {
+        this.setState({
+            email: e.target.value
+        })
+    }
+    confirmChange = (key) => {
+        let user = this.state.user
+        user[key] = this.state[key]
+        this.props.dispatch(SessionActions.updateUser(user))
     }
 
     render() {
-        const user = this.props.session.toJS().user
+        const user = this.state.user
 
         let githubAccount = null;
+        let emailAccount = null;
         for (let account of user.accounts) {
             if (account.type == GITHUB) {
                 githubAccount = account
+            } else if (account.type == EMAIL) {
+                emailAccount = account
             }
         }
         return (
@@ -32,30 +60,34 @@ class AccountContainer extends React.Component<any, any> {
                         <Box title="姓名">
                             <LayoutLR>
                                 <LayoutLeft>
-                                    <p>{user.name}</p>
+                                    <Input placeholder="请输入您的姓名" value={this.state.name} onChange={this.changeName} />
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { }}>姓名修改</Button>
+                                    <Button onClick={() => { this.confirmChange("name") }}>姓名修改</Button>
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>
                         <Box title="邮箱">
                             <LayoutLR>
                                 <LayoutLeft>
-                                    <p>{user.email}</p>
+                                    {
+                                        !!emailAccount ?
+                                            <p>{this.state.email}</p>
+                                            : <Input placeholder="请输入您的邮箱" value={this.state.email} onChange={this.changeEmail} />
+                                    }
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { }}>邮箱修改</Button>
+                                    {!!emailAccount ? <span>已绑定</span> : <Button onClick={() => { this.confirmChange("email") }}>发送</Button>}
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>
                         <Box title="简介">
                             <LayoutLR>
                                 <LayoutLeft>
-                                    <p>{user.name}</p>
+                                    <Textarea placeholder="请输入您的简介" value={this.state.introduction} onChange={this.changeIntroduction} />
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { }}>简介修改</Button>
+                                    <Button onClick={() => { this.confirmChange("introduction") }}>简介修改</Button>
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>

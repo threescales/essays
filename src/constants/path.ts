@@ -19,6 +19,7 @@ export const updateCount = '/api/article/updateCount'
 //session
 export const login = '/api/user/login'
 export const getUserById = '/api/user'
+export const updateUser = '/api/user/update'
 
 //user
 export const getUserInfo = (userId) => `/api/user/getInfo?userId=${userId}`

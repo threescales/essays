@@ -57,3 +57,23 @@ export const getUserById = () => {
         })
     }
 }
+
+export const updateUser = (user) => {
+    return (dispatch: any, getState: Function) => {
+        let email = user.email
+        let name = user.name
+        let introduction = user.introduction
+
+        return postAjax(Paths.updateUser,{
+            email,name,introduction
+        }).then((result:any) => {
+            if(result.success) {
+                let data = result.data
+                data.accounts = result.accounts
+                dispatch(getUserSuccess(data))                
+            } else {
+                console.error("更新失败")
+            }
+        })
+    }
+}

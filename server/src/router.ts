@@ -47,7 +47,7 @@ export default function (): Router {
     router.put('/api/user', UserController.createUser)
     router.post('/api/user/login', UserController.login)
     router.get('/api/user', UserController.getUserById)
-
+    router.post('/api/user/update',UserController.updateUser)
     router.get('/api/user/getInfo', UserController.getUserInfo)
 
     //article
