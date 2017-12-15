@@ -2,6 +2,8 @@ import { bind } from 'lodash'
 import { getUserFromStorage } from '../utils/cookie'
 import { LOGIN_MODAL } from '../constants/showKey'
 import * as ShowAction from '../actions/show'
+import store from "../store/configure-store";
+
 /**
  * @param  {Function} target
  * @param  {string} key
@@ -18,7 +20,7 @@ export const requireLogin = (target, key: string, descriptor: TypedPropertyDescr
   return {
     configurable: true,
     get() {
-      let user = getUserFromStorage()
+      let user = store.getState().session.toJS().user
       const method: any = descriptor.value
       const openModalLogin = () => this.props.dispatch(ShowAction.show(LOGIN_MODAL))
       let boundFn = bind(method, this)
