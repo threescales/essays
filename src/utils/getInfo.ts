@@ -8,3 +8,7 @@ export function getImageUrl(url, width?, height?) {
     }
     return url
 }
+
+export function setWindowTitle(title= "") {
+    window.document.title = `${title}「随笔」`
+}

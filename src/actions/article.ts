@@ -8,7 +8,7 @@ import {
     UPDATA_ARTICLE_COUNT,
     ARTICLE_INIT
 } from '../constants/index'
-
+import {setWindowTitle} from "../utils/getInfo"
 import { EditorState, convertToRaw, RawDraftContentState } from 'draft-js'
 
 export const getArticleSuccess = (data) => {
@@ -35,7 +35,7 @@ export const getArticleById = (id: string) => {
     return (dispatch: any, getState: Function) => {
         return getAjax(Path.getArticle(id), {
         }).then((result: any) => {
-            window.document.title = result.data.title
+            setWindowTitle(result.data.title)
             dispatch(getArticleSuccess(result.data))
             return result
         })

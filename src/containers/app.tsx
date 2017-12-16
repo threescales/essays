@@ -4,22 +4,23 @@ import * as ShowAction from '../actions/show'
 import { LOGIN_MODAL } from '../constants/showKey'
 import LoginModal from '../components/modal/loginModal'
 import Header from '../components/header/header'
-
+import { setWindowTitle } from "../utils/getInfo"
 export const AppContainer = (Container: any): any =>
     class CommonContainer extends React.Component<any, any> {
         constructor(props) {
             super(props)
         }
         componentWillMount() {
+            setWindowTitle()
             if (!this.props.session.toJS().user) {
                 this.props.dispatch(UserAction.getUserById())
             }
             // this.props.dispatch(ShowAction.show(LOGIN_MODAL))
         }
-        shouldLogin= () => {
+        shouldLogin = () => {
             return window.location.href.indexOf("myarticles") > 0 || window.location.href.indexOf("account") > 0
         }
-        showHeader =() => {
+        showHeader = () => {
             return !(window.location.href.indexOf("/articles") > 0);
         }
         render() {
