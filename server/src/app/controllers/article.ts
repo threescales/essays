@@ -102,9 +102,7 @@ export default class ArticleController {
         }
         if(url.indexOf(ctx.host)>-1){
             let articleId = url.split('/articles/')[1]
-            console.error(articleId)
             let article = await Article.findById(articleId,{body:0})
-            console.error(article)
             data.title = article.title
             data.description = article.description
             data.previewImg = article.cover
