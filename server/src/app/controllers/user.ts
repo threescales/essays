@@ -79,17 +79,24 @@ export default class UserController {
     public static async createUser(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date();
-        const userData = {
-            name: request.name,
-            password: request.password,
-            email: request.account,
-            avatar: request.avatar,
-            isAdmin: request.isAdmin,
-            createTime: nowTime
+        let user = await User.findOne({email:request.account})
+        let data = null;
+        let success = false
+        if(!user) {
+            const userData = {
+                name: request.name,
+                password: request.password,
+                email: request.account,
+                avatar: request.avatar,
+                isAdmin: request.isAdmin,
+                createTime: nowTime
+            }
+            data = await new User(userData).save()
+            let success = true
         }
-        let user = new User(userData)
-        let data = await user.save()
+  
         ctx.body = {
+            success,
             data
         }
     }

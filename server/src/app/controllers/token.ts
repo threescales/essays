@@ -45,6 +45,12 @@ export default class TokenController {
     if (type == "login" && !userId) {
       let userAssociation: any = UserAssociation.findOne({ openid: data.id.toString() })
       userId = userAssociation.userId
+    } else if (type == "bind") {
+      //若已经绑定此github账号，则返回不处理。
+      let userAssociation: any = UserAssociation.findOne({ openid: data.id.toString() })
+      if(userAssociation) {
+        ctx.redirect("/")
+      }      
     }
 
     //获取user
