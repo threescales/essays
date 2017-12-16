@@ -138,7 +138,6 @@ export default class JiglooEditor
     let selectionState = newEditorState.getSelection()
     getAjax(Paths.getPageInfo, { url: block.getText() })
       .then(({data}) => {
-        console.log(data)
         let editorState = this.getEditorState()
         let contentState = editorState.getCurrentContent()
         let newContentState = Modifier
@@ -161,45 +160,25 @@ export default class JiglooEditor
       })
   }
 
-  handleReturn = (e): DraftHandleValue => {
-    const editorState = this.state.editorState;
-    const { contentState, selectionState } = this.getContentAndSelection()
+  // handleReturn = (e): DraftHandleValue => {
+  //   const editorState = this.state.editorState;
+  //   const { contentState, selectionState } = this.getContentAndSelection()
 
-    const blockKey = selectionState.getAnchorKey()
-    const block = contentState.getBlockForKey(blockKey)
+  //   const blockKey = selectionState.getAnchorKey()
+  //   const block = contentState.getBlockForKey(blockKey)
 
-    const entityKey = block.getEntityAt(0);
-    const entity = entityKey ? contentState.getEntity(entityKey) : null;
+  //   const entityKey = block.getEntityAt(0);
+  //   const entity = entityKey ? contentState.getEntity(entityKey) : null;
 
 
-    if (block) {
-      //解析网页 显示预览信息
-      if (isUrl(block.getText())) {
-        this.getPageData(editorState, block)
-      }
-      //shiftKey 如果是markdown则跳出 其余的block内换行
-      if (isSoftNewlineEvent(e)) {
-        if (block.getType() === 'atomic') {
-          return 'handled'
-        } else if (block.getType() === 'code-block') {
-          let newEditorState = focusSelectionAfter(editorState, block.getKey());
-          this.onChange(newEditorState);
-          return 'handled';
-        } else if (block.getType() !== 'unstyled') {
-          this.onChange(RichUtils.insertSoftNewline(editorState))
-          return 'handled'
-        }
-      } else {
-        //如果是引用 回车则新建新的 unstyle  block
-        if (block.getType() === 'blockquote') {
-          let newEditorState = focusSelectionAfter(editorState, block.getKey());
-          this.onChange(newEditorState);
-          return 'handled';
-        }
-      }
-    }
-    return 'not-handled'
-  }
+  //   if (block) {
+  //     //解析网页 显示预览信息
+  //     if (isUrl(block.getText())) {
+  //       this.getPageData(editorState, block)
+  //     }
+  //   }
+  //   return 'not-handled'
+  // }
   //将img标签解析成image block映射算法
   getConvertOptions = () => {
     var { contentState } = this.getContentAndSelection()
@@ -373,7 +352,6 @@ export default class JiglooEditor
           editorState={this.state.editorState}
           onChange={this.onChange}
           plugins={this.props.plugins || []}
-          handleReturn={this.handleReturn}
           handlePastedText={this.handlePastedText}
           handleKeyCommand={cmd => this.handleKeyCommand(cmd)}
           decorators={this.props.decorators || []}

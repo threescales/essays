@@ -10,6 +10,7 @@ import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
 import createLinkifyPlugin from "draft-js-linkify-plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 import createLinkPlugin from 'draft-js-anchor-plugin';
+import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin';
 
 import createCodePlugin from "./plugins/code-highlight/code-light.plugin";
 import { createImagePlugin } from "./plugins/image/index";
@@ -29,6 +30,7 @@ const alignmentPlugin = createAlignmentPlugin();
 const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin()
 const { AlignmentTool } = alignmentPlugin;
+const blockBreakoutPlugin = createBlockBreakoutPlugin()
 
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
@@ -67,6 +69,7 @@ const plugins = [
     colorBlockPlugin,
     imagePlugin,
     linkifyPlugin,
+    blockBreakoutPlugin,
     createCodePlugin({}),
 ];
 
