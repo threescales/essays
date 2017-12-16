@@ -15,11 +15,11 @@ const BACK_SLASH = /\//g
 const mapFileExtensionToLanguage = (name: string) => FILE_EXTENSION_MAP[name] ? FILE_EXTENSION_MAP[name] : name
 export const FILE_EXTENSION_MAP = {
   js: 'javascript',
-  py: 'python',
   css: 'less',
   jsx: 'jsx',
   json: 'json',
-  java: 'java'
+  java: 'java',
+  vim: 'vim'
 }
 
 export const codeHighLightPlugin: EditorPluginBuilder<PluginConfig, Method> = (...args) => {
