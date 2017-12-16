@@ -94,10 +94,28 @@ export default class ArticleController {
     }
     //通过url获取网页预览信息
     public static async getPageInfo(ctx: koa.Context) {
-        let requestData: any = parseGetData(ctx)
-        let data = await rq.get(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshareget_urlinfo?url=${requestData.url}`)
-        const length = data.length - 2
-        data = JSON.parse(data.toString().substring(10, length))
+        let url: any = parseGetData(ctx).url
+        let data = {
+            title:'',
+            description:'',
+            previewImg:''
+        }
+        if(url.indexOf(ctx.host)>-1){
+            let articleId = url.split('/articles/')[1]
+            console.error(articleId)
+            let article = await Article.findById(articleId,{body:0})
+            console.error(article)
+            data.title = article.title
+            data.description = article.description
+            data.previewImg = article.cover
+        }else {
+            let page = await rq.get(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshareget_urlinfo?url=${url}`)
+            const length = page.length - 2
+            page = JSON.parse(page.toString().substring(10, length))
+            data.title = page.title;
+            data.description = page.summary;
+            data.previewImg = page.pics.split('|')[0]
+        }
         ctx.body = {
             data
         }

@@ -141,15 +141,14 @@ export default class JiglooEditor
         console.log(data)
         let editorState = this.getEditorState()
         let contentState = editorState.getCurrentContent()
-        let previewImg = data.pics.split('|')[0]
         let newContentState = Modifier
           .setBlockType(contentState, selectionState, 'atomic')
           .createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
             type: getEntityTypeByUrl(block.getText()),
             title: data.title,
-            description: data.summary,
+            description: data.description,
             src: block.getText(),
-            previewImg
+            previewImg:data.previewImg
           })
         let lastEntityKey = newContentState.getLastCreatedEntityKey()
         newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
