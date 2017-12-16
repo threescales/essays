@@ -16,6 +16,8 @@ import {
   BlockMapBuilder,
   CharacterMetadata,
 } from 'draft-js'
+const isSoftNewlineEvent = require('draft-js/lib/isSoftNewlineEvent');
+
 import { convertFromHTML as customConvertFromHtml } from 'draft-convert'
 
 import { DraftHandleValue } from './interface.editor'
@@ -24,7 +26,7 @@ import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
 import 'draft-js-side-toolbar-plugin/lib/plugin.css'
 import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
-
+import {Block} from './utils/constants'
 import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
@@ -160,7 +162,7 @@ export default class JiglooEditor
       })
   }
 
-  handleReturn = (...args): DraftHandleValue => {
+  handleReturn = (e): DraftHandleValue => {
     const editorState = this.state.editorState;
     const { contentState, selectionState } = this.getContentAndSelection()
 
@@ -177,7 +179,7 @@ export default class JiglooEditor
         this.getPageData(editorState, block)
       }
       //shiftKey 如果是markdown则跳出 其余的block内换行
-      if (args[0].shiftKey) {
+      if (isSoftNewlineEvent(e)) {
         if (block.getType() === 'atomic') {
           return 'handled'
         } else if (block.getType() === 'code-block') {
@@ -229,6 +231,46 @@ export default class JiglooEditor
         if (nodeName === 'img') {
           return {
             type: 'atomic',
+            data: {}
+          }
+        } else if (nodeName === 'h1') {
+          return {
+            type: Block.H1,
+            data: {},
+          };
+        } else if (nodeName === 'h2') {
+          return {
+            type: Block.H2,
+            data: {},
+          };
+        } else if (nodeName === 'h3') {
+          return {
+            type: Block.H3,
+            data: {},
+          };
+        } else if (nodeName === 'h4') {
+          return {
+            type: Block.H3,
+            data: {},
+          };
+        } else if (nodeName === 'h5') {
+          return {
+            type: Block.H3,
+            data: {},
+          };
+        } else if (nodeName === 'h6') {
+          return {
+            type: Block.H3,
+            data: {},
+          };
+        } else if (nodeName === 'blockquote') {
+          return {
+            type: Block.BLOCKQUOTE,
+            data: {},
+          };
+        } else if (nodeName ==='code') {
+          return {
+            type: Block.CODE,
             data: {}
           }
         }
