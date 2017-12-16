@@ -39,7 +39,6 @@ export default class Background extends React.Component<IBackgroundProps, any> {
             className="jigloo-background"
             style={style}>
             {this.props.children}
-            <img src={getImageUrl(this.props.imageUrl)} style={{ height: 1, width: 1, position: "absolute", zIndex: -1, visibility: "hidden", opacity: 0 }} />
             <ProgressBar progress={this.state.progress} />
         </div>
         return (
