@@ -116,12 +116,12 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
                 catalogueBlock.tagName = tagName
                 catalogueBlockList.push(catalogueBlock);
                 let isSeleted = this.state.selectedKey === block.key
-                return <div key={block.key}
+                return <li key={block.key}
                     className={classnames({ "catalogue-item": true, [`catalogue-${block.type}`]: true, 'selected': isSeleted })}
                     onClick={() => this.jump(block.key, tagName)}
                 >
                     {block.text}
-                </div>
+                </li>
             }
             return (
                 null
@@ -131,7 +131,9 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
         return (
             <div className={classnames({ "catalogue": true, "catalogue--moveLeft": this.props.show })}>
                 <a className="catalogue--toggle" onClick={this.toggleShow}><i className="iconfont icon-zhankai"></i></a>
-                {catalist}
+                <ul className="catalogue-list">
+                    {catalist}
+                </ul>
             </div>
         )
     }
