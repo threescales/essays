@@ -1,12 +1,14 @@
 import * as React from 'react'
 import Modal from './components/modal'
 import { createArticle } from '../../actions/article'
-import { getImgUrl } from '../../utils/url'
+import { getImgUrl } from 'utils/url'
 import Background from '../controlled/background'
 import { InputLabel, TextareaLabel } from '../controlled/input'
 import { Button } from '../buttons/button'
 import {ModalFrame,IModalFrameProps} from './components/modalFrame'
-import {requireLogin} from '../../utils/requireLogin'
+import {requireLogin} from 'utils/requireLogin'
+import './styles/createNewArticle.less'
+import toastr from 'utils/toastr'
 interface ICreateNewArticleProps extends IModalFrameProps {
     dispatch
     user
