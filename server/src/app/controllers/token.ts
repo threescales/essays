@@ -86,7 +86,11 @@ export default class TokenController {
     //将userId，token存入cookie，完成登录
     ctx.cookies.set('userId', user._id, cookieSetting)
     ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
-    ctx.redirect("/account")
+    if(type=='bind') {
+      ctx.redirect("/account")      
+    } else {
+      ctx.redirect('/')
+    }
   }
 }
 

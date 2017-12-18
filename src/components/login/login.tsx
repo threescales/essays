@@ -2,6 +2,8 @@ import * as React from 'react'
 import { Input } from '../controlled/input'
 import { Button } from '../buttons/button'
 import * as UserAction from '../../actions/session'
+import { SocialAccounts } from 'app/components/login/socialAccounts';
+
 import './login.less'
 
 interface ILoginProps {
@@ -40,6 +42,7 @@ export default class Login extends React.Component<ILoginProps, any> {
                 <Input value={this.state.account} placeholder="请输入您的账号" onChange={this.toggleAccount} />
                 <Input value={this.state.password} placeholder="请输入您的密码" onChange={this.togglePassword} />
                 <Button onClick={this.login} isActive={this.state.isActive}>登录</Button>
+                <SocialAccounts/>
             </div>
         )
     }

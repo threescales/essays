@@ -1,7 +1,7 @@
 @import '../../../styles/variable.less';
 .login-signup-modal{
     width:400px;
-    min-height: 500px;
+    min-height: 400px;
     .tabs{
         width: 100%;
         height: 30px;
@@ -13,6 +13,10 @@
             &:nth-child(1){
                 border-right: @border;
             }
+        }
+        .selected-tab{
+            font-weight: 700;
+            color:@theme-color;
         }
     }
 }

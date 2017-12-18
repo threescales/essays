@@ -4,6 +4,7 @@ import { Button } from '../buttons/button'
 import * as UserAction from '../../actions/session'
 import toastr from 'utils/toastr'
 import './login.less'
+import { SocialAccounts } from 'app/components/login/socialAccounts';
 
 interface ISignupProps {
     dispatch
@@ -68,7 +69,8 @@ export default class Login extends React.Component<ISignupProps, any> {
                 <Input value={this.state.account} placeholder="请输入您的邮箱" onChange={this.toggleEmail} />
                 <Input value={this.state.password} type="password" placeholder="请输入您的密码" onChange={this.togglePassword} />
                 <Input value={this.state.confirmPassword} type="password" placeholder="请再次输入您的密码" onChange={this.toggleConfirmPassword} />
-                <Button onClick={this.signup} isActive={this.state.isActive}>登录</Button>
+                <Button onClick={this.signup} isActive={this.state.isActive}>注册</Button>
+                <SocialAccounts/>
             </div>
         )
     }
