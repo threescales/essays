@@ -51,8 +51,10 @@ export default class TokenController {
     } else if (type == "bind") {
       //若已经绑定此github账号，则返回不处理。
       let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
+      console.log(`bind user data is:${JSON.stringify(userAssociation)}`)      
       if (userAssociation) {
         ctx.redirect("/")
+        return
       }
     }
 
