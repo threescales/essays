@@ -24,7 +24,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
                 <div className="header-left">
                     {
                         user &&
-                        <OwnerAvatar src={user.avatar} >
+                        <OwnerAvatar src={user.avatar||require('./header.png')} >
                             <Popover>
                                 <UserOpera user={user} dispatch={this.props.dispatch} />
                             </Popover>
