@@ -71,6 +71,10 @@ const prodPlugins = [
     new UglifyJsPlugin({
         uglifyOptions: {
             warnings: false,
+            output: {
+                comments: false,
+                beautify: false
+            }
         },
         sourceMap: true,
     })
