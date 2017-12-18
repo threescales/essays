@@ -46,8 +46,22 @@ export default class Login extends React.Component<ISignupProps, any> {
         let email = this.state.email
         let password = this.state.password
         let confirmPassword = this.state.confirmPassword
+        if(!name||!password||!email) {
+            toastr.error('您还有信息没有填哦');   
+            return         
+        }
+
         if(password!=confirmPassword) {
             toastr.error('两次输入的密码不一样');
+            return
+        }
+
+        if(name.length>7) {
+            toastr.error('昵称长度最多为7位哦')
+            return
+        }
+        if(password.length<6) {
+            toastr.error('密码长度不能少于6位哦')
             return
         }
         this.setState({

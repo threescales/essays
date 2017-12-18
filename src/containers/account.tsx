@@ -38,6 +38,14 @@ class AccountContainer extends React.Component<any, any> {
     confirmChange = (key) => {
         let user = this.state.user
         user[key] = this.state[key]
+        if (!user.name) {
+            toastr.error('昵称不能为空哦')
+            return
+        }
+        if (user.name.length > 7) {
+            toastr.error('昵称长度最多为7位哦')
+            return
+        }
         this.props.dispatch(SessionActions.updateUser(user))
     }
     sendEmail = () => {
@@ -67,7 +75,7 @@ class AccountContainer extends React.Component<any, any> {
                                     <Input placeholder="请输入您的姓名" value={this.state.name} onChange={this.changeName} />
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { this.confirmChange("name") }}>姓名修改</Button>
+                                    <Button onClick={() => { this.confirmChange("name") }}>确定</Button>
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>
@@ -88,10 +96,10 @@ class AccountContainer extends React.Component<any, any> {
                         <Box title="简介">
                             <LayoutLR>
                                 <LayoutLeft>
-                                    <Textarea placeholder="请输入您的简介" value={this.state.introduction} onChange={this.changeIntroduction} />
+                                    <Textarea placeholder="请输入您的简介" value={this.state.introduction || ''} onChange={this.changeIntroduction} />
                                 </LayoutLeft>
                                 <LayoutRight>
-                                    <Button onClick={() => { this.confirmChange("introduction") }}>简介修改</Button>
+                                    <Button onClick={() => { this.confirmChange("introduction") }}>确定</Button>
                                 </LayoutRight>
                             </LayoutLR>
                         </Box>
