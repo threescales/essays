@@ -32,6 +32,7 @@ export default class TokenController {
     //校验用户
     if ((!userId || userToken != getRememberMeToken(userId)) && type == 'bind') {
       ctx.redirect("/")
+      return
     }
 
     //获取github信息
