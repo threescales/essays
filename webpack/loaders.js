@@ -82,3 +82,10 @@ function makeUrlLoader(pattern) {
         exclude: /node_modules/,
     };
 }
+
+exports.img = {
+    test: /\.png$/,
+    use: {
+        loader: 'file-loader'
+    }
+}
