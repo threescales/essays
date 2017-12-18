@@ -79,24 +79,39 @@ export default class UserController {
     public static async createUser(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date();
-        let user = await User.findOne({email:request.account})
-        let data = null;
-        let success = false
-        if(!user) {
+        let user = await User.findOne({ email: request.account })
+        let data = user;
+        let success = false;
+        let message = '';
+        let email = request.account       
+        //查询此邮箱是否已被注册 
+        if (!user) {
+            let password = md5(request.password)
             const userData = {
                 name: request.name,
-                password: request.password,
+                password: password,
                 email: request.account,
-                avatar: request.avatar,
-                isAdmin: request.isAdmin,
+                isAdmin: false,
                 createTime: nowTime
             }
             data = await new User(userData).save()
             let success = true
         }
-  
+
+        //邮箱若没绑定则重新发送邮件
+        let userAssociation = UserAssociation.find({ userId: data._id })
+        if (userAssociation) {
+            let url = ctx.request.origin
+            url = `${url}/validate/change_email?uid=${data._id}&authcode=${getAuthcode(data._id)}`
+            sendMail(email, '验证您的邮箱', url)
+            message = '发送邮件成功'
+        } else {
+            message = "该邮箱已被注册"
+        }
+
         ctx.body = {
             success,
+            message,
             data
         }
     }
