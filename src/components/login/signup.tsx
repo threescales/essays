@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Input } from '../controlled/input'
 import { Button } from '../buttons/button'
 import * as UserAction from '../../actions/session'
+import toastr from 'utils/toastr'
 import './login.less'
 
 interface ISignupProps {
@@ -44,10 +45,14 @@ export default class Login extends React.Component<ISignupProps, any> {
         let email = this.state.email
         let password = this.state.password
         let confirmPassword = this.state.confirmPassword
+        if(password!=confirmPassword) {
+            toastr.error('两次输入的密码不一样');
+            return
+        }
         this.setState({
             isActive: true
         }, () => {
-            this.props.dispatch(UserAction.login(email, password)).then(() => {
+            this.props.dispatch(UserAction.signup(email, password,name)).then(() => {
                 this.setState({
                     isActive: false
                 })

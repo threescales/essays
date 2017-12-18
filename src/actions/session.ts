@@ -2,8 +2,9 @@ import {
     LOGIN_USER_SUCCESS,
     LOGIN_OUT
 } from "../constants";
-import { postAjax, getAjax } from '../utils/ajax'
+import { postAjax, getAjax,putAjax } from '../utils/ajax'
 import * as Paths from '../constants/path'
+import toastr from 'utils/toastr'
 import { saveUserToStorage, getUserFromStorage, getCookie, delCookie, delUserFromStorage } from "../utils/cookie"
 export const getUserSuccess = (data) => {
     return {
@@ -28,13 +29,26 @@ export const login = (account, password) => {
                     data.accounts = result.accounts
                     dispatch(getUserSuccess(data))
                 } else {
-                    console.error("登录失败，账号或密码不正确")
+                    toastr.error('登录失败，请重新登录')
                 }
             }).error(res => {
-                console.error('登录失败')
             })
     }
 };
+
+export const signup = (email,password,name) => {
+    return(dispatch:any,getState:Function) => {
+        return putAjax(Paths.signup,{
+            account:email,password,name
+        }).then((result:any) => {
+            if(result.success) {
+                toastr.success('注册成功，请确认您的邮件完成注册')
+            } else {
+                toastr.error(result.message)
+            }
+        })
+    }
+}
 
 export const getUserById = () => {
     return (dispatch: any, getState: Function) => {
@@ -49,11 +63,8 @@ export const getUserById = () => {
                 let data = result.data
                 data.accounts = result.accounts
                 dispatch(getUserSuccess(data))
-            } else {
-                console.error("登录失败，账号或密码不正确")
             }
         }).error(res => {
-            console.error('查询失败')
         })
     }
 }
@@ -72,7 +83,7 @@ export const updateUser = (user) => {
                 data.accounts = result.accounts
                 dispatch(getUserSuccess(data))
             } else {
-                console.error("更新失败")
+                toastr.error("修改信息失败")
             }
         })
     }
@@ -90,7 +101,7 @@ export const sendMail = (user) => {
 
                 postAjax(Paths.sendEmail, { userId: user._id, type: 'email' }).then((res: any) => {
                     if (res.success) {
-                        console.log("发送邮件成功")
+                        toastr.success("发送邮件成功")
                     }
                 })
 
@@ -99,7 +110,7 @@ export const sendMail = (user) => {
                 data.accounts = result.accounts
                 dispatch(getUserSuccess(data))
             } else {
-                console.error("更新失败")
+                toastr.error("发送失败，请重新发送")
             }
         })
     }

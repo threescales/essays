@@ -20,6 +20,7 @@ export const toggleArticlePublish = '/api/article/togglePublish'
 export const updateCount = '/api/article/updateCount'
 //session
 export const login = '/api/user/login'
+export const signup = '/api/user'
 export const getUserById = '/api/user'
 export const updateUser = '/api/user/update'
 
