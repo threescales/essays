@@ -79,11 +79,11 @@ export default class UserController {
     public static async createUser(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date();
-        let user = await User.findOne({ email: request.account })
+        let email = request.account               
+        let user = await User.findOne({ email: email })
         let data = user;
         let success = false;
         let message = '';
-        let email = request.account       
         //查询此邮箱是否已被注册 
         if (!user) {
             let password = md5(request.password)
@@ -99,7 +99,7 @@ export default class UserController {
         }
 
         //邮箱若没绑定则重新发送邮件
-        let userAssociation = await UserAssociation.find({ userId: data._id })
+        let userAssociation = await UserAssociation.findOne({ userId: data._id })
         if (!userAssociation) {
             let url = ctx.request.origin
             url = `${url}/validate/change_email?uid=${data._id}&authcode=${getAuthcode(data._id)}`
