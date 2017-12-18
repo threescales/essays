@@ -39,7 +39,7 @@ export default class Login extends React.Component<ILoginProps, any> {
     render() {
         return (
             <div className="login-frame">
-                <Input value={this.state.account} placeholder="请输入您的账号" onChange={this.toggleAccount} />
+                <Input value={this.state.account} placeholder="请输入您的邮箱" onChange={this.toggleAccount} />
                 <Input value={this.state.password} placeholder="请输入您的密码" onChange={this.togglePassword} />
                 <Button onClick={this.login} isActive={this.state.isActive}>登录</Button>
                 <SocialAccounts/>

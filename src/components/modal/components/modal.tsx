@@ -13,7 +13,7 @@ export default class CustomModal extends React.Component<ICustomModalProps, any>
     }
     render() {
         return (
-            <Modal isOpen={this.props.isOpen} contentLabel={this.props.contentLabel} className="modal-frame">
+            <Modal isOpen={this.props.isOpen} contentLabel={this.props.contentLabel} className="modal-frame" style={{overlay:{zIndex:10}}}>
                 <a className="close-modal" onClick={this.props.close}><i className="iconfont icon-cha"></i></a>
                 {this.props.children}
             </Modal>
