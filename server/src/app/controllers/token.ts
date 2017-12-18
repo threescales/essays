@@ -44,7 +44,9 @@ export default class TokenController {
     //通过github授权获取的id获取userId
     if (type == "login" && !userId) {
       let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
-      userId = userAssociation.userId
+      if(userAssociation) {
+        userId = userAssociation.userId        
+      }
     } else if (type == "bind") {
       //若已经绑定此github账号，则返回不处理。
       let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
