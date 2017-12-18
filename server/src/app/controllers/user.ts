@@ -99,7 +99,7 @@ export default class UserController {
         }
 
         //邮箱若没绑定则重新发送邮件
-        let userAssociation = UserAssociation.find({ userId: data._id })
+        let userAssociation = await UserAssociation.find({ userId: data._id })
         if (userAssociation) {
             let url = ctx.request.origin
             url = `${url}/validate/change_email?uid=${data._id}&authcode=${getAuthcode(data._id)}`

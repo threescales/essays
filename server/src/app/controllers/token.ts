@@ -43,14 +43,14 @@ export default class TokenController {
 
     //通过github授权获取的id获取userId
     if (type == "login" && !userId) {
-      let userAssociation: any = UserAssociation.findOne({ openid: data.id.toString() })
+      let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
       userId = userAssociation.userId
     } else if (type == "bind") {
       //若已经绑定此github账号，则返回不处理。
-      let userAssociation: any = UserAssociation.findOne({ openid: data.id.toString() })
-      if(userAssociation) {
+      let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
+      if (userAssociation) {
         ctx.redirect("/")
-      }      
+      }
     }
 
     //获取user
@@ -67,10 +67,11 @@ export default class TokenController {
       }
       user = new User(userData)
       user = await user.save()
+      userId = user._id
     }
 
     //获取用户关联的github
-    let oldUserAssociation = await UserAssociation.findOne({ userId: user._id, type: 'github' })
+    let oldUserAssociation = await UserAssociation.findOne({ userId: userId, type: 'github' })
     if (!oldUserAssociation) {
       let userAssociationData = {
         userId: userId,
@@ -80,14 +81,14 @@ export default class TokenController {
         createTime: new Date()
       }
       let userAssociation = new UserAssociation(userAssociationData)
-      let result = userAssociation.save()
+      let result = await userAssociation.save()
     }
 
     //将userId，token存入cookie，完成登录
     ctx.cookies.set('userId', user._id, cookieSetting)
     ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
-    if(type=='bind') {
-      ctx.redirect("/account")      
+    if (type == 'bind') {
+      ctx.redirect("/account")
     } else {
       ctx.redirect('/')
     }
