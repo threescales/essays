@@ -95,7 +95,6 @@ export default class UserController {
                 createTime: nowTime
             }
             data = await new User(userData).save()
-            let success = true
         }
 
         //邮箱若没绑定则重新发送邮件
@@ -105,8 +104,10 @@ export default class UserController {
             url = `${url}/validate/change_email?uid=${data._id}&authcode=${getAuthcode(data._id)}`
             sendMail(email, '验证您的邮箱', url)
             message = '发送邮件成功'
+            success = true
         } else {
             message = "该邮箱已被注册"
+            success = false
         }
 
         ctx.body = {
