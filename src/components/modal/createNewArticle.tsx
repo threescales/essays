@@ -71,7 +71,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
                     <InputLabel value={this.state.title} onChange={this.toggleTitle} placeholder="请输入文章标题" label="标题：" />
                     <TextareaLabel placeholder="请输入文章简介" onChange={this.toggleDescription} value={this.state.description} label="简介：" />
                     <InputLabel value={this.state.tag} onChange={this.toggleTag} placeholder="请输入文章标签" label="标签：" />
-                    <div style={{ width: '400px', height: '200px' }}>
+                    <div style={{ width: '400px', height: '200px',marginTop:'10px',borderRadius:'4px' }}>
                         <Background isEditable={true} uploadFinishCallback={this.toggleCover} imageUrl={this.state.cover} />
                     </div>
                     <div style={{ textAlign: 'center' }}>
