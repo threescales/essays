@@ -8,6 +8,7 @@ export interface IArticleModel extends IArticle, Document {
 }
 
 export const ArticleSchema: Schema = new Schema({
+    index: Number,
     userId: String,
     title: String,
     description: String,
@@ -16,9 +17,10 @@ export const ArticleSchema: Schema = new Schema({
     createTime: Date,
     updateTime: Date,
     isPublish: Boolean,
+    isOpen:Boolean,
     tag: String,
     readNum: Number,
-    likeNum: Number
+    likeNum: Number,
 })
 
 export const Article: Model<IArticleModel> = model<IArticleModel>('Article', ArticleSchema);

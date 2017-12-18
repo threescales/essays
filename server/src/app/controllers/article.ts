@@ -18,6 +18,7 @@ export default class ArticleController {
             createTime: nowTime,
             updateTime: nowTime,
             isPublish: false,
+            isOpen: false,
             tag: request.tag,
             readNum: 0,
             likeNum: 0
@@ -56,7 +57,7 @@ export default class ArticleController {
     }
 
     public static async getAllArticles(ctx: koa.Context) {
-        let data = await Article.find({ isPublish: true }, { body: 0 }).sort({ "_id": -1 })
+        let data = await Article.find({ isPublish: true, isOpen: true }, { body: 0 }).sort({ "createTime": -1 })
         ctx.body = {
             data
         }
@@ -96,17 +97,17 @@ export default class ArticleController {
     public static async getPageInfo(ctx: koa.Context) {
         let url: any = parseGetData(ctx).url
         let data = {
-            title:'',
-            description:'',
-            previewImg:''
+            title: '',
+            description: '',
+            previewImg: ''
         }
-        if(url.indexOf(ctx.host)>-1){
+        if (url.indexOf(ctx.host) > -1) {
             let articleId = url.split('/articles/')[1]
-            let article = await Article.findById(articleId,{body:0})
+            let article = await Article.findById(articleId, { body: 0 })
             data.title = article.title
             data.description = article.description
             data.previewImg = article.cover
-        }else {
+        } else {
             let page = await rq.get(`https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshareget_urlinfo?url=${url}`)
             const length = page.length - 2
             page = JSON.parse(page.toString().substring(10, length))

@@ -9,7 +9,7 @@ import * as ArticleAction from "../../actions/article"
 import * as ShowAction from "../../actions/show"
 import { requireLogin } from '../../utils/requireLogin'
 import { EDITOR } from "../../constants/showKey"
-import {Logo} from '../logo/logo'
+import { Logo } from '../logo/logo'
 
 interface IBookHeaderProps {
     article
@@ -56,7 +56,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
         return (
             [
                 <div className="article-header" key="header">
-                    <Logo className="return-index"/>
+                    <Logo className="return-index" />
                     <Background
                         imageUrl={article.cover}
                         isEditable={false}
@@ -78,17 +78,15 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
                     <div className="header-left">
 
                     </div>
-                    <div className="header-right">
-                        {this.props.isOwner && <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>}
-                        {
-                            this.props.isOwner &&
-                            this.props.article &&
-                            user.isAdmin &&
+                    {
+                        this.props.isOwner &&
+                        <div className="header-right">
+                            <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>
                             <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
-                        }
-                    </div>
+                        </div>
+                    }
                 </div>
-           ]
+            ]
         )
     }
 }
