@@ -39,10 +39,11 @@ export default class TokenController {
     const client_secret = config.github_secret
     let access_token = await OAuthUtils.getGithubAccessToken(code, client_id, client_secret)
     let data = await OAuthUtils.getGithubData(access_token);
-    console.log(`github get data is :${data.toString()}`)
+    console.log(`github get data is :${JSON.stringify(data)}`)
 
     //通过github授权获取的id获取userId
     if (type == "login" && !userId) {
+      console.log(data.id)
       let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
       if (userAssociation) {
         userId = userAssociation.userId
