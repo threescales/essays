@@ -55,11 +55,23 @@ export default class UserController {
     public static async login(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let password = md5(request.password)
-        const loginData = {
-            email: request.account,
-            password
+
+        let userAssociation = await UserAssociation.findOne({ openid: request.account })
+        if (!userAssociation) {
+            ctx.body = {
+                success: false,
+                data: '请先验证您的邮箱',
+            }
+            return
         }
-        let data: any = await User.findOne(loginData)
+        let data: any = await User.findById(userAssociation.userId)
+        if (data.password != password) {
+            ctx.body = {
+                success: false,
+                data: '您输入的密码有误，请重新输入',
+            }
+            return
+        }
         let success = false
         let accounts = []
         if (data) {
@@ -79,7 +91,7 @@ export default class UserController {
     public static async createUser(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date();
-        let email = request.account               
+        let email = request.account
         let user = await User.findOne({ email: email })
         let data = user;
         let success = false;
