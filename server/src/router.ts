@@ -52,7 +52,7 @@ export default function (): Router {
     router.get('/api/pageInfo', ArticleController.getPageInfo)
     //user
     // router.post('/api/user', UserController.getUserByName)
-    router.put('/api/user', UserController.createUser)
+    // router.put('/api/user', UserController.createUser)
     router.post('/api/user/login', UserController.login)
     router.get('/api/user', UserController.getUserById)
     router.post('/api/user/update', UserController.updateUser)

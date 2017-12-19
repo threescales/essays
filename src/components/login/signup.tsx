@@ -6,6 +6,7 @@ import toastr from 'utils/toastr'
 import './login.less'
 import { SocialAccounts } from 'app/components/login/socialAccounts';
 import * as ValidateUtils from 'utils/validate'
+import { loginGithub } from '../../constants/path'
 interface ISignupProps {
     dispatch
     closeModal?
@@ -74,10 +75,13 @@ export default class Login extends React.Component<ISignupProps, any> {
         })
 
     }
+    signupByGithub = () => {
+        window.location.href = loginGithub
+    }
     render() {
         return (
             <div className="login-frame">
-                <ValidateInput
+                {/* <ValidateInput
                     value={this.state.name}
                     placeholder="请输入您的昵称"
                     onChange={this.toggleName}
@@ -124,8 +128,8 @@ export default class Login extends React.Component<ISignupProps, any> {
                         ]
                     }
                 />
-                <Button onClick={this.signup} isActive={this.state.isActive}>注册</Button>
-                <SocialAccounts />
+                <Button onClick={this.signup} isActive={this.state.isActive}>注册</Button> */}
+                <Button onClick={this.signupByGithub} ><i className="iconfont icon-github" style={{marginRight:'20px'}}></i>Signup By GitHub</Button>
             </div>
         )
     }
