@@ -14,7 +14,9 @@ import { updateCSRFToken, CSRFSettings } from './middlewares/csrf'
 import sessionSettings from './middlewares/session'
 import koaViews = require('koa-views')
 import session = require('koa-session')
+import limit = require('koa-limit');
 
+import { read } from 'fs';
 
 const app = new Koa();
 const router = routerFactory();
@@ -38,11 +40,14 @@ app.use(function* (next) {
 
 app.use(helmet())
 app.use(logger())
-
+app.use(limit({
+  limit: 10,
+  interval: 1000 * 5
+}))
 /**
  * Add session support
  */
-app.use(session(sessionSettings,app));
+app.use(session(sessionSettings, app));
 
 app.use(bodyParser())
 /**

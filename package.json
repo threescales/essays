@@ -122,6 +122,7 @@
         "koa-helmet": "^3.3.0",
         "koa-json": "^2.0.2",
         "koa-jwt": "^3.2.2",
+        "koa-limit": "^1.0.2",
         "koa-logger": "^3.1.0",
         "koa-logs-full": "0.0.8",
         "koa-morgan": "^1.0.1",
