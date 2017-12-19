@@ -129,7 +129,7 @@ export default class Login extends React.Component<ISignupProps, any> {
                     }
                 />
                 <Button onClick={this.signup} isActive={this.state.isActive}>注册</Button> */}
-                <Button onClick={this.signupByGithub} ><i className="iconfont icon-github" style={{marginRight:'20px'}}></i>Signup By GitHub</Button>
+                <Button onClick={this.signupByGithub} ><i className="iconfont icon-github" style={{marginRight:'20px'}}></i>Signup by gitHub</Button>
             </div>
         )
     }

@@ -1,4 +1,5 @@
 @import '../../../styles/screen.less';
+@import '../../../styles/variable.less';
 .modal-frame{
     position: absolute;
     background: #fff;
@@ -10,6 +11,7 @@
     margin-right: -50%;
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
+    border:@border;
     @media @phone{
         width: 80%;
     }
