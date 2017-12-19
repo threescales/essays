@@ -80,7 +80,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
                     <div style={{ width: '400px', height: '200px',marginTop:'10px',borderRadius:'4px' }}>
                         <Background isEditable={true} uploadFinishCallback={this.toggleCover} imageUrl={this.state.cover} />
                     </div>
-                    <div style={{ textAlign: 'center' }}>
+                    <div style={{ textAlign: 'center',marginTop:'10px' }}>
                         <Button onClick={this.createArticle} isActive={this.state.isActive}>创建文章</Button>
                     </div>
                 </Modal>

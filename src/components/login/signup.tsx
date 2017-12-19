@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { Input } from '../controlled/input'
+import { ValidateInput } from '../controlled/input'
 import { Button } from '../buttons/button'
 import * as UserAction from '../../actions/session'
 import toastr from 'utils/toastr'
 import './login.less'
 import { SocialAccounts } from 'app/components/login/socialAccounts';
-
+import * as ValidateUtils from 'utils/validate'
 interface ISignupProps {
     dispatch
     closeModal?
@@ -41,33 +41,31 @@ export default class Login extends React.Component<ISignupProps, any> {
             name: e.target.value
         })
     }
+    checkPassword = (confirmPasswor) => {
+        if (confirmPasswor != this.state.password) {
+            return true
+        }
+        return false
+    }
     signup = () => {
         let name = this.state.name
         let email = this.state.email
         let password = this.state.password
         let confirmPassword = this.state.confirmPassword
-        if(!name||!password||!email) {
-            toastr.error('您还有信息没有填哦');   
-            return         
-        }
 
-        if(password!=confirmPassword) {
-            toastr.error('两次输入的密码不一样');
+        if (window.document.getElementsByClassName("validate-message").length > 0) {
             return
         }
 
-        if(name.length>7) {
-            toastr.error('昵称长度最多为7位哦')
+        if (!name || !password || !email || !confirmPassword) {
+            toastr.error('您还有信息没有填哦~');
             return
         }
-        if(password.length<6) {
-            toastr.error('密码长度不能少于6位哦')
-            return
-        }
+
         this.setState({
             isActive: true
         }, () => {
-            this.props.dispatch(UserAction.signup(email, password,name)).then(() => {
+            this.props.dispatch(UserAction.signup(email, password, name)).then(() => {
                 this.setState({
                     isActive: false
                 })
@@ -79,12 +77,55 @@ export default class Login extends React.Component<ISignupProps, any> {
     render() {
         return (
             <div className="login-frame">
-                <Input value={this.state.name} placeholder="请输入您的昵称" onChange={this.toggleName} />
-                <Input value={this.state.account} placeholder="请输入您的邮箱" onChange={this.toggleEmail} />
-                <Input value={this.state.password} type="password" placeholder="请输入您的密码" onChange={this.togglePassword} />
-                <Input value={this.state.confirmPassword} type="password" placeholder="请再次输入您的密码" onChange={this.toggleConfirmPassword} />
+                <ValidateInput
+                    value={this.state.name}
+                    placeholder="请输入您的昵称"
+                    onChange={this.toggleName}
+                    validations={
+                        [
+                            { message: '昵称不能为空哦~', verify: ValidateUtils.isEmpty },
+                            { message: '昵称不能超过20个字符', verify: ValidateUtils.checkNameLength },
+                            { message: '昵称不能包含特殊字符哦~', verify: ValidateUtils.checkQuote },
+                        ]
+                    }
+                />
+                <ValidateInput
+                    value={this.state.email}
+                    placeholder="请输入您的邮箱"
+                    onChange={this.toggleEmail}
+                    validations={
+                        [
+                            { message: '邮箱不能为空~', verify: ValidateUtils.isEmpty },
+                            { message: '请输入正确格式的邮箱~', verify: ValidateUtils.checkIsNotEmail }
+                        ]
+                    }
+                />
+                <ValidateInput
+                    value={this.state.password}
+                    type="password"
+                    placeholder="请输入您的密码"
+                    onChange={this.togglePassword}
+                    validations={
+                        [
+                            { message: '密码不能为空哦~', verify: ValidateUtils.isEmpty },
+                            { message: '请输入6~20位密码', verify: ValidateUtils.checkPasswordLength }
+                        ]
+                    }
+                />
+                <ValidateInput
+                    value={this.state.confirmPassword}
+                    type="password"
+                    placeholder="请再次输入您的密码"
+                    onChange={this.toggleConfirmPassword}
+                    validations={
+                        [
+                            { message: '确认密码不能为空哦~', verify: ValidateUtils.isEmpty },
+                            { message: '两次密码不一致', verify: this.checkPassword }
+                        ]
+                    }
+                />
                 <Button onClick={this.signup} isActive={this.state.isActive}>注册</Button>
-                <SocialAccounts/>
+                <SocialAccounts />
             </div>
         )
     }

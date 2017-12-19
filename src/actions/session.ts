@@ -31,6 +31,7 @@ export const login = (account, password) => {
                 } else {
                     toastr.error('登录失败，请重新登录')
                 }
+                return result                
             }).error(res => {
             })
     }
