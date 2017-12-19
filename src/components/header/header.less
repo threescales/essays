@@ -24,14 +24,19 @@
         display: inline-block;
     }
     .header-left{
-        width: 30%;
+        width: auto;
         text-align: left;
         button{
             margin-left:10px;
         }
+        .popover{
+            &:before,&:after{
+                left:10px;
+            }
+        }
     }
     .header-center{
-        width: 40%;
+        width: 100%;
         text-align: center;
         line-height: 35px;
         font-size: 28px;
@@ -50,7 +55,7 @@
         }
     }
     .header-right{
-        width:30%;
+        width:auto;
         text-align: right;
     }
     img{
