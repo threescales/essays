@@ -10,7 +10,6 @@ export const getUserInfo = (userId) => {
         return getAjax(Path.getUserInfo(userId)).then((result: any) => {
             let user = result.data
             let accounts = result.accounts
-            user.accounts = accounts
             dispatch({
                 type: GET_USER_INFO,
                 data: user

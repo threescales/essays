@@ -10,7 +10,6 @@ import * as ShowAction from "../../actions/show"
 import { requireLogin } from '../../utils/requireLogin'
 import { EDITOR } from "../../constants/showKey"
 import { Logo } from '../logo/logo'
-
 interface IBookHeaderProps {
     article
     dispatch
@@ -48,7 +47,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
         }
     }
     toogleArticlePublish = () => {
-        this.props.dispatch(ArticleAction.toggleArticlePublish(this.props.article._id, !this.props.article.isPublish))
+        this.props.dispatch(ArticleAction.toggleArticlePublish(this.props.article.id, !this.props.article.isPublished))
     }
     render() {
         let article = this.props.article
@@ -82,7 +81,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
                         this.props.isOwner &&
                         <div className="header-right">
                             <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>
-                            <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublish ? '下架' : '发布'}</Button>
+                            <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublished? '下架' : '发布'}</Button>
                         </div>
                     }
                 </div>

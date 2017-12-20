@@ -16,7 +16,7 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
         case UPDATE_ARTICLE_BODY_SUCCESS:
             return state.merge(fromJS({ body: action.body }))
         case TOGGLE_ARITCLE_PUBLISH:
-            return state.merge(fromJS({ isPublish: action.isPublish }))
+            return state.merge(fromJS({ isPublished: action.isPublished }))
         case UPDATA_ARTICLE_COUNT:
             return state
         case ARTICLE_INIT:

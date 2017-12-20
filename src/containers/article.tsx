@@ -32,7 +32,7 @@ class App extends React.Component<any, any> {
     componentWillMount() {
         this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId)).then((res)=> {
             if(res&&res.data) {
-                this.props.dispatch(UserAction.getUserInfo(res.data.userId))                
+                this.props.dispatch(UserAction.getUserInfo(res.data.ownerId))                
             }
         })
     }
@@ -59,7 +59,7 @@ class App extends React.Component<any, any> {
         let article = this.props.article.toJS()
         let editorState = this.props.editorState
         let currentUser = this.props.session.toJS().user
-        let isOwner = currentUser && article.userId === currentUser._id
+        let isOwner = currentUser && article.ownerId === currentUser.id
         let owner = this.props.user.toJS()
         return (
             <div className="animated fadeInLeft">
@@ -89,7 +89,7 @@ class App extends React.Component<any, any> {
 function mapStateToProps(state: any, props: any) {
     let editorState = null;
     if (!state.article.isEmpty()) {
-        let contentState = JSON.parse(state.article.toJS().body)
+        let contentState = state.article.toJS().body
         editorState = contentState ? EditorState.createWithContent(convertFromRaw(contentState)) : null
     }
     return assign(state, { editorState })

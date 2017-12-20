@@ -19,7 +19,7 @@ export default class ArticleCard extends React.PureComponent<IArticleCardProps, 
         this.setState({
             showAnimate: true
         }, () => {
-            let articleId = this.props.article._id
+            let articleId = this.props.article.id
             let history = this.props.history
             setTimeout(function () {
                 history.push(`/articles/${articleId}`)
@@ -35,10 +35,10 @@ export default class ArticleCard extends React.PureComponent<IArticleCardProps, 
                 onClick={this.jump}
             >
                 <div className="left-info">
-                    <time>{`by:${getDate(article.createTime)}`}</time>
+                    <time>{`by:${getDate(article.createdAt)}`}</time>
                 </div>
                 <div className="right-info">
-                    {!article.isPublish && <span>未发布</span>}
+                    {!article.isPublished && <span>未发布</span>}
                 </div>
                 <img src={getImageUrl(article.cover, 750, 400)} />
                 <article>

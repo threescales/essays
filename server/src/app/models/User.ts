@@ -1,29 +1,48 @@
-import { Document, Schema, Model, model } from "mongoose";
-import { IUser } from '../interfaces/user'
-import { resolve } from "../../../../node_modules/@types/bluebird/index";
-export interface IUserModel extends IUser, Document {
-    findUsersByName(name: string): any
+import Sequelize = require("sequelize")
+export interface UserInstance extends Sequelize.Instance<any> {
+
 }
-export const UserSchema: Schema = new Schema({
-    name: String,
-    password: String,
-    phone:String,
-    email:String,
-    createTime: Date,
-    avatar: String,
-    introduction:String,
-    isAdmin: Boolean
-})
 
-UserSchema.method('findUsersByName', function (name: String) {
-    return new Promise((resolve, reject) => {
-        this.model('User').find({ name }, (error, users) => {
-            resolve({
-                error, data: users
-            })
-        })
-    });
-})
-
-export const User: Model<IUserModel> = model<IUserModel>('User', UserSchema);
-export default User
+export default (sequelize:Sequelize.Sequelize,DataTypes:Sequelize.DataTypes) => {
+    const User: any = sequelize.define<UserInstance,any>('user',{
+        name:{
+            type:DataTypes.STRING,
+            field:'name',
+            allowNull:true,
+        },
+        password:{
+            type:DataTypes.STRING,
+            field:'password',
+            allowNull:true,
+        },
+        phone:{
+            type:DataTypes.STRING,
+            field:'phone',
+            allowNull:true,
+        },
+        email:{
+            type:DataTypes.STRING,
+            field:'email',
+            allowNull:true,
+        },
+        avatar:{
+            type:DataTypes.STRING,
+            field:'avatar',
+            allowNull:true,
+        },
+        introduction:{
+            type:DataTypes.STRING,
+            field:'introduction',
+            allowNull:true,
+        },
+        isAdmin:{
+            type:DataTypes.BOOLEAN,
+            field:'is_admin',
+            allowNull:false
+        }
+    },{
+        tableName:'user',
+        timestamps:true
+    })
+    return User;
+}    

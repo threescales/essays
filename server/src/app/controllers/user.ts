@@ -1,7 +1,10 @@
 import koa = require('koa')
 
-import { User } from '../models/User';
-import { UserAssociation } from '../models/UserAssociation'
+import Sequelize = require('sequelize')
+import Model from '../models/index'
+
+const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
+const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts']
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getExpires, maxAge } from '../utils/date'
 import { getRememberMeToken, getAuthcode } from '../utils/encryption'
@@ -12,35 +15,39 @@ const cookieSetting = { maxAge: maxAge, overwrite: false, expires: getExpires(),
 export default class UserController {
     public static async getUserByName(ctx: koa.Context) {
         const { name } = ctx.request.header
-        let UserInstants = new User()
-        let result = await UserInstants.findUsersByName(name)
+
         ctx.body = {
-            result
+            name
         }
     }
     public static async getUserById(ctx: koa.Context) {
         let userId = ctx.cookies.get('userId')
         let token = ctx.cookies.get('essays_rememberMe_token')
-        let user: any = await User.findById(userId)
+        let user: any = await User.findById(userId, {
+            include: [
+                { model: Accounts, as: 'accounts' }
+            ]
+        })
         let data = null
         let accounts = []
         let success = false
         if (token === getRememberMeToken(userId)) {
             data = user
             success = true
-            accounts = await UserAssociation.find({ "userId": data._id })
         }
         ctx.body = {
             success,
-            data,
-            accounts
+            data
         }
     }
 
     public static async getUserInfo(ctx: koa.Context) {
         let userId = parseGetData(ctx).userId
-        let user: any = await User.findById(userId)
-        let userAssociation: any = await UserAssociation.find({ userId: userId })
+        let user: any = await User.findById(userId, {
+            include: [
+                { model: Accounts, as: 'accounts' }
+            ]
+        })
 
         user.password = null;
         user.phone = null;
@@ -48,7 +55,6 @@ export default class UserController {
         ctx.body = {
             success: true,
             data: user,
-            accounts: userAssociation || []
         }
     }
 
@@ -56,15 +62,19 @@ export default class UserController {
         let request: any = await parsePostData(ctx)
         let password = md5(request.password)
 
-        let userAssociation = await UserAssociation.findOne({ openid: request.account })
-        if (!userAssociation) {
+        let account: any = await Accounts.findOne({ where: { openid: request.account, type: 'email' } })
+        if (!account) {
             ctx.body = {
                 success: false,
                 data: '请先验证您的邮箱',
             }
             return
         }
-        let data: any = await User.findById(userAssociation.userId)
+        let data: any = await User.findById(account.userId, {
+            include: [
+                { model: Accounts, as: 'accounts' }
+            ]
+        })
         if (data.password != password) {
             ctx.body = {
                 success: false,
@@ -73,18 +83,15 @@ export default class UserController {
             return
         }
         let success = false
-        let accounts = []
         if (data) {
-            ctx.cookies.set('userId', data._id, cookieSetting)
-            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data._id), cookieSetting)
+            ctx.cookies.set('userId', data.id, cookieSetting)
+            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(data.id), cookieSetting)
             success = true
 
-            accounts = await UserAssociation.find({ "userId": data._id })
         }
         ctx.body = {
             success,
             data,
-            accounts
         }
     }
 
@@ -92,8 +99,8 @@ export default class UserController {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date();
         let email = request.account
-        let user = await User.findOne({ email: email })
-        let data = user;
+        let user = await User.findOne({ where: { email: email } })
+        let data: any = user;
         let success = false;
         let message = '';
         //查询此邮箱是否已被注册 
@@ -104,16 +111,15 @@ export default class UserController {
                 password: password,
                 email: request.account,
                 isAdmin: false,
-                createTime: nowTime
             }
-            data = await new User(userData).save()
+            data = await User.create(userData)
         }
 
         //邮箱若没绑定则重新发送邮件
-        let userAssociation = await UserAssociation.findOne({ userId: data._id })
-        if (!userAssociation) {
+        let account = await Accounts.findOne({ where: { userId: data.id } })
+        if (!account) {
             let url = ctx.request.origin
-            url = `${url}/validate/change_email?uid=${data._id}&authcode=${getAuthcode(data._id)}`
+            url = `${url}/validate/change_email?uid=${data.id}&authcode=${getAuthcode(data.id)}`
             sendMail(email, '验证您的邮箱', url)
             message = '发送邮件成功'
             success = true
@@ -136,21 +142,19 @@ export default class UserController {
         let token = ctx.cookies.get('essays_rememberMe_token')
 
         let success = false
-        let accounts = []
-        let user = request
+        let user = null
         if (token == getRememberMeToken(userId)) {
-            await User.update({ _id: userId }, { email: request.email, name: request.name, introduction: request.introduction })
-            user = await User.findById(userId)
-            if (user) {
-                accounts = await UserAssociation.find({ "userId": user._id })
-
-            }
+            user = await User.findById(userId, {
+                include: [{
+                    model: Accounts, as: 'accounts'
+                }]
+            })
+            user = await user.update({ email: request.email, name: request.name, introduction: request.introduction })
             success = true
         }
 
         ctx.body = {
             data: user,
-            accounts,
             success
         }
     }
@@ -160,7 +164,7 @@ export default class UserController {
         let userId = request.userId
         let type: 'email' | 'password' = request.type
 
-        let user = await User.findById(userId)
+        let user: any = await User.findById(userId)
         let email = user.email
 
         let title = ''
@@ -183,19 +187,18 @@ export default class UserController {
         let request = parseGetData(ctx)
         let userId = request.uid
         let authcode = request.authcode
-        let user = await User.findById(userId)
+        let user:any = await User.findById(userId)
         if (user && authcode == getAuthcode(userId)) {
-            let userAssociationData = {
+            let accountData = {
                 userId: userId,
                 openid: user.email,
                 type: 'email',
                 info: user.email,
                 createTime: new Date()
             }
-            let userAssociation = new UserAssociation(userAssociationData)
-            let result = await userAssociation.save()
-            ctx.cookies.set('userId', user._id, cookieSetting)
-            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
+            let account = Accounts.create(accountData)
+            ctx.cookies.set('userId', user.id, cookieSetting)
+            ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user.id), cookieSetting)
         }
         ctx.redirect('/')
     }

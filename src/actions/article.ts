@@ -26,7 +26,7 @@ export const createArticle = (userId, title, description, cover, tag) => {
         return putAjax(Path.putArticle, {
             userId, title, description, cover, tag, body
         }).then((result: any) => {
-            window.location.href = `/articles/${result.data._id}`
+            window.location.href = `/articles/${result.data.id}`
         })
     };
 };
@@ -50,20 +50,20 @@ export const saveArticleBody = (id: string, contentState: RawDraftContentState) 
         }).then((result: any) => {
             dispatch({
                 type: UPDATE_ARTICLE_BODY_SUCCESS,
-                body
+                body:contentState
             })
         })
     }
 }
 
-export const toggleArticlePublish = (articleId: string, isPublish: boolean) => {
+export const toggleArticlePublish = (articleId: string, isPublished: boolean) => {
     return (dispatch: any, getState: Function) => {
         return postAjax(Path.toggleArticlePublish, {
-            articleId, isPublish
+            articleId, isPublished
         }).then((result: any) => {
             dispatch({
                 type: TOGGLE_ARITCLE_PUBLISH,
-                isPublish
+                isPublished
             })
         })
     }

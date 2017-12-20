@@ -1,48 +1,58 @@
 import koa = require('koa')
 
-import { Article } from '../models/Article'
-import { Tag } from '../models/Tag'
+import Sequelize = require('sequelize')
+import Model from '../models/index'
+import { ArticleInstance } from '../models/article';
+import { Articles as ModelArticles } from '../models/article'
+const Articles: ModelArticles = Model['articles']
+const Tags: Sequelize.Model<Sequelize.Instance<any>, any> = Model['tags']
+const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
 import { parsePostData, parseGetData } from '../utils/parseData'
-const user = require('./user.json')
+
 import rq = require("request-promise")
 export default class ArticleController {
+    static async  checkPermi(ctx: koa.Context, articleId: number): Promise<ArticleInstance> {
+        const article: any = await Articles.find({
+            where: {
+                id: articleId
+            }
+        })
+
+        if (!article) {
+            ctx.throw('未找到该文章', 404)
+        }
+
+        const uid = article.ownerId
+
+        if (uid !== parseInt(ctx.cookies.get('userId'), 10)) {
+            ctx.throw('你没有该权限,确认是否正常登录', 403)
+        }
+
+        return article
+    }
     public static async createArticle(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date()
         const requestData = {
-            userId: request.userId,
+            ownerId: request.userId,
             title: request.title,
             description: request.description,
             cover: request.cover,
             body: request.body,
-            createTime: nowTime,
-            updateTime: nowTime,
-            isPublish: false,
-            isOpen: false,
-            tag: request.tag,
+            tags: request.tags,
+            type: 0,
             readNum: 0,
             likeNum: 0
         }
 
-        let tagResult = await Tag.findOne({ tag: request.tag })
-        if (!tagResult) {
-            let tagDate = {
-                tag: request.tag,
-                createTime: nowTime
-            }
-            let tag = new Tag(tagDate)
-            let tagData = await tag.save()
-        }
-
-        let article = new Article(requestData)
-        let data = await article.save()
+        let data = await Articles.create(requestData)
         ctx.body = {
             data
         }
     }
 
     public static async getArticleById(ctx: koa.Context) {
-        let data = await Article.findById(ctx.params.articleId)
+        let data = await Articles.findById(ctx.params.articleId)
         ctx.body = {
             data
         }
@@ -50,14 +60,21 @@ export default class ArticleController {
 
     public static async saveBody(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
-        let data = await Article.update({ _id: request.id }, { body: request.body, updateTime: new Date() })
+        let body = JSON.parse(request.body)
+        let data = await Articles.updateBody({ articleId: request.id, body })
         ctx.body = {
             data
         }
     }
 
     public static async getAllArticles(ctx: koa.Context) {
-        let data = await Article.find({ isPublish: true, isOpen: true }, { body: 0 }).sort({ "createTime": -1 })
+        let data = await Articles.findAll({
+            where: { isPublished: true,isPublic:true },
+            attributes:{
+                exclude:['body']
+            }
+        })
+
         ctx.body = {
             data
         }
@@ -65,7 +82,14 @@ export default class ArticleController {
 
     public static async getMyArticles(ctx: koa.Context) {
         let userId = parseGetData(ctx).userId;
-        let data = await Article.find({ userId: userId }).sort({ "isPublish": -1, "updateTime": -1 })
+        let data = await Articles.findAll({
+            where: {
+                ownerId: userId,
+            },
+            attributes:{
+                exclude:['body']
+            }
+        })
         ctx.body = {
             data
         }
@@ -73,15 +97,16 @@ export default class ArticleController {
     public static async togglePublish(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let articleId = request.articleId
-        let isPublish = request.isPublish
-        let data = await Article.update({ _id: articleId }, { isPublish: isPublish, updateTime: new Date() })
+        let isPublished = request.isPublished
+        let article = await ArticleController.checkPermi(ctx, articleId)
+        let data = await article.update({ isPublished: isPublished })
         ctx.body = {
             data
         }
     }
     public static async updateCount(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
-        let article = await Article.findById(request.articleId)
+        let article: any = await Articles.findById(request.articleId)
         if (request.type == "read") {
             article.readNum++
         } else {
@@ -103,7 +128,7 @@ export default class ArticleController {
         }
         if (url.indexOf(ctx.host) > -1) {
             let articleId = url.split('/articles/')[1]
-            let article = await Article.findById(articleId, { body: 0 })
+            let article: any = await Articles.findById(articleId)
             data.title = article.title
             data.description = article.description
             data.previewImg = article.cover

@@ -67,7 +67,7 @@ export default class CreateNewArticle extends React.Component<ICreateNewArticleP
             toastr.error('全都是必填字段哦~')
             return
         }
-        this.props.dispatch(createArticle(this.props.user._id,title, description, cover, tag))
+        this.props.dispatch(createArticle(this.props.user.id,title, description, cover, tag))
     }
     render() {
         return (

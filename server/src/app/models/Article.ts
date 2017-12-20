@@ -1,27 +1,77 @@
-import { Document, Schema, Model, model } from "mongoose";
+import Sequelize = require("sequelize")
 
-import { IArticle } from '../interfaces/article';
-import { resolve } from "../../../../node_modules/@types/bluebird/index";
-
-export interface IArticleModel extends IArticle, Document {
-
+export interface ArticleInstance extends Sequelize.Instance<any> {
 }
 
-export const ArticleSchema: Schema = new Schema({
-    index: Number,
-    userId: String,
-    title: String,
-    description: String,
-    cover: String,
-    body: String,
-    createTime: Date,
-    updateTime: Date,
-    isPublish: Boolean,
-    isOpen:Boolean,
-    tag: String,
-    readNum: Number,
-    likeNum: Number,
-})
+export interface Articles extends Sequelize.Model<ArticleInstance, any> {
+    updateBody: ({ articleId, body }) => Promise<ArticleInstance>
+}
 
-export const Article: Model<IArticleModel> = model<IArticleModel>('Article', ArticleSchema);
-export default Article
+export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
+    const Articles: any = sequelize.define<ArticleInstance, any>('articles', {
+        ownerId: {
+            type: DataTypes.INTEGER,
+            field: 'owner_id',
+            allowNull: false
+        },
+        title: {
+            type: DataTypes.STRING,
+            field: 'title',
+            allowNull: true,
+        },
+        description: {
+            type: DataTypes.STRING,
+            field: 'description',
+            allowNull: true,
+        },
+        cover: {
+            type: DataTypes.STRING,
+            field: 'cover',
+            allowNull: true,
+        },
+        body: {
+            type: DataTypes.JSON,
+            field: 'body',
+            allowNull: true,
+        },
+        tags: {
+            type: DataTypes.STRING,
+            field: 'tags',
+            allowNull: true
+        },
+        type: {
+            type: DataTypes.INTEGER,
+            field: 'type',
+            allowNull: false
+        },
+        isPublished:{
+            type:DataTypes.BOOLEAN,
+            field:'is_published',
+            allowNull:true,
+            defaultValue:false
+        },
+        isPublic:{
+            type:DataTypes.BOOLEAN,
+            field:'is_public',
+            allowNull:true,
+            defaultValue:false
+        },
+        readNum: {
+            type: DataTypes.INTEGER,
+            field: 'read_num',
+        },
+        likeNum: {
+            type: DataTypes.INTEGER,
+            field: 'like_num'
+        }
+    }, {
+            tableName: 'articles',
+            timestamps: true
+        })
+
+    Articles.updateBody = async function ({ articleId, body }) {
+        const article = await Articles.find({ where: { id: articleId } })
+        return await article.update({ body })
+    }
+    return Articles
+}

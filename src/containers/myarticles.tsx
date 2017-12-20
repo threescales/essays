@@ -15,7 +15,7 @@ class MyArticles extends React.Component<any, any> {
 
     componentDidMount() {
         if(this.props.session.toJS().user) {
-            this.props.dispatch(HomeActions.getMyArticles(this.props.session.toJS().user._id))
+            this.props.dispatch(HomeActions.getMyArticles(this.props.session.toJS().user.id))
         }
     }
     componentWillUnmount() {
@@ -23,7 +23,7 @@ class MyArticles extends React.Component<any, any> {
     }
     render() {
         let articleCards = map(this.props.home.toJS().articles, (article: any) => {
-            return <LazyLoad key={article._id} height={300}><ArticleCard article={article} history={this.props.history}/></LazyLoad>
+            return <LazyLoad key={article.id} height={300}><ArticleCard article={article} history={this.props.history}/></LazyLoad>
         })
         return (
             <div>

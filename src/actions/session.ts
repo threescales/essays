@@ -26,7 +26,6 @@ export const login = (account, password) => {
             { account, password }).then((result: any) => {
                 if (result.success) {
                     let data = result.data
-                    data.accounts = result.accounts
                     dispatch(getUserSuccess(data))
                 } else {
                     toastr.error('登录失败，请重新登录')
@@ -54,18 +53,14 @@ export const signup = (email,password,name) => {
 export const getUserById = () => {
     return (dispatch: any, getState: Function) => {
         let userId = getCookie("userId")
-        // let user = getUserFromStorage()
-        // if (user) {
-        //     dispatch(getUserSuccess(user))
-        //     return
-        // }
         return getAjax(Paths.getUserById).then((result: any) => {
             if (result.success) {
                 let data = result.data
-                data.accounts = result.accounts
                 dispatch(getUserSuccess(data))
             }
+            return result
         }).error(res => {
+            return res
         })
     }
 }
@@ -81,7 +76,6 @@ export const updateUser = (user) => {
         }).then((result: any) => {
             if (result.success) {
                 let data = result.data
-                data.accounts = result.accounts
                 dispatch(getUserSuccess(data))
             } else {
                 toastr.error("修改信息失败")
@@ -99,16 +93,12 @@ export const sendMail = (user) => {
             email, name, introduction
         }).then((result: any) => {
             if (result.success) {
-
-                postAjax(Paths.sendEmail, { userId: user._id, type: 'email' }).then((res: any) => {
+                postAjax(Paths.sendEmail, { userId: user.id, type: 'email' }).then((res: any) => {
                     if (res.success) {
                         toastr.success("发送邮件成功")
                     }
                 })
-
-
                 let data = result.data
-                data.accounts = result.accounts
                 dispatch(getUserSuccess(data))
             } else {
                 toastr.error("发送失败，请重新发送")

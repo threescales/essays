@@ -3,8 +3,10 @@ import { getUpToken } from '../components/qiniuSDK/index'
 import { parseGetData } from '../utils/parseData'
 import rq = require("request-promise")
 const config = require("../../config/token.json")
-import { User } from '../models/User';
-import { UserAssociation } from '../models/UserAssociation'
+import Sequelize = require('sequelize')
+import Model from '../models/index'
+const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
+const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts']
 import * as OAuthUtils from '../utils/oauth'
 import { getRememberMeToken } from '../utils/encryption'
 import { getExpires, maxAge } from '../utils/date'
@@ -45,15 +47,23 @@ export default class TokenController {
     //通过github授权获取的id获取userId
     if (type == "login" && !userId) {
       console.log(data.id)
-      let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
-      if (userAssociation) {
-        userId = userAssociation.userId
+      let account: any = await Accounts.findOne({
+        where: {
+          openid: data.id.toString()
+        }
+      })
+      if (account) {
+        userId = account.userId
       }
     } else if (type == "bind") {
       //若已经绑定此github账号，则返回不处理。
-      let userAssociation: any = await UserAssociation.findOne({ openid: data.id.toString() })
-      console.log(`bind user data is:${JSON.stringify(userAssociation)}`)      
-      if (userAssociation) {
+      let account: any = await Accounts.findOne({
+        where: {
+          openid: data.id.toString()
+        }
+      })
+      console.log(`bind user data is:${JSON.stringify(account)}`)
+      if (account) {
         ctx.redirect("/")
         return
       }
@@ -61,7 +71,7 @@ export default class TokenController {
 
     //获取user
 
-    let user = userId ? await User.findById(userId) : null
+    let user: any = userId ? await User.findById(userId) : null
     //若查询不到，则新建user
     if (!user) {
       let userData = {
@@ -72,28 +82,31 @@ export default class TokenController {
         isAdmin: false,
         createTime: new Date()
       }
-      user = new User(userData)
-      user = await user.save()
-      userId = user._id
+      user = await User.create({
+        name: data.login,
+        password: "",
+        email: '',
+        avatar: data.avatar_url,
+        isAdmin: false
+      })
+      userId = user.id
     }
 
     //获取用户关联的github
-    let oldUserAssociation = await UserAssociation.findOne({ userId: userId, type: 'github' })
-    if (!oldUserAssociation) {
-      let userAssociationData = {
+    let oldAccount = await Accounts.findOne({where:{ userId: userId, type: 'github' }})
+    if (!oldAccount) {
+      let accountData = {
         userId: userId,
         openid: data.id.toString(),
         type: 'github',
         info: data.html_url,
-        createTime: new Date()
       }
-      let userAssociation = new UserAssociation(userAssociationData)
-      let result = await userAssociation.save()
+      let account =await Accounts.create(accountData)
     }
 
     //将userId，token存入cookie，完成登录
-    ctx.cookies.set('userId', user._id, cookieSetting)
-    ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user._id), cookieSetting)
+    ctx.cookies.set('userId', user.id, cookieSetting)
+    ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user.id), cookieSetting)
     if (type == 'bind') {
       ctx.redirect("/account")
     } else {
