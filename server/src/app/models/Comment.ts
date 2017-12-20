@@ -9,10 +9,13 @@ export interface ICommentModel extends IComment,Document {
 export const CommentShema: Schema = new Schema({
     userId:String,
     articleId:String,
-    toUserId:String,
+    toCommentId:String,
     content:String,
     createTime:Date,
-    blockId:String,
+    blockKey:String,
+    selectText:String,
+    likeNum:Number,
+    depth:Number,
     isShow:Boolean
 })
 
