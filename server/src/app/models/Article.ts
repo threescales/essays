@@ -39,11 +39,6 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) 
             field: 'tags',
             allowNull: true
         },
-        type: {
-            type: DataTypes.INTEGER,
-            field: 'type',
-            allowNull: false
-        },
         isPublished:{
             type:DataTypes.BOOLEAN,
             field:'is_published',

@@ -8,39 +8,50 @@ const Articles: ModelArticles = Model['articles']
 const Tags: Sequelize.Model<Sequelize.Instance<any>, any> = Model['tags']
 const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
 import { parsePostData, parseGetData } from '../utils/parseData'
+import { getRememberMeToken } from '../utils/encryption'
 
 import rq = require("request-promise")
 export default class ArticleController {
-    static async  checkPermi(ctx: koa.Context, articleId: number): Promise<ArticleInstance> {
-        const article: any = await Articles.find({
-            where: {
-                id: articleId
+    static async  checkPermi(ctx: koa.Context, articleId = null): Promise<ArticleInstance> {
+        let userId = ctx.cookies.get('userId')
+        let token = ctx.cookies.get('essays_rememberMe_token')
+
+        if (articleId) {
+            const article: any = await Articles.find({
+                where: {
+                    id: articleId
+                }
+            })
+
+            if (!article) {
+                ctx.throw('未找到该文章', 404)
             }
-        })
+            const uid = article.ownerId
 
-        if (!article) {
-            ctx.throw('未找到该文章', 404)
+            if (getRememberMeToken(uid) !== token) {
+                ctx.throw('你没有该权限,确认是否正常登录', 403)
+            }
+            return article
+        } else {
+            if (getRememberMeToken(userId) !== token) {
+                ctx.throw('你没有该权限,确认是否正常登录', 403)
+            }
+            return null
         }
-
-        const uid = article.ownerId
-
-        if (uid !== parseInt(ctx.cookies.get('userId'), 10)) {
-            ctx.throw('你没有该权限,确认是否正常登录', 403)
-        }
-
-        return article
     }
     public static async createArticle(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let nowTime = new Date()
+        ArticleController.checkPermi(ctx)
         const requestData = {
-            ownerId: request.userId,
+            ownerId: parseInt(request.userId),
             title: request.title,
             description: request.description,
             cover: request.cover,
-            body: request.body,
+            body: null,
             tags: request.tags,
-            type: 0,
+            isPublished: false,
+            isPublic: false,
             readNum: 0,
             likeNum: 0
         }
@@ -69,9 +80,9 @@ export default class ArticleController {
 
     public static async getAllArticles(ctx: koa.Context) {
         let data = await Articles.findAll({
-            where: { isPublished: true,isPublic:true },
-            attributes:{
-                exclude:['body']
+            where: { isPublished: true, isPublic: true },
+            attributes: {
+                exclude: ['body']
             }
         })
 
@@ -86,8 +97,8 @@ export default class ArticleController {
             where: {
                 ownerId: userId,
             },
-            attributes:{
-                exclude:['body']
+            attributes: {
+                exclude: ['body']
             }
         })
         ctx.body = {
