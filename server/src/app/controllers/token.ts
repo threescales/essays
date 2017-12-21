@@ -10,7 +10,13 @@ const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts'
 import * as OAuthUtils from '../utils/oauth'
 import { getRememberMeToken } from '../utils/encryption'
 import { getExpires, maxAge } from '../utils/date'
-
+import { AccountTypes } from '../constants/accountTypes'
+import { CookieKeys } from '../constants/cookieKeys'
+enum OperaTypes {
+  LOGIN = 'login',
+  BIND = 'bind',
+  SIGNUP = 'signup'
+}
 const cookieSetting = { maxAge: maxAge, overwrite: false, expires: getExpires(), httpOnly: false }
 export default class TokenController {
   public static qiniuUpTokenGen(ctx: Koa.Context) {
@@ -27,12 +33,12 @@ export default class TokenController {
 
     let userId = ""
     let userToken = ""
-    if (type == "bind") {
+    if (type == OperaTypes.BIND) {
       userId = params[1]
       userToken = params[2]
     }
     //校验用户
-    if ((!userId || userToken != getRememberMeToken(userId)) && type == 'bind') {
+    if (type == OperaTypes.BIND && (!userId || userToken != getRememberMeToken(userId))) {
       ctx.redirect("/")
       return
     }
@@ -45,21 +51,20 @@ export default class TokenController {
     console.log(`github get data is :${JSON.stringify(data)}`)
 
     //通过github授权获取的id获取userId
-    if (type == "login" && !userId) {
+    if (type == OperaTypes.LOGIN && !userId) {
       console.log(data.id)
       let account: any = await Accounts.findOne({
         where: {
           openid: data.id.toString()
         }
       })
-      if (account) {
-        userId = account.userId
-      }
-    } else if (type == "bind") {
+      userId = account ? account.userId : null
+    } else if (type == OperaTypes.BIND) {
       //若已经绑定此github账号，则返回不处理。
       let account: any = await Accounts.findOne({
         where: {
-          openid: data.id.toString()
+          openid: data.id.toString(),
+          type: AccountTypes.GITHUB
         }
       })
       console.log(`bind user data is:${JSON.stringify(account)}`)
@@ -93,21 +98,21 @@ export default class TokenController {
     }
 
     //获取用户关联的github
-    let oldAccount = await Accounts.findOne({where:{ userId: userId, type: 'github' }})
+    let oldAccount = await Accounts.findOne({ where: { userId: userId, type: AccountTypes.GITHUB } })
     if (!oldAccount) {
       let accountData = {
         userId: userId,
         openid: data.id.toString(),
-        type: 'github',
+        type: AccountTypes.GITHUB,
         info: data.html_url,
       }
-      let account =await Accounts.create(accountData)
+      let account = await Accounts.create(accountData)
     }
 
     //将userId，token存入cookie，完成登录
-    ctx.cookies.set('userId', user.id, cookieSetting)
-    ctx.cookies.set('essays_rememberMe_token', getRememberMeToken(user.id), cookieSetting)
-    if (type == 'bind') {
+    ctx.cookies.set(CookieKeys.USER_ID, user.id, cookieSetting)
+    ctx.cookies.set(CookieKeys.REMEMBER_ME, getRememberMeToken(user.id), cookieSetting)
+    if (type == OperaTypes.BIND) {
       ctx.redirect("/account")
     } else {
       ctx.redirect('/')

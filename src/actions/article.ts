@@ -18,13 +18,13 @@ export const getArticleSuccess = (data) => {
     }
 }
 
-export const createArticle = (userId, title, description, cover, tag) => {
+export const createArticle = (userId, title, description, cover, tags) => {
     return (dispatch: any, getState: Function) => {
         let editorState = EditorState.createEmpty()
         let body = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
 
         return putAjax(Path.putArticle, {
-            userId, title, description, cover, tag, body
+            userId, title, description, cover, tags, body
         }).then((result: any) => {
             window.location.href = `/articles/${result.data.id}`
         })

@@ -37,10 +37,10 @@ export default class Background extends React.Component<IBackgroundProps, any> {
         let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl, this.props.width, this.props.height)})` }
         style = Object.assign(this.props.style || {}, style)
         let background = <div
-            className={classnames({"jigloo-background":true,"background-edit":this.props.isEditable})}
+            className={classnames({ "jigloo-background": true, "background-edit": this.props.isEditable })}
             style={style}>
             {this.props.children}
-            {this.props.isEditable&&<span>点击上传图片</span>}
+            {this.props.isEditable && <span>点击上传图片</span>}
             <ProgressBar progress={this.state.progress} />
         </div>
         return (

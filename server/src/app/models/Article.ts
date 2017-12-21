@@ -35,7 +35,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) 
             allowNull: true,
         },
         tags: {
-            type: DataTypes.STRING,
+            type: DataTypes.JSONB,
             field: 'tags',
             allowNull: true
         },

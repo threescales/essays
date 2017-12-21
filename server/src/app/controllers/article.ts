@@ -9,12 +9,14 @@ const Tags: Sequelize.Model<Sequelize.Instance<any>, any> = Model['tags']
 const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getRememberMeToken } from '../utils/encryption'
+import { CookieKeys } from '../constants/cookieKeys'
+
 
 import rq = require("request-promise")
 export default class ArticleController {
     static async  checkPermi(ctx: koa.Context, articleId = null): Promise<ArticleInstance> {
-        let userId = ctx.cookies.get('userId')
-        let token = ctx.cookies.get('essays_rememberMe_token')
+        let userId = ctx.cookies.get(CookieKeys.USER_ID)
+        let token = ctx.cookies.get(CookieKeys.REMEMBER_ME)
 
         if (articleId) {
             const article: any = await Articles.find({
@@ -41,15 +43,28 @@ export default class ArticleController {
     }
     public static async createArticle(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
-        let nowTime = new Date()
         ArticleController.checkPermi(ctx)
+
+        let tags = request.tags
+        let tagArray = tags.split(",")
+        for (let tagName of tagArray) {
+            let tag = await Tags.find({
+                where: {
+                    tagName: tagName
+                }
+            })
+            console.log(tag)
+            if (!tag) {
+                await Tags.create({ tagName })
+            }
+        }
         const requestData = {
             ownerId: parseInt(request.userId),
             title: request.title,
             description: request.description,
             cover: request.cover,
             body: null,
-            tags: request.tags,
+            tags: tagArray,
             isPublished: false,
             isPublic: false,
             readNum: 0,
@@ -71,6 +86,8 @@ export default class ArticleController {
 
     public static async saveBody(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
+        let articleId = request.id
+        ArticleController.checkPermi(ctx, articleId)
         let body = JSON.parse(request.body)
         let data = await Articles.updateBody({ articleId: request.id, body })
         ctx.body = {
