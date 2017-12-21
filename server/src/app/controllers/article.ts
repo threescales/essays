@@ -2,8 +2,8 @@ import koa = require('koa')
 
 import Sequelize = require('sequelize')
 import Model from '../models/index'
-import { ArticleInstance } from '../models/article';
-import { Articles as ModelArticles } from '../models/article'
+import { ArticleInstance } from '../models/Article';
+import { Articles as ModelArticles } from '../models/Article'
 const Articles: ModelArticles = Model['articles']
 const Tags: Sequelize.Model<Sequelize.Instance<any>, any> = Model['tags']
 const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
