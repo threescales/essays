@@ -7,9 +7,12 @@ if (process.env.NODE_ENV !== 'production') {
   console.log(process.env.NODE_ENV)
   console.log(conf)
 }
-
-const uri = config.dev.uri
-const sequelize = new Sequelize(uri, config.dev || {})
+var dbConfig = config.dev
+if (process.env.NODE_ENV == 'production') {
+  dbConfig = config.production
+}
+const uri = dbConfig.uri
+const sequelize = new Sequelize(uri, dbConfig || {})
 const db = {
 
 } as {
