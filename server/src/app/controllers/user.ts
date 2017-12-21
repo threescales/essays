@@ -24,7 +24,6 @@ export default class UserController {
             ]
         })
         let data = null
-        let accounts = []
         let success = false
         if (token === getRememberMeToken(userId)) {
             data = user
@@ -191,7 +190,7 @@ export default class UserController {
                 info: user.email,
                 createTime: new Date()
             }
-            let account = Accounts.create(accountData)
+            let account = await Accounts.create(accountData)
             ctx.cookies.set(CookieKeys.USER_ID, user.id, cookieSetting)
             ctx.cookies.set(CookieKeys.REMEMBER_ME, getRememberMeToken(user.id), cookieSetting)
         }
