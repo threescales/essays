@@ -19,7 +19,7 @@ import * as UserAction from '../actions/user'
 import Header from "../components/header/header"
 import { Button } from '../components/buttons/button'
 import { initPosition } from '../utils/position'
-import {AppContainer} from './app'
+import { AppContainer } from './app'
 
 @AppContainer
 class App extends React.Component<any, any> {
@@ -30,11 +30,7 @@ class App extends React.Component<any, any> {
         }
     }
     componentWillMount() {
-        this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId)).then((res)=> {
-            if(res&&res.data) {
-                this.props.dispatch(UserAction.getUserInfo(res.data.ownerId))                
-            }
-        })
+        this.props.dispatch(ArticleAction.getArticleById(this.props.match.params.articleId))
     }
 
 
@@ -56,14 +52,15 @@ class App extends React.Component<any, any> {
         initPosition()
     }
     render() {
-        let article = this.props.article.toJS()
+        let article = this.props.article.toJS().article
+        let author = this.props.article.toJS().author
+
         let editorState = this.props.editorState
         let currentUser = this.props.session.toJS().user
-        let isOwner = currentUser && article.ownerId === currentUser.id
-        let owner = this.props.user.toJS()
+        let isOwner = currentUser && article && article.ownerId === currentUser.id
         return (
             <div className="animated fadeInLeft">
-                <ArticleHeader dispatch={this.props.dispatch} article={article} user={owner} isOwner={isOwner} showEditor={this.props.show.toJS().editor}/>
+                {article&&author&&<ArticleHeader dispatch={this.props.dispatch} article={article} author={author} isOwner={isOwner} showEditor={this.props.show.toJS().editor} />}
                 <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     {
                         !!editorState ?
@@ -88,9 +85,10 @@ class App extends React.Component<any, any> {
 }
 function mapStateToProps(state: any, props: any) {
     let editorState = null;
-    if (!state.article.isEmpty()) {
-        let contentState = state.article.toJS().body
-        editorState = contentState ? EditorState.createWithContent(convertFromRaw(contentState)) : null
+    let articleState = state.article.toJS()
+    if (articleState.article) {
+        let contentState = articleState.article.body
+        editorState = contentState ? EditorState.createWithContent(convertFromRaw(contentState)) : EditorState.createEmpty()
     }
     return assign(state, { editorState })
 }

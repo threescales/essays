@@ -7,6 +7,7 @@ import { Articles as ModelArticles } from '../models/Article'
 const Articles: ModelArticles = Model['articles']
 const Tags: Sequelize.Model<Sequelize.Instance<any>, any> = Model['tags']
 const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
+const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts']
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getRememberMeToken } from '../utils/encryption'
 import { CookieKeys } from '../constants/cookieKeys'
@@ -63,7 +64,7 @@ export default class ArticleController {
             title: request.title,
             description: request.description,
             cover: request.cover,
-            body: null,
+            body: JSON.parse(request.body),
             tags: tagArray,
             isPublished: false,
             isPublic: false,
@@ -78,9 +79,20 @@ export default class ArticleController {
     }
 
     public static async getArticleById(ctx: koa.Context) {
-        let data = await Articles.findById(ctx.params.articleId)
+        let article: any = await Articles.findById(ctx.params.articleId)
+        let author = await User.findById(article.ownerId, {
+            include: [
+                { model: Accounts, as: 'accounts' }
+            ],
+            attributes: {
+                exclude: ['password', 'email', 'phone']
+            }
+        })
         ctx.body = {
-            data
+            data: {
+                article,
+                author
+            }
         }
     }
 

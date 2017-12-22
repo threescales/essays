@@ -13,7 +13,7 @@ import { Logo } from '../logo/logo'
 interface IBookHeaderProps {
     article
     dispatch
-    user
+    author
     isOwner
     showEditor
 }
@@ -51,7 +51,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
     }
     render() {
         let article = this.props.article
-        let user = this.props.user
+        let author = this.props.author
         return (
             [
                 <div className="article-header" key="header">
@@ -64,7 +64,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
                         height={this.state.height}
                     />
                     <div className="">
-                        <UserCard user={this.props.user} />
+                        <UserCard user={this.props.author} />
                     </div>
                     <div className="content">
                         <h1>{article.title}</h1>
