@@ -4,14 +4,14 @@ import session from "./session";
 import show from "./show"
 import article from "./article"
 import home from './home'
-import user from './user'
+import profile from './profile'
 const rootReducer = combineReducers<any>({
   session,
   routing: routerReducer,
   show,
   article,
   home,
-  user
+  profile
 } as any);
 
 export default rootReducer;

@@ -2,7 +2,7 @@ export const LOGIN_USER_SUCCESS = "LOGIN_USER_SUCCESS";
 export const LOGIN_OUT = "LOGIN_OUT"
 
 export const GET_USER_INFO = "GET_USER_INFO"
-export const USER_INIT = "USER_INIT"
+export const PROFILE_INIT = "PROFILE_INIT"
 
 export const CREATE_ARTICLE_SUCCESS = "CREATE_ARTICLE_SUCCESS"
 

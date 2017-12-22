@@ -2,24 +2,23 @@ import { putAjax, getAjax, postAjax } from '../utils/ajax'
 import * as Path from '../constants/path'
 import {
     GET_USER_INFO,
-    USER_INIT
+    PROFILE_INIT
 } from '../constants/index'
 
 export const getUserInfo = (userId) => {
     return (dispatch: any, getState: Function) => {
         return getAjax(Path.getUserInfo(userId)).then((result: any) => {
-            let user = result.data
-            let accounts = result.accounts
+            let data = result.data
             dispatch({
                 type: GET_USER_INFO,
-                data: user
+                data: data
             })
         })
     }
 }
 
-export const initUser = () => {
+export const initProfile = () => {
     return {
-        type: USER_INIT
+        type: PROFILE_INIT
     }
 }

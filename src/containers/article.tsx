@@ -15,7 +15,6 @@ import * as ShowKey from '../constants/showKey'
 import Catalogue from "../components/catalogue/catalogue"
 import ArticleHeader from '../components/articleHeader/articleHeader'
 import * as ArticleAction from '../actions/article'
-import * as UserAction from '../actions/user'
 import Header from "../components/header/header"
 import { Button } from '../components/buttons/button'
 import { initPosition } from '../utils/position'
