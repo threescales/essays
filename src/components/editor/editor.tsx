@@ -11,6 +11,7 @@ import createLinkifyPlugin from "draft-js-linkify-plugin";
 import createInlineToolbarPlugin from "draft-js-inline-toolbar-plugin";
 import createLinkPlugin from 'draft-js-anchor-plugin';
 import createBlockBreakoutPlugin from 'draft-js-block-breakout-plugin';
+import createAutoListPlugin from 'draft-js-autolist-plugin'
 
 import createCodePlugin from "./plugins/code-highlight/code-light.plugin";
 import { createImagePlugin } from "./plugins/image/index";
@@ -31,6 +32,8 @@ const blockDndPlugin = createBlockDndPlugin();
 const resizeablePlugin = createResizeablePlugin()
 const { AlignmentTool } = alignmentPlugin;
 const blockBreakoutPlugin = createBlockBreakoutPlugin()
+const autolistPlugin = createAutoListPlugin()
+
 
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
@@ -70,6 +73,7 @@ const plugins = [
     imagePlugin,
     linkifyPlugin,
     blockBreakoutPlugin,
+    autolistPlugin,
     createCodePlugin({}),
 ];
 
