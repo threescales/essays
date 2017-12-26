@@ -10,6 +10,11 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) 
             field: 'article_id',
             allowNull: false
         },
+        fromUserId:{
+            type:DataTypes.INTEGER,
+            field:'from_user_id',
+            allowNull:false
+        },
         content: {
             type: DataTypes.JSONB,
             field: 'content',

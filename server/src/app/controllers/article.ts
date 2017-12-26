@@ -85,10 +85,17 @@ export default class ArticleController {
                 exclude: ['password', 'email', 'phone']
             }
         })
+        let comments = await Comments.find({
+            where:{
+                articleId:article.id,
+                enabled:true
+            }
+        })
         ctx.body = {
             data: {
                 article,
-                author
+                author,
+                comments
             }
         }
     }
@@ -99,7 +106,7 @@ export default class ArticleController {
         ArticleController.checkPermi(ctx, articleId)
         let body = JSON.parse(request.body)
         const article = await Articles.find({ where: { id: request.id } })
-        let data =  await article.update({ body })
+        let data = await article.update({ body })
         ctx.body = {
             data
         }
@@ -156,6 +163,34 @@ export default class ArticleController {
             likeNum: data.likeNum
         }
     }
+
+    /**
+     * 
+     * @param ctx 
+     * articleId
+     * content
+     * toCommentId
+     * 
+     */
+    public static async createComment(ctx: koa.Context) {
+        let request: any = await parsePostData(ctx)
+        ArticleController.checkPermi(ctx)
+        let userId = ctx.cookies.get(CookieKeys.USER_ID);
+        let commentData = {
+            articleId: request.articleId,
+            content: JSON.parse(request.content),
+            fromUserId:JSON.parse(userId),
+            toCommentId: request.toCommentId ? parseInt(request.toCommentId) : null,
+            depth: request.depth,
+            blockKey: request.blockKey ? request.blockKey : null,
+            blockText: request.blockText ? request.blockText : null,
+        }
+        let data = await Comments.create(commentData)
+        ctx.body= {
+            data
+        }
+    }
+
     //通过url获取网页预览信息
     public static async getPageInfo(ctx: koa.Context) {
         let url: any = parseGetData(ctx).url
