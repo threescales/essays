@@ -39,6 +39,11 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) 
             type: DataTypes.INTEGER,
             field: 'like_num',
             defaultValue: 0
+        },
+        enabled: {
+            type: DataTypes.BOOLEAN,
+            field: 'enabled',
+            defaultValue: true
         }
     }, {
             tableName: 'comments',
