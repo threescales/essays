@@ -4,9 +4,8 @@ import { parseGetData } from '../utils/parseData'
 import rq = require("request-promise")
 const config = require("../../config/token.json")
 import Sequelize = require('sequelize')
-import Model from '../models/index'
-const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
-const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts']
+import { User, Accounts } from '../models/index'
+
 import * as OAuthUtils from '../utils/oauth'
 import { getRememberMeToken } from '../utils/encryption'
 import { getExpires, maxAge } from '../utils/date'

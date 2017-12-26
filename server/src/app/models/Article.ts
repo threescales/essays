@@ -4,7 +4,6 @@ export interface ArticleInstance extends Sequelize.Instance<any> {
 }
 
 export interface Articles extends Sequelize.Model<ArticleInstance, any> {
-    updateBody: ({ articleId, body }) => Promise<ArticleInstance>
 }
 
 export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) => {
@@ -63,10 +62,5 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) 
             tableName: 'articles',
             timestamps: true
         })
-
-    Articles.updateBody = async function ({ articleId, body }) {
-        const article = await Articles.find({ where: { id: articleId } })
-        return await article.update({ body })
-    }
     return Articles
 }

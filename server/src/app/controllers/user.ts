@@ -1,10 +1,8 @@
 import koa = require('koa')
 
 import Sequelize = require('sequelize')
-import Model from '../models/index'
+import { User, Accounts } from '../models/index'
 
-const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
-const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts']
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getExpires, maxAge } from '../utils/date'
 import { getRememberMeToken, getAuthcode } from '../utils/encryption'
@@ -181,7 +179,7 @@ export default class UserController {
         let request = parseGetData(ctx)
         let userId = request.uid
         let authcode = request.authcode
-        let user:any = await User.findById(userId)
+        let user: any = await User.findById(userId)
         if (user && authcode == getAuthcode(userId)) {
             let accountData = {
                 userId: userId,

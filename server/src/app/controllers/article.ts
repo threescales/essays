@@ -3,11 +3,8 @@ import koa = require('koa')
 import Sequelize = require('sequelize')
 import Model from '../models/index'
 import { ArticleInstance } from '../models/Article';
-import { Articles as ModelArticles } from '../models/Article'
-const Articles: ModelArticles = Model['articles']
-const Tags: Sequelize.Model<Sequelize.Instance<any>, any> = Model['tags']
-const User: Sequelize.Model<Sequelize.Instance<any>, any> = Model['user']
-const Accounts: Sequelize.Model<Sequelize.Instance<any>, any> = Model['accounts']
+import { User, Tags, Accounts, Articles, Comments } from '../models/index'
+
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getRememberMeToken } from '../utils/encryption'
 import { CookieKeys } from '../constants/cookieKeys'
@@ -101,7 +98,8 @@ export default class ArticleController {
         let articleId = request.id
         ArticleController.checkPermi(ctx, articleId)
         let body = JSON.parse(request.body)
-        let data = await Articles.updateBody({ articleId: request.id, body })
+        const article = await Articles.find({ where: { id: request.id } })
+        let data =  await article.update({ body })
         ctx.body = {
             data
         }
