@@ -18,6 +18,10 @@ export const getAllArticles = "/api/articles"
 export const getMyArticles = "/api/articles/getMyArticles"
 export const toggleArticlePublish = '/api/article/togglePublish'
 export const updateCount = '/api/article/updateCount'
+
+//comment
+export const postComment = '/api/comments'
+export const getComments = '/api/article/getComments'
 //session
 export const login = '/api/user/login'
 export const signup = '/api/user'

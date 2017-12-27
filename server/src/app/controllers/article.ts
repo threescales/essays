@@ -85,17 +85,10 @@ export default class ArticleController {
                 exclude: ['password', 'email', 'phone']
             }
         })
-        let comments = await Comments.find({
-            where:{
-                articleId:article.id,
-                enabled:true
-            }
-        })
         ctx.body = {
             data: {
                 article,
                 author,
-                comments
             }
         }
     }
@@ -117,9 +110,28 @@ export default class ArticleController {
             where: { isPublished: true, isPublic: true },
             attributes: {
                 exclude: ['body']
-            }
+            },
+            order:[
+                ['createdAt','DESC']
+            ]
         })
 
+        ctx.body = {
+            data
+        }
+    }
+
+    public static async getAllComments(ctx: koa.Context) {
+        let articleId = parseGetData(ctx).articleId
+        let data = await Comments.findAll({
+            where:{
+                articleId:articleId,
+                enabled:true
+            },
+            order:[
+                ['createdAt']
+            ]
+        })
         ctx.body = {
             data
         }
@@ -133,7 +145,10 @@ export default class ArticleController {
             },
             attributes: {
                 exclude: ['body']
-            }
+            },
+            order:[
+                ['createdAt','DESC']
+            ]
         })
         ctx.body = {
             data
@@ -172,14 +187,14 @@ export default class ArticleController {
      * toCommentId
      * 
      */
-    public static async createComment(ctx: koa.Context) {
+    public static async postComment(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         ArticleController.checkPermi(ctx)
         let userId = ctx.cookies.get(CookieKeys.USER_ID);
         let commentData = {
             articleId: request.articleId,
             content: JSON.parse(request.content),
-            fromUserId:JSON.parse(userId),
+            fromUserId:parseInt(userId),
             toCommentId: request.toCommentId ? parseInt(request.toCommentId) : null,
             depth: request.depth,
             blockKey: request.blockKey ? request.blockKey : null,

@@ -66,6 +66,9 @@ export default function (): Router {
     router.get('/api/articles', ArticleController.getAllArticles)
     router.get('/api/articles/getMyArticles', ArticleController.getMyArticles)
 
+    router.get('/api/article/getComments',ArticleController.getAllComments)
+    router.put('/api/comments', ArticleController.postComment)
+
     router.get('/api/articles/:articleId', ArticleController.getArticleById)
     return router
 }

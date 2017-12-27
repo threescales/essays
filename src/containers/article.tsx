@@ -35,6 +35,7 @@ class App extends React.Component<any, any> {
 
     componentDidMount() {
         this.props.dispatch(ArticleAction.updateArticleCount(this.props.match.params.articleId, 'read'))
+        this.props.dispatch(ArticleAction.getAllComments(this.props.match.params.articleId))
         // initPosition()        
     }
 
