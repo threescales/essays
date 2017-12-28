@@ -35,7 +35,7 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
             }))
         case POST_COMMENT_SUCCESS:
             let comments = state.toJS().comments
-            comments.unshift(action.data)
+            comments.push(action.data)
             return state.merge(fromJS({
                 comments
             }))

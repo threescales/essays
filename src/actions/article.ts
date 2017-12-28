@@ -10,9 +10,9 @@ import {
     POST_COMMENT_SUCCESS,
     GET_ALL_COMMENTS,
 } from '../constants/index'
-import {setWindowTitle} from "../utils/getInfo"
+import { setWindowTitle } from "../utils/getInfo"
 import { EditorState, convertToRaw, RawDraftContentState } from 'draft-js'
-import {smartArrayToTree} from '../utils/arrayToTree'
+import { smartArrayToTree } from '../utils/arrayToTree'
 export const getArticleSuccess = (data) => {
     return {
         type: GET_ARTICLE_SUCCESS,
@@ -52,7 +52,7 @@ export const saveArticleBody = (id: string, contentState: RawDraftContentState) 
         }).then((result: any) => {
             dispatch({
                 type: UPDATE_ARTICLE_BODY_SUCCESS,
-                body:contentState
+                body: contentState
             })
         })
     }
@@ -78,44 +78,42 @@ export const updateArticleCount = (articleId: string, type: 'read' | 'like') => 
         }).then((result: any) => {
             dispatch({
                 type: UPDATA_ARTICLE_COUNT,
-                likeNum:result.likeNum,
-                readNum:result.readNum
+                likeNum: result.likeNum,
+                readNum: result.readNum
             })
         })
     }
 }
 
-export const postComment = (articleId,content,toCommentId=null,depth=0,blockKey=null,blockText=null) => {
-    return(dispatch: any, getState: Function) => {
+export const postComment = (articleId, content, toCommentId = null, depth = 0, blockKey = null, blockText = null) => {
+    return (dispatch: any, getState: Function) => {
         return putAjax(Path.postComment, {
-            articleId,content,toCommentId,depth,blockKey,blockText
-        }).then((result:any) => {
+            articleId, content, toCommentId, depth, blockKey, blockText
+        }).then((result: any) => {
             dispatch({
-                type:POST_COMMENT_SUCCESS,
-                data:result.data
+                type: POST_COMMENT_SUCCESS,
+                data: result.data
             })
+            return result.data
         })
     }
 }
 
 export const getAllComments = (articleId) => {
-    return(dispatch: any, getState: Function) => {
-        return getAjax(Path.getComments,{
+    return (dispatch: any, getState: Function) => {
+        return getAjax(Path.getComments, {
             articleId
-        }).then((result:any)=> {
-            console.log(smartArrayToTree(result.data,{
-                pid:'toCommentId'
-            }))
+        }).then((result: any) => {
             dispatch({
-                type:GET_ALL_COMMENTS,
-                data:result.data
+                type: GET_ALL_COMMENTS,
+                data: result.data
             })
         })
     }
 }
 
-export const initArticle = ()=> {
-    return{
-        type:ARTICLE_INIT
+export const initArticle = () => {
+    return {
+        type: ARTICLE_INIT
     }
 }

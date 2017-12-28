@@ -1,0 +1,38 @@
+import * as React from 'react'
+import './commentArea.less';
+import { smartArrayToTree } from '../../utils/arrayToTree'
+import PostComment from './postComment'
+interface ICommentAreaProps {
+    comments
+    articleId
+    dispatch
+}
+
+export default class CommentArea extends React.PureComponent<ICommentAreaProps, any> {
+    constructor(props) {
+        super(props)
+        this.state = {
+            commentTree: getCommentTree(props.comments)
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            commentTree: getCommentTree(nextProps.comments)
+        })
+    }
+
+    render() {
+        return (
+            <section className="comment-area">
+                <PostComment articleId={this.props.articleId} dispatch={this.props.dispatch} depth={0} />
+            </section>
+        )
+    }
+}
+
+function getCommentTree(commentArray) {
+    return smartArrayToTree(commentArray, {
+        pid: 'toCommentId'
+    })
+}
