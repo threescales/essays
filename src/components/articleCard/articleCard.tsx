@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './articleCard.less'
 import { getImageUrl } from '../../utils/getInfo'
-import { showDate, getDate } from '../../utils/date'
+import DateUtils from '../../utils/date'
 import * as classnames from 'classnames'
 interface IArticleCardProps {
     article
@@ -35,7 +35,7 @@ export default class ArticleCard extends React.PureComponent<IArticleCardProps, 
                 onClick={this.jump}
             >
                 <div className="left-info">
-                    <time>{`by:${getDate(article.createdAt)}`}</time>
+                    <time>{`by:${DateUtils.getFormattedDateString(article.createdAt)}`}</time>
                 </div>
                 <div className="right-info">
                     {!article.isPublished && <span>未发布</span>}

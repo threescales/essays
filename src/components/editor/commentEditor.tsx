@@ -87,7 +87,7 @@ export default class CommentEditor extends React.Component<IEditorProps, any> {
     private autoSavePlugin: AutoSavePlugin
 
     componentWillMount() {
-        this.autoSavePlugin = createAutoSavePlugin({ saveAction: this.save, debounceTime: 850 })
+        this.autoSavePlugin = createAutoSavePlugin({ saveAction: this.save, debounceTime: 1 })
     }
 
     getPluigins = () => {

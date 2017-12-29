@@ -73,7 +73,7 @@ class App extends React.Component<any, any> {
                         showEditor={this.props.show.toJS().editor}
                     />
                 }
-                <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
+                <section id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     {
                         !!editorState ?
                             <Editor
@@ -83,12 +83,14 @@ class App extends React.Component<any, any> {
                                 articleId={this.props.match.params.articleId}
                             /> : null
                     }
+                </section>
+                <section>
                     <CommentArea
                         comments={this.props.article.toJS().comments}
                         articleId={this.props.match.params.articleId}
                         dispatch={this.props.dispatch}
                     />
-                </div>
+                </section>
                 {
                     !!editorState ? <Catalogue
                         editorState={this.props.editorState}

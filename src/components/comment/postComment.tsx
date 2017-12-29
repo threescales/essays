@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { EditorState,convertToRaw } from 'draft-js'
+import { EditorState, convertToRaw } from 'draft-js'
 import CommentEditor from '../editor/commentEditor'
 import { postComment } from '../../actions/article'
 import './postComment.less'
 import { Button } from "../buttons/button";
+import { requireLogin } from "../../utils/requireLogin"
+import UserStrip from '../user/userStrip'
 interface IPostCommentProps {
     dispatch
     articleId
@@ -11,11 +13,12 @@ interface IPostCommentProps {
     toCommentId?
     blockKey?
     blockText?
+    closeComment?
 }
 
 interface IPostCommentState {
-    editorState:EditorState
-    showOpera:boolean
+    editorState: EditorState
+    showOpera: boolean
 }
 export default class PostComment extends React.Component<IPostCommentProps, IPostCommentState> {
     constructor(props) {
@@ -25,6 +28,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
             showOpera: false
         }
         this.comment = this.comment.bind(this)
+        this.showOpera = this.showOpera.bind(this)
     }
 
     setEditorState = (editorState: EditorState) => {
@@ -42,17 +46,23 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
         let contentState = this.state.editorState.getCurrentContent()
         this.props.dispatch(postComment(articleId, contentState, toCommentId, depth, blockKey, blockText)).then((result) => {
             //评论成功
+            this.hideOpera()
+            if (this.props.closeComment) {
+                this.props.closeComment()
+            }
         })
     }
 
-    showOpera = () => {
+    @requireLogin
+    showOpera() {
         this.setState({
             showOpera: true
         })
     }
     hideOpera = () => {
         this.setState({
-            showOpera: false
+            showOpera: false,
+            editorState: EditorState.createEmpty()
         })
     }
 
@@ -65,7 +75,8 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
                 readOnly={false}
             />
             {
-                this.state.showOpera && <div className="opera-new-comment">
+                this.state.showOpera &&
+                <div className="opera-new-comment">
                     <Button onClick={this.comment}>发送</Button>
                 </div>
             }
