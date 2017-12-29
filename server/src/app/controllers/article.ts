@@ -111,8 +111,8 @@ export default class ArticleController {
             attributes: {
                 exclude: ['body']
             },
-            order:[
-                ['createdAt','DESC']
+            order: [
+                ['createdAt', 'DESC']
             ]
         })
 
@@ -124,11 +124,14 @@ export default class ArticleController {
     public static async getAllComments(ctx: koa.Context) {
         let articleId = parseGetData(ctx).articleId
         let data = await Comments.findAll({
-            where:{
-                articleId:articleId,
-                enabled:true
+            where: {
+                articleId: articleId,
+                enabled: true
             },
-            order:[
+            include: [
+                { model: User, as: 'fromUser' }
+            ],
+            order: [
                 ['createdAt']
             ]
         })
@@ -146,8 +149,8 @@ export default class ArticleController {
             attributes: {
                 exclude: ['body']
             },
-            order:[
-                ['createdAt','DESC']
+            order: [
+                ['createdAt', 'DESC']
             ]
         })
         ctx.body = {
@@ -190,18 +193,23 @@ export default class ArticleController {
     public static async postComment(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         ArticleController.checkPermi(ctx)
-        let userId = ctx.cookies.get(CookieKeys.USER_ID);
+        let userId = parseInt(ctx.cookies.get(CookieKeys.USER_ID));
         let commentData = {
-            articleId: request.articleId,
+            articleId: parseInt(request.articleId),
             content: JSON.parse(request.content),
-            fromUserId:parseInt(userId),
+            fromUserId: userId,
             toCommentId: request.toCommentId ? parseInt(request.toCommentId) : null,
-            depth: request.depth,
+            depth: parseInt(request.depth),
             blockKey: request.blockKey ? request.blockKey : null,
             blockText: request.blockText ? request.blockText : null,
         }
-        let data = await Comments.create(commentData)
-        ctx.body= {
+        let comment:any = await Comments.create(commentData)
+        let data = await Comments.findById(comment.id,{
+            include:[
+                { model: User,as:'fromUser'}
+            ]
+        })
+        ctx.body = {
             data
         }
     }

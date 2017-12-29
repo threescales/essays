@@ -92,7 +92,7 @@ export default class CommentEditor extends React.Component<IEditorProps, any> {
 
     getPluigins = () => {
         const pageCardPlugin = createPageCardPlugin({ decorator, readOnly: this.props.readOnly });
-        const others = [pageCardPlugin]
+        const others = [this.autoSavePlugin, pageCardPlugin]
         return plugins.concat(others)
     }
 

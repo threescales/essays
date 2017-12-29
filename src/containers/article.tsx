@@ -14,6 +14,8 @@ import * as ShowKey from '../constants/showKey'
 
 import Catalogue from "../components/catalogue/catalogue"
 import ArticleHeader from '../components/articleHeader/articleHeader'
+import CommentArea from '../components/comment/commentArea'
+
 import * as ArticleAction from '../actions/article'
 import Header from "../components/header/header"
 import { Button } from '../components/buttons/button'
@@ -60,7 +62,17 @@ class App extends React.Component<any, any> {
         let isOwner = currentUser && article && article.ownerId === currentUser.id
         return (
             <div className="animated fadeInLeft">
-                {article&&author&&<ArticleHeader dispatch={this.props.dispatch} article={article} author={author} isOwner={isOwner} showEditor={this.props.show.toJS().editor} />}
+                {
+                    article
+                    && author
+                    && <ArticleHeader
+                        dispatch={this.props.dispatch}
+                        article={article}
+                        author={author}
+                        isOwner={isOwner}
+                        showEditor={this.props.show.toJS().editor}
+                    />
+                }
                 <div id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
                     {
                         !!editorState ?
@@ -71,6 +83,11 @@ class App extends React.Component<any, any> {
                                 articleId={this.props.match.params.articleId}
                             /> : null
                     }
+                    <CommentArea
+                        comments={this.props.article.toJS().comments}
+                        articleId={this.props.match.params.articleId}
+                        dispatch={this.props.dispatch}
+                    />
                 </div>
                 {
                     !!editorState ? <Catalogue
