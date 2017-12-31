@@ -132,7 +132,7 @@ export default class ArticleController {
                 { model: User, as: 'fromUser' }
             ],
             order: [
-                ['createdAt']
+                ['id','DESC']
             ]
         })
         ctx.body = {
