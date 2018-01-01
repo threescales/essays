@@ -35,7 +35,7 @@ export default class ArticleCard extends React.PureComponent<IArticleCardProps, 
                 onClick={this.jump}
             >
                 <div className="left-info">
-                    <time>{`by:${DateUtils.getFormattedDateString(article.createdAt)}`}</time>
+                    <time>{`by:${DateUtils.getFormattedDateString(DateUtils.postgrestoDate(article.createdAt))}`}</time>
                 </div>
                 <div className="right-info">
                     {!article.isPublished && <span>未发布</span>}

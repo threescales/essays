@@ -55,9 +55,6 @@ export default class CommentContent extends React.Component<ICommentContentProps
                     </span>
                 </div>
                 {
-                    this._getChildComments()
-                }
-                {
                     showPostComment ?
                         <PostComment
                             dispatch={this.props.dispatch}
@@ -66,6 +63,9 @@ export default class CommentContent extends React.Component<ICommentContentProps
                             toCommentId={comment.id}
                             closeComment={this.togglePost}
                         /> : null
+                }
+                {
+                    this._getChildComments()
                 }
             </div>
         )

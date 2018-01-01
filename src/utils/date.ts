@@ -9,7 +9,9 @@ export default class DatetimeUtil {
         let minute = DatetimeUtil.getFormattedNumberString(datetime.getMinutes())
         return year + '-' + month + '-' + date
     }
-
+    static postgrestoDate(dateStr:string) {
+        return new Date(dateStr)
+    }
     static getFormattedNumberString(n: number) {
         return n < 10 ? '0' + n : n
     }
