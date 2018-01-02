@@ -39,7 +39,7 @@ export default class CommentContent extends React.Component<ICommentContentProps
     }
     render() {
         let comment: any = this.props.comment
-        let commentTime = DateUtil.reTime(DateUtil.convertDateFromString(comment.createdAt))
+        let commentTime = DateUtil.reTime(DateUtil.postgrestoDate(comment.createdAt))
 
         let editorState = EditorState.createWithContent(convertFromRaw(comment.content))
 

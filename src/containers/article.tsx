@@ -84,7 +84,7 @@ class App extends React.Component<any, any> {
                             /> : null
                     }
                 </section>
-                <section>
+                <section className="comment-init">
                     <CommentArea
                         comments={this.props.article.toJS().comments}
                         articleId={this.props.match.params.articleId}
