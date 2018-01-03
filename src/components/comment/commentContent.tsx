@@ -46,10 +46,9 @@ export default class CommentContent extends React.Component<ICommentContentProps
         let showPostComment = this.state.showPostComment
         return (
             <div className="comment-content">
-                <UserStrip user={comment.fromUser} />
+                <UserStrip user={comment.fromUser} time={commentTime}/>
                 <Editor editorState={editorState} readOnly={true} articleId={this.props.articleId} dispatch={this.props.dispatch} />
                 <div className="comment-opera">
-                    <time>{commentTime}</time>
                     <span className="opera-right">
                         <IconButton onClick={this.togglePost} isActive={showPostComment} iconName={showPostComment ? "icon-commentfill" : "icon-comment"} />
                     </span>

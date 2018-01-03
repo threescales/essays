@@ -2,6 +2,7 @@ import * as React from 'react'
 import './userStrip.less'
 interface IUserStripProps {
     user
+    time?
 }
 
 export default class UserStrip extends React.PureComponent<IUserStripProps, any> {
@@ -16,9 +17,12 @@ export default class UserStrip extends React.PureComponent<IUserStripProps, any>
                 <div className="avatar">
                     <img src={user.avatar} />
                 </div>
-                <p className="user-name">
-                    {user.name}
-                </p>
+                <div>
+                    <p className="user-name">
+                        {user.name}
+                    </p>
+                    {this.props.time && <time>{this.props.time}</time>}
+                </div>
             </div>
         )
     }
