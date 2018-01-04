@@ -1,4 +1,4 @@
-const groupBy = require('lodash/groupby')
+const groupBy = require('lodash/groupBy')
 export function smartArrayToTree(array, options) {
     options = Object.assign({
         id: 'id',
