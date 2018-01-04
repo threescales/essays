@@ -8,6 +8,7 @@ import { IconButton } from '../buttons/iconButton'
 import './commentContent.less'
 import DateUtil from '../../utils/date'
 import PostComment from './postComment'
+import * as classnames from 'classnames'
 interface ICommentContentProps {
     comment
     dispatch
@@ -18,8 +19,16 @@ export default class CommentContent extends React.Component<ICommentContentProps
         super(props)
         this.togglePost = this.togglePost.bind(this)
         this.state = {
-            showPostComment: false
+            showPostComment: false,
+            isAnimating:true
         }
+    }
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                isAnimating:false
+            })
+        },1000)
     }
 
     _getChildComments = () => {
@@ -45,7 +54,7 @@ export default class CommentContent extends React.Component<ICommentContentProps
 
         let showPostComment = this.state.showPostComment
         return (
-            <div className="comment-content">
+            <div className={classnames({"comment-content":true,"animated":true,"fadeIn":this.state.isAnimating})}>
                 <UserStrip user={comment.fromUser} time={commentTime}/>
                 <Editor editorState={editorState} readOnly={true} articleId={this.props.articleId} dispatch={this.props.dispatch} />
                 <div className="comment-opera">

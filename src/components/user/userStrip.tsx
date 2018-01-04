@@ -17,10 +17,10 @@ export default class UserStrip extends React.PureComponent<IUserStripProps, any>
                 <div className="avatar">
                     <img src={user.avatar} />
                 </div>
-                <div>
-                    <p className="user-name">
+                <div className="user-info">
+                    <a className="user-name">
                         {user.name}
-                    </p>
+                    </a>
                     {this.props.time && <time>{this.props.time}</time>}
                 </div>
             </div>
