@@ -1,37 +1,42 @@
 import createPlugin from 'draft-js-image-plugin'
+import decorateComponentWithProps from 'decorate-component-with-props';
 import { EditorState, ContentBlock } from 'draft-js'
 import './style.less'
+import ImageComponent from './components/image';
+
 export const createImagePlugin = (config?: PluginConfig): ImagePluginObject => {
   const originProps = createPlugin(config)
   const { blockRendererFn } = originProps
 
-  function wrappedBlockRendererFn(block: ContentBlock, ...args) {
-    if (!block) {
-      return null
-    }
 
-    if (block.getType() === 'atomic') {
-
-      const entityKey = block.getEntityAt(0)
-      if (!entityKey) {
-        return null
-      }
-
-      const { getEditorState } = args[0]
-      const state: EditorState = getEditorState()
-      const type = state.getCurrentContent().getEntity(entityKey).getType()
-      if (type === 'image') {
-        return blockRendererFn(block, ...args)
-      }
-
-    }
-    return null
+  const theme = config.theme ? config.theme : {};
+  let Image = config.imageComponent || ImageComponent;
+  if (config.decorator) {
+    Image = config.decorator(Image);
   }
+  const ThemedImage = decorateComponentWithProps(Image, { theme });
+
 
   return {
     ...originProps,
 
-    blockRendererFn: wrappedBlockRendererFn,
+    blockRendererFn: (block, { getEditorState }) => {
+      if (block.getType() === 'atomic') {
+        const contentState = getEditorState().getCurrentContent();
+        const entity = block.getEntityAt(0);
+        if (!entity) {return null;}
+        const type = contentState.getEntity(entity).getType();
+        if (type === 'image') {
+          return {
+            component: ThemedImage,
+            editable: false,
+          };
+        }
+        return null;
+      }
+
+      return null;
+    },
 
     blockStyleFn(block: ContentBlock, { getEditorState }) {
       const entityKey = block.getEntityAt(0);

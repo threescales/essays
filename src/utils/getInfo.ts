@@ -9,6 +9,10 @@ export function getImageUrl(url, width?, height?) {
     return url
 }
 
-export function setWindowTitle(title= "") {
+export function setWindowTitle(title = "") {
     window.document.title = `${title}「随笔」`
+}
+
+export function getCompressImg(url) {
+    return `${url}?imageslim`
 }
