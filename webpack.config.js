@@ -51,6 +51,7 @@ module.exports = {
             '.tsx',
             '.ts',
             '.js',
+            '.jsx',
             '.json',
         ],
     },
@@ -69,6 +70,7 @@ module.exports = {
     module: {
         rules: [
             loaders.tsx,
+            loaders.jsx,
             loaders.html,
             loaders.less,
             loaders.css,

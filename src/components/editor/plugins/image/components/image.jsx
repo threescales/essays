@@ -1,10 +1,10 @@
 import unionClassNames from 'union-class-names';
 import * as React from 'react';
 import { getCompressImg } from '../../../../../utils/getInfo'
-export default class Image extends React.Component<any, any> {
+export default class Image extends React.Component {
     render() {
         const {
-      block,
+            block,
             className,
             theme = {},
             blockProps, // eslint-disable-line no-unused-vars
@@ -16,24 +16,13 @@ export default class Image extends React.Component<any, any> {
             selection, // eslint-disable-line no-unused-vars
             tree, // eslint-disable-line no-unused-vars
             contentState,
-
-            direction,
-            onClick,
-            onDragStart,
-            style
-    } = this.props;
-        let elementProps = {
-            direction,
-            onClick,
-            onDragStart,
-            style
-        }
+            ...elementProps
+        } = this.props;
         const combinedClassName = unionClassNames(theme.image, className);
         const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
         return (
-            <img
-                {...elementProps}
+            <img {...elementProps }
                 src={imgUrl}
                 role="presentation"
                 className={combinedClassName}

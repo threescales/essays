@@ -80,7 +80,7 @@ interface IEditorProps {
     dispatch
     editorState
     readOnly
-    setEditorState
+    setEditorState?
 }
 
 export default class CommentEditor extends React.Component<IEditorProps, any> {

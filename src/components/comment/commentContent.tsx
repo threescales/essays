@@ -2,7 +2,7 @@ import * as React from 'react'
 const map = require("lodash/map")
 import { EditorState, convertFromRaw } from 'draft-js'
 
-import Editor from '../editor/editor'
+import CommentEditor from '../editor/commentEditor'
 import UserStrip from "../user/userStrip"
 import { IconButton } from '../buttons/iconButton'
 import './commentContent.less'
@@ -56,7 +56,7 @@ export default class CommentContent extends React.Component<ICommentContentProps
         return (
             <div className={classnames({"comment-content":true,"animated":true,"fadeIn":this.state.isAnimating})}>
                 <UserStrip user={comment.fromUser} time={commentTime}/>
-                <Editor editorState={editorState} readOnly={true} articleId={this.props.articleId} dispatch={this.props.dispatch} />
+                <CommentEditor editorState={editorState} readOnly={true} dispatch={this.props.dispatch} />
                 <div className="comment-opera">
                     <span className="opera-right">
                         <IconButton onClick={this.togglePost} isActive={showPostComment} iconName={showPostComment ? "icon-commentfill" : "icon-comment"} />

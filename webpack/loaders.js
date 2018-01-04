@@ -16,7 +16,17 @@ exports.tsx = {
     },
     exclude: /node_modules/,
 };
-
+exports.jsx = {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    use: {
+        loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+        options: {
+            plugins: ['transform-decorators-legacy'],
+            presets: ['es2015', 'react', "stage-2"]
+        }
+    }
+}
 exports.istanbulInstrumenter = {
     test: /^(.(?!\.test))*\.tsx?$/,
     use: {

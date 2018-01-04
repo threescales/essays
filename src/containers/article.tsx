@@ -60,6 +60,7 @@ class App extends React.Component<any, any> {
         let editorState = this.props.editorState
         let currentUser = this.props.session.toJS().user
         let isOwner = currentUser && article && article.ownerId === currentUser.id
+        let isEditable = this.props.show.toJS().editor
         return (
             <div className="animated fadeInLeft">
                 {
@@ -70,7 +71,7 @@ class App extends React.Component<any, any> {
                         article={article}
                         author={author}
                         isOwner={isOwner}
-                        showEditor={this.props.show.toJS().editor}
+                        showEditor={isEditable}
                     />
                 }
                 <section id="articleBody" className={classnames({ "init": true, "init--moveLeft": this.props.show.toJS().catalogue })}>
@@ -84,13 +85,15 @@ class App extends React.Component<any, any> {
                             /> : null
                     }
                 </section>
-                <section className="comment-init">
-                    <CommentArea
-                        comments={this.props.article.toJS().comments}
-                        articleId={this.props.match.params.articleId}
-                        dispatch={this.props.dispatch}
-                    />
-                </section>
+                {
+                    !isEditable && <section className="comment-init">
+                        <CommentArea
+                            comments={this.props.article.toJS().comments}
+                            articleId={this.props.match.params.articleId}
+                            dispatch={this.props.dispatch}
+                        />
+                    </section>
+                }
                 {
                     !!editorState ? <Catalogue
                         editorState={this.props.editorState}
