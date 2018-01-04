@@ -33,8 +33,6 @@ const resizeablePlugin = createResizeablePlugin()
 const { AlignmentTool } = alignmentPlugin;
 const blockBreakoutPlugin = createBlockBreakoutPlugin()
 const autolistPlugin = createAutoListPlugin()
-
-
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
     resizeablePlugin.decorator,
@@ -123,7 +121,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
                     >
                         {
                             !this.props.readOnly && [
-                                <InlineToolbar key="1" />,
+                                <InlineToolbar key="1"/>,
                                 <SideToolbar key="2" />,
                                 <AlignmentTool key="3" />
                             ]
