@@ -132,7 +132,7 @@ export default class ArticleController {
                 { model: User, as: 'fromUser' }
             ],
             order: [
-                ['id','DESC']
+                ['id', 'DESC']
             ]
         })
         ctx.body = {
@@ -167,6 +167,42 @@ export default class ArticleController {
             data
         }
     }
+
+    public static async toggleInfo(ctx: koa.Context) {
+        let request: any = await parsePostData(ctx)
+        let articleId = request.articleId
+        let article: any = await ArticleController.checkPermi(ctx, articleId)
+        if (request.title) {
+            article.title = request.title
+        }
+        if (request.description) {
+            article.description = request.description
+        }
+        if (request.cover) {
+            article.cover = request.cover
+        }
+        if (request.tags) {
+            let tags = request.tags
+            let tagArray = tags.split(",")
+            for (let tagName of tagArray) {
+                let tag = await Tags.find({
+                    where: {
+                        tagName: tagName
+                    }
+                })
+                console.log(tag)
+                if (!tag) {
+                    await Tags.create({ tagName })
+                }
+            }
+            article.tags = request.tags
+        }
+        let data = await article.save()
+        ctx.body = {
+            data
+        }
+    }
+
     public static async updateCount(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
         let article: any = await Articles.findById(request.articleId)
@@ -203,10 +239,10 @@ export default class ArticleController {
             blockKey: request.blockKey ? request.blockKey : null,
             blockText: request.blockText ? request.blockText : null,
         }
-        let comment:any = await Comments.create(commentData)
-        let data = await Comments.findById(comment.id,{
-            include:[
-                { model: User,as:'fromUser'}
+        let comment: any = await Comments.create(commentData)
+        let data = await Comments.findById(comment.id, {
+            include: [
+                { model: User, as: 'fromUser' }
             ]
         })
         ctx.body = {

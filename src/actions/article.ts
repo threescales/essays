@@ -9,6 +9,7 @@ import {
     ARTICLE_INIT,
     POST_COMMENT_SUCCESS,
     GET_ALL_COMMENTS,
+    TOGGLE_ARTICLE_INFO,
 } from '../constants/index'
 import { setWindowTitle } from "../utils/getInfo"
 import { EditorState, convertToRaw, RawDraftContentState } from 'draft-js'
@@ -66,6 +67,33 @@ export const toggleArticlePublish = (articleId: string, isPublished: boolean) =>
             dispatch({
                 type: TOGGLE_ARITCLE_PUBLISH,
                 isPublished
+            })
+        })
+    }
+}
+
+export const toggleArticleInfo = (articleId: string, title = null, cover = null, description = null, tags = null) => {
+    let data: any = {
+        articleId
+    }
+    if (title) {
+        data.title = title
+    }
+    if (description) {
+        data.description = description
+    }
+    if (tags) {
+        data.tags = tags
+    }
+    if (cover) {
+        data.cover = cover
+    }
+
+    return (dispatch: any, getState: Function) => {
+        return postAjax(Path.toggleArticleInfo, data).then((result: any) => {
+            dispatch({
+                type: TOGGLE_ARTICLE_INFO,
+                data
             })
         })
     }

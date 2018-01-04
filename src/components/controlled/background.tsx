@@ -5,6 +5,7 @@ import './background.less'
 import { ProgressBar } from '../progress/progressBar'
 import * as classnames from "classnames"
 const DEFAULT_IMG = "http://api.dujin.org/bing/1920.php";
+const extend = require("lodash/extend")
 interface IBackgroundProps {
     isEditable?: boolean
     uploadFinishCallback?: Function
@@ -36,7 +37,7 @@ export default class Background extends React.Component<IBackgroundProps, any> {
     }
     render() {
         let style: any = { backgroundImage: `url(${getImageUrl(this.props.imageUrl, this.props.width, this.props.height) || DEFAULT_IMG})` }
-        style = Object.assign(this.props.style || {}, style)
+        style = extend(this.props.style || {}, style)
         let background = <div
             className={classnames({ "jigloo-background": true, "background-edit": this.props.isEditable })}
             style={style}>

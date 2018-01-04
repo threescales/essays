@@ -5,7 +5,8 @@ import {
     UPDATA_ARTICLE_COUNT,
     ARTICLE_INIT,
     POST_COMMENT_SUCCESS,
-    GET_ALL_COMMENTS
+    GET_ALL_COMMENTS,
+    TOGGLE_ARTICLE_INFO
 } from '../constants'
 
 import { fromJS, } from 'immutable'
@@ -30,6 +31,23 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
             }))
         case TOGGLE_ARITCLE_PUBLISH:
             article.isPublished = action.isPublished
+            return state.merge(fromJS({
+                article
+            }))
+        case TOGGLE_ARTICLE_INFO:
+            let data:any = action.data
+            if(data.title) {
+                article.title = data.title
+            }
+            if(data.description) {
+                article.description = data.description
+            }
+            if(data.tags) {
+                article.title = data.tags
+            }
+            if(data.cover) {
+                article.cover = data.cover
+            }
             return state.merge(fromJS({
                 article
             }))

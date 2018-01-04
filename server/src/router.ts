@@ -62,10 +62,10 @@ export default function (): Router {
     router.put('/api/articles', ArticleController.createArticle)
     router.post('/api/article/savebody', ArticleController.saveBody)
     router.post('/api/article/togglePublish', ArticleController.togglePublish)
+    router.post('/api/article/toggleInfo',ArticleController.toggleInfo)
     router.post('/api/article/updateCount', ArticleController.updateCount)
     router.get('/api/articles', ArticleController.getAllArticles)
     router.get('/api/articles/getMyArticles', ArticleController.getMyArticles)
-
     router.get('/api/article/getComments',ArticleController.getAllComments)
     router.put('/api/comments', ArticleController.postComment)
 

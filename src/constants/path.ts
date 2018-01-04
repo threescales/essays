@@ -17,6 +17,7 @@ export const saveArticleBody = '/api/article/savebody'
 export const getAllArticles = "/api/articles"
 export const getMyArticles = "/api/articles/getMyArticles"
 export const toggleArticlePublish = '/api/article/togglePublish'
+export const toggleArticleInfo = '/api/article/toggleInfo'
 export const updateCount = '/api/article/updateCount'
 
 //comment

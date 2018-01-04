@@ -10,6 +10,7 @@ import * as ShowAction from "../../actions/show"
 import { requireLogin } from '../../utils/requireLogin'
 import { EDITOR } from "../../constants/showKey"
 import { Logo } from '../logo/logo'
+import { getImgUrl } from '../../utils/url'
 interface IBookHeaderProps {
     article
     dispatch
@@ -49,6 +50,10 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
     toogleArticlePublish = () => {
         this.props.dispatch(ArticleAction.toggleArticlePublish(this.props.article.id, !this.props.article.isPublished))
     }
+    changeBackGround = (key) => {
+        let imageUrl = getImgUrl(key)
+        this.props.dispatch(ArticleAction.toggleArticleInfo(this.props.article.id, null, imageUrl))
+    }
     render() {
         let article = this.props.article
         let author = this.props.author
@@ -58,10 +63,11 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
                     <Logo className="return-index" />
                     <Background
                         imageUrl={article.cover}
-                        isEditable={false}
+                        isEditable={this.props.showEditor ? true : false}
                         style={{ opacity: 0.6, position: 'absolute' }}
                         width={this.state.width}
                         height={this.state.height}
+                        uploadFinishCallback={this.changeBackGround}
                     />
                     <div className="">
                         <UserCard user={this.props.author} />
@@ -81,7 +87,7 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
                         this.props.isOwner &&
                         <div className="header-right">
                             <Button onClick={this.toggleEditor} onlyPC={true}>{this.props.showEditor ? '保存' : '编辑'}</Button>
-                            <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublished? '下架' : '发布'}</Button>
+                            <Button onClick={this.toogleArticlePublish} onlyPC={true}>{this.props.article.isPublished ? '下架' : '发布'}</Button>
                         </div>
                     }
                 </div>
