@@ -2,13 +2,14 @@ import unionClassNames from 'union-class-names';
 import * as React from 'react';
 import { getCompressImg } from '../../../../../utils/getInfo'
 import ImageZoom from 'react-medium-image-zoom'
+import store from "../../../../../store/configure-store";
 
 export default class Image extends React.Component {
     constructor(props) {
         super(props)
         this.shouldHandle = this.shouldHandle.bind(this)
     }
-    shouldHandle=(e)=> {
+    shouldHandle = (e) => {
         this.props.onClick(e)
         return true
     }
@@ -26,27 +27,26 @@ export default class Image extends React.Component {
             selection, // eslint-disable-line no-unused-vars
             tree, // eslint-disable-line no-unused-vars
             contentState,
-            readOnly,
             ...elementProps
         } = this.props;
         const combinedClassName = unionClassNames(theme.image, className);
         const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
+        let readOnly = !store.getState().show.toJS().editor
         return (
-            // readOnly ?
-                // <ImageZoom
-                //     image={{
-                //         src: imgUrl,
-                //         ...elementProps,
-                //         role:"presentation",
-                //         className:combinedClassName,
+            readOnly ?
+                <ImageZoom
+                    image={{
+                        src: imgUrl,
+                        ...elementProps,
+                        role: "presentation",
+                        className: combinedClassName,
 
-                //     }}
-                //     zoomImage={{
-                //         src: imgUrl,
-                //     }}
-                //     shouldHandleZoom={this.shouldHandle}
-                // />:
+                    }}
+                    zoomImage={{
+                        src: imgUrl,
+                    }}
+                /> :
                 <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
         );
     }
