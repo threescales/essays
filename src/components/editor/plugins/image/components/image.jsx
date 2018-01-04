@@ -1,7 +1,17 @@
 import unionClassNames from 'union-class-names';
 import * as React from 'react';
 import { getCompressImg } from '../../../../../utils/getInfo'
+import ImageZoom from 'react-medium-image-zoom'
+
 export default class Image extends React.Component {
+    constructor(props) {
+        super(props)
+        this.shouldHandle = this.shouldHandle.bind(this)
+    }
+    shouldHandle=(e)=> {
+        this.props.onClick(e)
+        return true
+    }
     render() {
         const {
             block,
@@ -16,17 +26,28 @@ export default class Image extends React.Component {
             selection, // eslint-disable-line no-unused-vars
             tree, // eslint-disable-line no-unused-vars
             contentState,
+            readOnly,
             ...elementProps
         } = this.props;
         const combinedClassName = unionClassNames(theme.image, className);
         const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
         return (
-            <img {...elementProps }
-                src={imgUrl}
-                role="presentation"
-                className={combinedClassName}
-            />
+            // readOnly ?
+                // <ImageZoom
+                //     image={{
+                //         src: imgUrl,
+                //         ...elementProps,
+                //         role:"presentation",
+                //         className:combinedClassName,
+
+                //     }}
+                //     zoomImage={{
+                //         src: imgUrl,
+                //     }}
+                //     shouldHandleZoom={this.shouldHandle}
+                // />:
+                <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
         );
     }
 }

@@ -10,21 +10,22 @@ export const createImagePlugin = (config?: PluginConfig): ImagePluginObject => {
 
 
   const theme = config.theme ? config.theme : {};
+  const readOnly = config.readOnly || false
   let Image = config.imageComponent || ImageComponent;
   if (config.decorator) {
     Image = config.decorator(Image);
   }
   const ThemedImage = decorateComponentWithProps(Image, { theme });
 
-
   return {
     ...originProps,
 
-    blockRendererFn: (block, { getEditorState }) => {
+    blockRendererFn: (block, { getEditorState, getReadOnly }) => {
+      let readOnly = getReadOnly()
       if (block.getType() === 'atomic') {
         const contentState = getEditorState().getCurrentContent();
         const entity = block.getEntityAt(0);
-        if (!entity) {return null;}
+        if (!entity) { return null; }
         const type = contentState.getEntity(entity).getType();
         if (type === 'image') {
           return {
@@ -68,6 +69,7 @@ interface PluginConfig {
     image?: string
   }
   decorator: any
+  readOnly?
 }
 
 interface ImagePluginObject {

@@ -25,6 +25,7 @@ interface IPostCommentState {
     isAnimating: boolean
 }
 export default class PostComment extends React.Component<IPostCommentProps, IPostCommentState> {
+    public timer
     constructor(props) {
         super(props)
         this.state = {
@@ -37,11 +38,14 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
         this.showOpera = this.showOpera.bind(this)
     }
     componentDidMount() {
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
             this.setState({
                 isAnimating: false
             })
         }, 1000)
+    }
+    componentWillUnmount() {
+        clearTimeout(this.timer)
     }
     setEditorState = (editorState: EditorState) => {
         this.setState({
