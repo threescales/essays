@@ -1,8 +1,9 @@
 import unionClassNames from 'union-class-names';
 import * as React from 'react';
-import { getCompressImg,getImageUrl } from '../../../../../utils/getInfo'
+import { getCompressImg, getImageUrl } from '../../../../../utils/getInfo'
 import ImageZoom from 'react-medium-image-zoom'
 import store from "../../../../../store/configure-store";
+import LazyLoad from "react-lazyload"
 
 export default class Image extends React.Component {
     constructor(props) {
@@ -35,18 +36,19 @@ export default class Image extends React.Component {
         let readOnly = !store.getState().show.toJS().editor
         return (
             readOnly ?
-                <ImageZoom
-                    image={{
-                        src: imgUrl,
-                        ...elementProps,
-                        role: "presentation",
-                        className: combinedClassName,
+                    <ImageZoom
+                        image={{
+                            src: imgUrl,
+                            ...elementProps,
+                            role: "presentation",
+                            className: combinedClassName,
 
-                    }}
-                    zoomImage={{
-                        src: getImageUrl(src),
-                    }}
-                /> :
+                        }}
+                        zoomImage={{
+                            src: getImageUrl(src),
+                        }}
+                    />
+                :
                 <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
         );
     }

@@ -29,13 +29,13 @@ const linkifyPlugin = createLinkifyPlugin()
 const focusPlugin = createFocusPlugin();
 const alignmentPlugin = createAlignmentPlugin();
 const blockDndPlugin = createBlockDndPlugin();
-const resizeablePlugin = createResizeablePlugin()
+// const resizeablePlugin = createResizeablePlugin()
 const { AlignmentTool } = alignmentPlugin;
 const blockBreakoutPlugin = createBlockBreakoutPlugin()
 const autolistPlugin = createAutoListPlugin()
 const decorator = composeDecorators(
     alignmentPlugin.decorator,
-    resizeablePlugin.decorator,
+    // resizeablePlugin.decorator,
     focusPlugin.decorator,
     blockDndPlugin.decorator
 );
@@ -66,7 +66,7 @@ const plugins = [
     blockDndPlugin,
     focusPlugin,
     alignmentPlugin,
-    resizeablePlugin,
+    // resizeablePlugin,
     colorBlockPlugin,
     imagePlugin,
     linkifyPlugin,

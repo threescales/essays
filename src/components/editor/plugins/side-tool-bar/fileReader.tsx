@@ -19,11 +19,19 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
       const reader = new FileReader()
       reader.onload = (e: any) => {
         const base64code = e.target.result
-        const state = this.props.getEditorState()
-        const newState = addImageBlock(state, base64code, { valid: false })
-        const entityKey = newState.getCurrentContent().getLastCreatedEntityKey()
-        this.record.push({ task, entityKey })
-        this.props.setEditorState(newState)
+
+        let image = new Image()
+        image.src = base64code
+        image.onload = () => {
+          let width = image.width
+          let height = image.height
+
+          const state = this.props.getEditorState()
+          const newState = addImageBlock(state, base64code, { valid: false,width,height,info:'' })
+          const entityKey = newState.getCurrentContent().getLastCreatedEntityKey()
+          this.record.push({ task, entityKey })
+          this.props.setEditorState(newState)
+        }
       }
       reader.readAsDataURL(task.file)
     }
@@ -63,12 +71,12 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
   }
 
   render() {
-    return <div className={ this.props.theme.buttonWrapper } onMouseDown={ this.preventBubbling }>
+    return <div className={this.props.theme.buttonWrapper} onMouseDown={this.preventBubbling}>
       <Uploader
-        listener={ {
+        listener={{
           onStart: this.onStart,
           onTaskSuccess: this._onTaskSuccess
-        } }
+        }}
       >
         <a><i className="iconfont icon-image"></i></a>
       </Uploader>
