@@ -1,10 +1,10 @@
 import unionClassNames from 'union-class-names';
 import * as React from 'react';
-import { getCompressImg, getImageUrl } from '../../../../../utils/getInfo'
+import { getCompressImg, getImageUrl, getGaussianImg } from '../../../../../utils/getInfo'
 import ImageZoom from 'react-medium-image-zoom'
 import store from "../../../../../store/configure-store";
 import LazyLoad from "react-lazyload"
-
+import { getImgWidth } from "../../../utils/image"
 export default class Image extends React.Component {
     constructor(props) {
         super(props)
@@ -30,8 +30,8 @@ export default class Image extends React.Component {
             contentState,
             ...elementProps
         } = this.props;
-        const combinedClassName = unionClassNames(theme.image, className);
-        const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
+        const combinedClassName = unionClassNames('editor-image', className);
+        const { src, width, height } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
         let readOnly = !store.getState().show.toJS().editor
         return (
@@ -41,6 +41,8 @@ export default class Image extends React.Component {
                     {...elementProps}
                     role="presentation"
                     className={combinedClassName}
+                    width={width}
+                    height={height}
                 />
                 :
                 <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
@@ -49,20 +51,59 @@ export default class Image extends React.Component {
 }
 
 class LazyImage extends React.Component {
-    render() {
-        let { src, width, height, ...elementProps } = this.props
+    constructor(props) {
+        super(props)
+        this.state = {
+            image: getGaussianImg(this.props.src),
+            blurClass: 'image-blur'
+        }
+    }
 
-        let imgUrl = getCompressImg(src)
+    loadFinish = (src) => {
+        this.setState({
+            image: src,
+            blurClass: ''
+        })
+    }
+
+    render() {
+        let { src, width, height, style, className, ...elementProps } = this.props
+        style = style || {}
+        let imgWidth = getImgWidth(width)
+        style.width = imgWidth
+        className = unionClassNames(className, this.state.blurClass)
         return (
-            <ImageZoom
-                image={{
-                    src: imgUrl,
-                    ...elementProps
-                }}
-                zoomImage={{
-                    src: getImageUrl(src),
-                }}
-            />
+            [
+                <LazyLoad height='1px' key="1">
+                    <LoadImg src={src} loadFinish={this.loadFinish} />
+                </LazyLoad>,
+                <ImageZoom
+                    key="0"
+                    image={{
+                        src: this.state.image,
+                        ...elementProps,
+                        style,
+                        className
+                    }}
+                    zoomImage={{
+                        src: getImageUrl(src),
+                    }}
+                />]
         )
+    }
+}
+
+class LoadImg extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+    componentDidMount() {
+        let that = this
+        this.element.onload = () => {
+            that.props.loadFinish(getCompressImg(that.props.src))
+        }
+    }
+    render() {
+        return <img ref={(e) => this.element = e} src={getCompressImg(this.props.src)} style={{ height: '1px', width: '1px', display: 'none' }} />
     }
 }

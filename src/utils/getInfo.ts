@@ -20,6 +20,13 @@ export function getCompressImg(url) {
     return url
 }
 
+export function getGaussianImg(url) {
+    if (url.indexOf(config.cdn) > -1) {
+        return `${url}?imageView2/0/w/10/h/10/q/75|imageslim`
+    }
+    return url
+}
+
 
 export function supportWebp() {
     return !!document['SUPPORT_WEBP']

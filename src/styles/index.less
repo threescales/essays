@@ -6,9 +6,9 @@ body {
     overflow-x: hidden;
     margin: 0;
     padding: 0;
-    font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
     font-size: 14px;
-    color:@genera-color;
+    color: @genera-color;
     background: @background-color;
 }
 
@@ -45,7 +45,7 @@ body {
 * {
     box-sizing: border-box;
     -webkit-text-size-adjust: none !important;
-    outline:none;
+    outline: none;
 }
 
 .body-scroll {
@@ -63,7 +63,6 @@ body {
 //         filter: blur(0px)
 //     }
 // }
-
 // @-webkit-keyframes gaussian {
 //     from {
 //         -webkit-filter: blur(10px)
@@ -72,12 +71,10 @@ body {
 //         -webkit-filter: blur(0px)
 //     }
 // }
-
 // img {
 //     animation: gaussian 1.5s ease-in-out 1;
 //     -webkit-animation: gaussian 1.5s ease-in-out 1;
 // }
-
 input,
 textarea {
     width: 100%;
@@ -123,13 +120,16 @@ a {
     text-decoration: unset;
 }
 
-li{
+li {
     list-style: none;
 }
-ul,ol{
+
+ul,
+ol {
     padding: 0;
     margin: 0;
 }
+
 h1 {
     text-align: center;
     width: 100%;
@@ -141,8 +141,16 @@ h1 {
     height: 100%;
 }
 
-.only-pc{
-    @media @phone{
+.only-pc {
+    @media @phone {
         display: none;
     }
+}
+
+.image-blur {
+    -webkit-filter: blur(1px);
+    /* Chrome, Opera */
+    -moz-filter: blur(1px);
+    -ms-filter: blur(1px);
+    filter: blur(1px);
 }
