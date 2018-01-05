@@ -19,3 +19,12 @@ export function getCompressImg(url) {
     }
     return url
 }
+
+
+export function supportWebp() {
+    return !!document['SUPPORT_WEBP']
+}
+
+export function getWebpParam() {
+    return supportWebp()?'/format/webp':''
+}
