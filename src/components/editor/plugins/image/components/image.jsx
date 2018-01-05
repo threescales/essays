@@ -1,6 +1,6 @@
 import unionClassNames from 'union-class-names';
 import * as React from 'react';
-import { getCompressImg } from '../../../../../utils/getInfo'
+import { getCompressImg,getImageUrl } from '../../../../../utils/getInfo'
 import ImageZoom from 'react-medium-image-zoom'
 import store from "../../../../../store/configure-store";
 
@@ -44,7 +44,7 @@ export default class Image extends React.Component {
 
                     }}
                     zoomImage={{
-                        src: `${src}?imageslim`,
+                        src: getImageUrl(src),
                     }}
                 /> :
                 <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
