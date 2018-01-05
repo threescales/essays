@@ -36,20 +36,33 @@ export default class Image extends React.Component {
         let readOnly = !store.getState().show.toJS().editor
         return (
             readOnly ?
-                    <ImageZoom
-                        image={{
-                            src: imgUrl,
-                            ...elementProps,
-                            role: "presentation",
-                            className: combinedClassName,
-
-                        }}
-                        zoomImage={{
-                            src: getImageUrl(src),
-                        }}
-                    />
+                <LazyImage
+                    src={src}
+                    {...elementProps}
+                    role="presentation"
+                    className={combinedClassName}
+                />
                 :
                 <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
         );
+    }
+}
+
+class LazyImage extends React.Component {
+    render() {
+        let { src, width, height, ...elementProps } = this.props
+
+        let imgUrl = getCompressImg(src)
+        return (
+            <ImageZoom
+                image={{
+                    src: imgUrl,
+                    ...elementProps
+                }}
+                zoomImage={{
+                    src: getImageUrl(src),
+                }}
+            />
+        )
     }
 }
