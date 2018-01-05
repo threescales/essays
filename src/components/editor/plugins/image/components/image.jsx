@@ -44,7 +44,7 @@ export default class Image extends React.Component {
 
                     }}
                     zoomImage={{
-                        src: src,
+                        src: `${src}?imageslim`,
                     }}
                 /> :
                 <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
