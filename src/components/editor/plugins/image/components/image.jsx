@@ -102,6 +102,9 @@ class LoadImg extends React.Component {
         this.element.onload = () => {
             that.props.loadFinish(getCompressImg(that.props.src))
         }
+        this.element.onerror=()=> {
+            that.props.loadFinish(getImageUrl(that.props.src))
+        }
     }
     render() {
         return <img ref={(e) => this.element = e} src={getCompressImg(this.props.src)} style={{ height: '1px', width: '1px', display: 'none' }} />
