@@ -5,6 +5,7 @@ import ImageZoom from 'react-medium-image-zoom'
 import store from "../../../../../store/configure-store";
 import LazyLoad from "react-lazyload"
 import { getImgWidth } from "../../../utils/image"
+import Battery from '../../../../progress/battery'
 export default class Image extends React.Component {
     constructor(props) {
         super(props)
@@ -31,7 +32,7 @@ export default class Image extends React.Component {
             ...elementProps
         } = this.props;
         const combinedClassName = unionClassNames('editor-image', className);
-        const { src, width, height } = contentState.getEntity(block.getEntityAt(0)).getData();
+        const { src, width, height, valid } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
         let readOnly = !store.getState().show.toJS().editor
         return (
@@ -45,7 +46,10 @@ export default class Image extends React.Component {
                     height={height}
                 />
                 :
-                <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} />
+                [
+                    <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} key="1" />,
+                    valid && <Battery progress="1" key="2" />
+                ]
         );
     }
 }
@@ -102,7 +106,7 @@ class LoadImg extends React.Component {
         this.element.onload = () => {
             that.props.loadFinish(getCompressImg(that.props.src))
         }
-        this.element.onerror=()=> {
+        this.element.onerror = () => {
             that.props.loadFinish(getImageUrl(that.props.src))
         }
     }
