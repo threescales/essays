@@ -44,7 +44,9 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
     console.warn(task)
 
   }
-
+  _onTaskProgress = (task: UploaderTask)=> {
+    console.log(task.progress)
+  }
   // if success , replcae base 64 image with public path of cdn and mark block as valid
   _onTaskSuccess = (task: UploaderTask) => {
     console.debug(task)
@@ -53,7 +55,8 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
       const data = { src: filePublicPathGen(task.result.hash), valid: true }
       const state = this.updateBlockDataFindingByRecord(targetRecord, data)
       if (ImageReader.onTaskSuccess) {
-        ImageReader.onTaskSuccess(state)
+        // ImageReader.onTaskSuccess(state)
+        this.props.setEditorState(state)
       }
     }
   }
@@ -75,7 +78,8 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
       <Uploader
         listener={{
           onStart: this.onStart,
-          onTaskSuccess: this._onTaskSuccess
+          onTaskSuccess: this._onTaskSuccess,
+          onTaskProgress: this._onTaskProgress
         }}
       >
         <a><i className="iconfont icon-image"></i></a>

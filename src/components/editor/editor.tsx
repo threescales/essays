@@ -34,7 +34,7 @@ const { AlignmentTool } = alignmentPlugin;
 const blockBreakoutPlugin = createBlockBreakoutPlugin()
 const autolistPlugin = createAutoListPlugin()
 const decorator = composeDecorators(
-    alignmentPlugin.decorator,
+    // alignmentPlugin.decorator,
     // resizeablePlugin.decorator,
     focusPlugin.decorator,
     blockDndPlugin.decorator
@@ -65,7 +65,7 @@ const plugins = [
     linkPlugin,
     blockDndPlugin,
     focusPlugin,
-    alignmentPlugin,
+    // alignmentPlugin,
     // resizeablePlugin,
     colorBlockPlugin,
     imagePlugin,
@@ -123,7 +123,6 @@ export default class Editor extends React.Component<IEditorProps, any> {
                             !this.props.readOnly && [
                                 <InlineToolbar key="1"/>,
                                 <SideToolbar key="2" />,
-                                <AlignmentTool key="3" />
                             ]
                         }
                     </JiglooEditor>

@@ -29,27 +29,33 @@ export default class Image extends React.Component {
             selection, // eslint-disable-line no-unused-vars
             tree, // eslint-disable-line no-unused-vars
             contentState,
+            style,
             ...elementProps
         } = this.props;
         const combinedClassName = unionClassNames('editor-image', className);
         const { src, width, height, valid } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
         let readOnly = !store.getState().show.toJS().editor
+        var imageStyle = style || {}
+        imageStyle.position = 'relative'
+
+        let imgWidth = getImgWidth(width)
+        imageStyle.width = imgWidth
         return (
-            readOnly ?
-                <LazyImage
-                    src={src}
-                    {...elementProps}
-                    role="presentation"
-                    className={combinedClassName}
-                    width={width}
-                    height={height}
-                />
-                :
-                [
-                    <img {...elementProps } src={imgUrl} role="presentation" className={combinedClassName} key="1" />,
-                    valid && <Battery progress="1" key="2" />
-                ]
+            <div className={combinedClassName} style={imageStyle} {...elementProps} role="presentation">
+                {readOnly ?
+                    <LazyImage
+                        src={src}
+                        width={width}
+                        height={height}
+                    />
+                    :
+                    [
+                        <img src={imgUrl} key="1"/>,
+                        !valid && <Battery progress="1" key="2" />
+                    ]
+                }
+            </div>
         );
     }
 }
@@ -71,22 +77,18 @@ class LazyImage extends React.Component {
     }
 
     render() {
-        let { src, width, height, style, className, ...elementProps } = this.props
-        style = style || {}
-        let imgWidth = getImgWidth(width)
-        style.width = imgWidth
+        let { src, width, height, className, ...elementProps } = this.props
         className = unionClassNames(className, this.state.blurClass)
         return (
             [
                 <LazyLoad height='1px' key="1">
-                    <LoadImg src={src} loadFinish={this.loadFinish} />
+                    <LoadImg src={src} loadFinish={this.loadFinish}/>
                 </LazyLoad>,
                 <ImageZoom
                     key="0"
                     image={{
                         src: this.state.image,
                         ...elementProps,
-                        style,
                         className
                     }}
                     zoomImage={{
