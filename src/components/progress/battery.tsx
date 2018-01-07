@@ -12,7 +12,7 @@ export default class Battery extends React.PureComponent<IBetteryProps, any> {
     render() {
         let progress = this.props.progress
         return  <div className="battery">
-            {progress}
+            <strong>正在上传...</strong>
         </div>
     }
 }

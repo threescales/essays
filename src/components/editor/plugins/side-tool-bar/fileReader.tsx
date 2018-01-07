@@ -55,8 +55,7 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
       const data = { src: filePublicPathGen(task.result.hash), valid: true }
       const state = this.updateBlockDataFindingByRecord(targetRecord, data)
       if (ImageReader.onTaskSuccess) {
-        // ImageReader.onTaskSuccess(state)
-        this.props.setEditorState(state)
+        ImageReader.onTaskSuccess(state)
       }
     }
   }

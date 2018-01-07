@@ -25,9 +25,8 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
                 author: action.data.author,
             }))
         case UPDATE_ARTICLE_BODY_SUCCESS:
-            article.body = action.body
             return state.merge(fromJS({
-                article
+                article:action.article
             }))
         case TOGGLE_ARITCLE_PUBLISH:
             article.isPublished = action.isPublished

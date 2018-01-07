@@ -53,7 +53,7 @@ export const saveArticleBody = (id: string, contentState: RawDraftContentState) 
         }).then((result: any) => {
             dispatch({
                 type: UPDATE_ARTICLE_BODY_SUCCESS,
-                body: contentState
+                article: result.data
             })
         })
     }

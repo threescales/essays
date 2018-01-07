@@ -98,6 +98,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
     //     return false;
     // }
     save = (state: EditorState) => {
+     
         this.props.dispatch(
             AricleAction.saveArticleBody(
                 this.props.articleId, convertToRaw(state.getCurrentContent())))

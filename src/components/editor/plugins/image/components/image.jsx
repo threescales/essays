@@ -51,7 +51,7 @@ export default class Image extends React.Component {
                     />
                     :
                     [
-                        <img src={imgUrl} key="1"/>,
+                        <img src={imgUrl} key="1" />,
                         !valid && <Battery progress="1" key="2" />
                     ]
                 }
@@ -82,7 +82,7 @@ class LazyImage extends React.Component {
         return (
             [
                 <LazyLoad height='1px' key="1">
-                    <LoadImg src={src} loadFinish={this.loadFinish}/>
+                    <LoadImg src={src} loadFinish={this.loadFinish} />
                 </LazyLoad>,
                 <ImageZoom
                     key="0"
