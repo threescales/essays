@@ -64,8 +64,12 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
     const contentState = this.props.getEditorState().getCurrentContent()
     const newContent = contentState.mergeEntityData(record.entityKey, data)
     const newEditorState = EditorState.createWithContent(newContent)
-    this.props.setEditorState(newEditorState)
-    return newEditorState
+    const newSelectionEditorState = EditorState.forceSelection(
+      newEditorState,
+      newEditorState.getCurrentContent().getSelectionAfter()
+    );
+    this.props.setEditorState(newSelectionEditorState)
+    return newSelectionEditorState
   }
 
   preventBubbling = (e: React.MouseEvent<any>) => {
