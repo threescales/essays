@@ -116,21 +116,19 @@ export default class Editor extends React.Component<IEditorProps, any> {
     render() {
         return (
             <div>
-                <LazyLoad once height={200} offset={100}>
-                    <JiglooEditor
-                        readonly={this.props.readOnly}
-                        editorState={this.props.editorState}
-                        plugins={this.getPluigins()}
-                        placeholder={!this.props.readOnly ? "请输入正文..." : ""}
-                    >
-                        {
-                            !this.props.readOnly && [
-                                <InlineToolbar key="1" />,
-                                <SideToolbar key="2" />,
-                            ]
-                        }
-                    </JiglooEditor>
-                </LazyLoad>
+                <JiglooEditor
+                    readonly={this.props.readOnly}
+                    editorState={this.props.editorState}
+                    plugins={this.getPluigins()}
+                    placeholder={!this.props.readOnly ? "请输入正文..." : ""}
+                >
+                    {
+                        !this.props.readOnly && [
+                            <InlineToolbar key="1" />,
+                            <SideToolbar key="2" />,
+                        ]
+                    }
+                </JiglooEditor>
             </div>
         )
     }
