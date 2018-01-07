@@ -27,7 +27,7 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
           let height = image.height
 
           const state = this.props.getEditorState()
-          const newState = addImageBlock(state, base64code, { valid: false,width,height,info:'' })
+          const newState = addImageBlock(state, base64code, { valid: false, width, height, progress: 0, info: '' })
           const entityKey = newState.getCurrentContent().getLastCreatedEntityKey()
           this.record.push({ task, entityKey })
           this.props.setEditorState(newState)
@@ -44,8 +44,12 @@ export class ImageReader extends React.PureComponent<ButtonProps, {}> {
     console.warn(task)
 
   }
-  _onTaskProgress = (task: UploaderTask)=> {
-    console.log(task.progress)
+  _onTaskProgress = (task: UploaderTask) => {
+    const targetRecord = this.record.find(r => r.task === task)
+    if (targetRecord) {
+      const data = { progress: task.progress }
+      const state = this.updateBlockDataFindingByRecord(targetRecord, data)
+    }
   }
   // if success , replcae base 64 image with public path of cdn and mark block as valid
   _onTaskSuccess = (task: UploaderTask) => {

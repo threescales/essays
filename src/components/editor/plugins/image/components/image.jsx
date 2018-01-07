@@ -33,7 +33,7 @@ export default class Image extends React.Component {
             ...elementProps
         } = this.props;
         const combinedClassName = unionClassNames('editor-image', className);
-        const { src, width, height, valid } = contentState.getEntity(block.getEntityAt(0)).getData();
+        const { src, width, height, valid,progress } = contentState.getEntity(block.getEntityAt(0)).getData();
         let imgUrl = getCompressImg(src)
         let readOnly = !store.getState().show.toJS().editor
         var imageStyle = style || {}
@@ -52,7 +52,7 @@ export default class Image extends React.Component {
                     :
                     [
                         <img src={imgUrl} key="1" />,
-                        !valid && <Battery progress="1" key="2" />
+                        !valid && <Battery progress={progress} key="2" />
                     ]
                 }
             </div>
