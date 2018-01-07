@@ -26,7 +26,7 @@ import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
 import 'draft-js-side-toolbar-plugin/lib/plugin.css'
 import 'draft-js-image-plugin/lib/plugin.css'
 import 'draft-js-alignment-plugin/lib/plugin.css'
-import {Block} from './utils/constants'
+import { Block } from './utils/constants'
 import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
@@ -137,7 +137,7 @@ export default class JiglooEditor
     let contentState = newEditorState.getCurrentContent()
     let selectionState = newEditorState.getSelection()
     getAjax(Paths.getPageInfo, { url: block.getText() })
-      .then(({data}) => {
+      .then(({ data }) => {
         let editorState = this.getEditorState()
         let contentState = editorState.getCurrentContent()
         let newContentState = Modifier
@@ -147,7 +147,7 @@ export default class JiglooEditor
             title: data.title,
             description: data.description,
             src: block.getText(),
-            previewImg:data.previewImg
+            previewImg: data.previewImg
           })
         let lastEntityKey = newContentState.getLastCreatedEntityKey()
         newContentState = Modifier.replaceText(newContentState, selectionState, ' ', null, lastEntityKey);
@@ -246,7 +246,7 @@ export default class JiglooEditor
             type: Block.BLOCKQUOTE,
             data: {},
           };
-        } else if (nodeName ==='code') {
+        } else if (nodeName === 'code') {
           return {
             type: Block.CODE,
             data: {}
@@ -268,9 +268,17 @@ export default class JiglooEditor
     const editorState = this.getEditorState()
     const { contentState, selectionState } = this.getContentAndSelection()
     const block = contentState.getBlockForKey(selectionState.getAnchorKey())
+    const blockBefore = contentState.getBlockBefore(block.getKey())
     if (block.getType() === 'atomic') {
       var removeEditor = removeBlockFromBlockMap(editorState, block.getKey());
       this.onChange(removeEditor)
+      return "handled"
+    } else if (contentState.getLastBlock().getKey() == block.getKey()
+      && blockBefore
+      && blockBefore.getType() == "atomic"
+      && selectionState.getFocusOffset() === 0) {
+      let newEditorState = selectBlock(editorState, blockBefore.getKey(), blockBefore.getLength(), blockBefore.getLength())
+      this.onChange(newEditorState)
       return "handled"
     }
     return "not-handled"
