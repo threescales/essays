@@ -45,8 +45,7 @@ export const getArticleById = (id: string) => {
     }
 }
 
-export const saveArticleBody = (id: string, contentState: RawDraftContentState) => {
-    let body = JSON.stringify(contentState)
+export const saveArticleBody = (id: string, body: string) => {
     return (dispatch: any, getState: Function) => {
         return postAjax(Path.saveArticleBody, {
             id, body

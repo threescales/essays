@@ -98,10 +98,13 @@ export default class Editor extends React.Component<IEditorProps, any> {
     //     return false;
     // }
     save = (state: EditorState) => {
-     
+        const contentState = JSON.stringify(convertToRaw(state.getCurrentContent()))
+        if (contentState.indexOf('"valid":false') > -1) {
+            return
+        }
         this.props.dispatch(
             AricleAction.saveArticleBody(
-                this.props.articleId, convertToRaw(state.getCurrentContent())))
+                this.props.articleId, contentState))
     }
 
     getPluigins = () => {
@@ -122,7 +125,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
                     >
                         {
                             !this.props.readOnly && [
-                                <InlineToolbar key="1"/>,
+                                <InlineToolbar key="1" />,
                                 <SideToolbar key="2" />,
                             ]
                         }
