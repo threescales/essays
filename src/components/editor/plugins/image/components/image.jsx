@@ -34,7 +34,6 @@ export default class Image extends React.Component {
         } = this.props;
         const combinedClassName = unionClassNames('editor-image', className);
         const { src, width, height, valid,progress } = contentState.getEntity(block.getEntityAt(0)).getData();
-        let imgUrl = getCompressImg(src)
         let readOnly = !store.getState().show.toJS().editor
         var imageStyle = style || {}
         imageStyle.position = 'relative'
@@ -43,18 +42,14 @@ export default class Image extends React.Component {
         imageStyle.width = imgWidth
         return (
             <div className={combinedClassName} style={imageStyle} {...elementProps} role="presentation">
-                {readOnly ?
                     <LazyImage
                         src={src}
                         width={width}
                         height={height}
+                        readOnly={readOnly}
+                        progress={progress}
+                        valid={valid}
                     />
-                    :
-                    [
-                        <img src={imgUrl} key="1" />,
-                        !valid && <Battery progress={progress} key="2" />
-                    ]
-                }
             </div>
         );
     }
@@ -65,36 +60,46 @@ class LazyImage extends React.Component {
         super(props)
         this.state = {
             image: getGaussianImg(this.props.src),
-            blurClass: 'image-blur'
+            blurClass: 'image-blur',
+            showLazy:true
         }
     }
 
     loadFinish = (src) => {
         this.setState({
             image: src,
-            blurClass: ''
+            blurClass: '',
+            showLazy:false
         })
     }
+    onError = () => {
 
+        this.loadFinish(getImageUrl(this.props.src))
+    }
     render() {
-        let { src, width, height, className, ...elementProps } = this.props
+        let { src, width, height, className,readOnly,progress,valid } = this.props
         className = unionClassNames(className, this.state.blurClass)
         return (
-            [
-                <LazyLoad height='1px' key="1">
-                    <LoadImg src={src} loadFinish={this.loadFinish} />
-                </LazyLoad>,
-                <ImageZoom
-                    key="0"
-                    image={{
-                        src: this.state.image,
-                        ...elementProps,
-                        className
-                    }}
-                    zoomImage={{
-                        src: getImageUrl(src),
-                    }}
-                />]
+                readOnly?
+                    [
+                        <LazyLoad height='1px' key="1">
+                            {this.state.showLazy&&<LoadImg src={src} loadFinish={this.loadFinish} />}
+                        </LazyLoad>,
+                        <ImageZoom
+                            key="0"
+                            image={{
+                                src: this.state.image,
+                                className,
+                                onError: this.onError
+                            }}
+                            zoomImage={{
+                                src: getImageUrl(src),
+                            }}
+                        />]
+                        :[
+                            <img src={this.state.image} key="1"/>,
+                            !valid && <Battery progress={progress} key="2" />
+                        ]
         )
     }
 }
