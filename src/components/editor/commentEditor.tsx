@@ -22,6 +22,7 @@ import { createAutoSavePlugin, AutoSavePlugin } from './plugins/autoSave/autosav
 
 import JiglooEditor from './index'
 import * as AricleAction from '../../actions/article'
+import { EDITOR_TYPE } from '../../constants/editorType'
 
 const linkPlugin = createLinkPlugin();
 const linkifyPlugin = createLinkifyPlugin()
@@ -107,6 +108,7 @@ export default class CommentEditor extends React.Component<IEditorProps, any> {
                     editorState={this.props.editorState}
                     plugins={this.getPluigins()}
                     placeholder={!this.props.readOnly ? "请输入您的评论..." : ""}
+                    type={EDITOR_TYPE.comment}
                 >
                 </JiglooEditor>
             </div>

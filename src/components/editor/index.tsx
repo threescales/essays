@@ -31,6 +31,7 @@ import { is, List, Repeat } from 'immutable'
 import { isUrl, getEntityTypeByUrl } from "../../utils/url"
 import { focusSelectionAfter, selectBlock, removeBlockFromBlockMap } from './utils/operaBlock'
 import { types } from '../../constants/entityType'
+import { EDITOR_TYPE } from '../../constants/editorType'
 import * as classnames from "classnames"
 import './draft.less'
 import './style.less'
@@ -43,6 +44,7 @@ interface EditorProps {
   onChange?: (s: EditorState) => any
   readonly?: boolean
   autoFocus?: boolean
+  type: EDITOR_TYPE
 }
 import { getAjax } from '../../utils/ajax'
 import * as Paths from '../../constants/path'

@@ -8,11 +8,10 @@ export default class CommentButton extends React.Component<any, any> {
         event.preventDefault();
     }
     render() {
-        const { theme, onRemoveLinkAtSelection } = this.props;
-        const className = theme.button;
+        
         return (
             <div
-                className={theme.buttonWrapper}
+                className={''}
                 onMouseDown={this.onMouseDown}>
                 <a>
                     <i className="iconfont icon-comment"></i>

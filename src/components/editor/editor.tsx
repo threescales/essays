@@ -19,8 +19,10 @@ import createPageCardPlugin from "./plugins/page-card/index"
 import { createSideToolBarPlugin } from "./plugins/side-tool-bar/index";
 import createColorBlockPlugin from "./plugins/focusColor/index"
 import { createAutoSavePlugin, AutoSavePlugin } from './plugins/autoSave/autosave.plugin'
+import createReaderInlinePlugin from './plugins/comment/index'
 import LazyLoad from 'react-lazyload'
 
+import { EDITOR_TYPE } from '../../constants/editorType'
 import JiglooEditor from './index'
 import * as AricleAction from '../../actions/article'
 
@@ -54,6 +56,9 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
 });
 const { InlineToolbar } = inlineToolbarPlugin;
 
+const readerInlinePlugin = createReaderInlinePlugin({})
+const { ReaderInlineToolbar } = readerInlinePlugin
+
 const sideToolbarPlugin = createSideToolBarPlugin();
 const { SideToolbar } = sideToolbarPlugin;
 
@@ -62,6 +67,7 @@ const imagePlugin = createImagePlugin({ decorator });
 const plugins = [
     inlineToolbarPlugin,
     sideToolbarPlugin,
+    readerInlinePlugin,
     linkPlugin,
     blockDndPlugin,
     focusPlugin,
@@ -121,6 +127,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
                     editorState={this.props.editorState}
                     plugins={this.getPluigins()}
                     placeholder={!this.props.readOnly ? "请输入正文..." : ""}
+                    type={EDITOR_TYPE.article}
                 >
                     {
                         !this.props.readOnly && [
@@ -128,6 +135,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
                             <SideToolbar key="2" />,
                         ]
                     }
+                    {this.props.readOnly && <ReaderInlineToolbar />}
                 </JiglooEditor>
             </div>
         )

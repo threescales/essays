@@ -1,21 +1,28 @@
 import decorateComponentWithProps from 'decorate-component-with-props';
 import CommentButton from './components/commentButton'
+import createStore from './utils/createStore';
+import Toolbar from './components/toolbar'
 
 export default (config: any = {}) => {
     const { theme, placeholder, Link, linkTarget } = config;
-    const store = {
-        getEditorState: undefined,
-        setEditorState: undefined
-    }
+    const store = createStore({
+        isVisible: false,
+      });
+
+      const toolbarProps = {
+        store,
+      };
+    
 
     return {
         initialize: ({ getEditorState, setEditorState }) => {
-            store.getEditorState = getEditorState;
-            store.setEditorState = setEditorState;
+            store.updateItem('getEditorState', getEditorState);
+            store.updateItem('setEditorState', setEditorState);
         },
         CommentButton: decorateComponentWithProps(CommentButton,{
             store,
             placeholder
-        })
+        }),
+        ReaderInlineToolbar:decorateComponentWithProps(Toolbar,toolbarProps)
     }
 }
