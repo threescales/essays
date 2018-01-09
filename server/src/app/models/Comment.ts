@@ -31,7 +31,7 @@ export default (sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) 
             defaultValue: 0
         },
         blockKey: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             field: 'block_key',
             allowNull: true
         },

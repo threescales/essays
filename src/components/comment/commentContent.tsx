@@ -9,9 +9,9 @@ import './commentContent.less'
 import DateUtil from '../../utils/date'
 import PostComment from './postComment'
 import * as classnames from 'classnames'
+import { dispatch } from '../../store/configure-store'
 interface ICommentContentProps {
     comment
-    dispatch
     articleId
 }
 export default class CommentContent extends React.Component<ICommentContentProps, any> {
@@ -20,22 +20,22 @@ export default class CommentContent extends React.Component<ICommentContentProps
         this.togglePost = this.togglePost.bind(this)
         this.state = {
             showPostComment: false,
-            isAnimating:true
+            isAnimating: true
         }
     }
     componentDidMount() {
         setTimeout(() => {
             this.setState({
-                isAnimating:false
+                isAnimating: false
             })
-        },1000)
+        }, 1000)
     }
 
     _getChildComments = () => {
         let commentData: any = this.props.comment
         if (commentData.children && commentData.children.length > 0) {
             let childComments = map(commentData.children, (comment) => {
-                return <CommentContent comment={comment} key={comment.id} dispatch={this.props.dispatch} articleId={this.props.articleId} />
+                return <CommentContent comment={comment} key={comment.id} articleId={this.props.articleId} />
             })
             return childComments
         }
@@ -54,9 +54,9 @@ export default class CommentContent extends React.Component<ICommentContentProps
 
         let showPostComment = this.state.showPostComment
         return (
-            <div className={classnames({"comment-content":true,"animated":true,"fadeIn":this.state.isAnimating})}>
-                <UserStrip user={comment.fromUser} time={commentTime}/>
-                <CommentEditor editorState={editorState} readOnly={true} dispatch={this.props.dispatch} />
+            <div className={classnames({ "comment-content": true, "animated": true, "fadeIn": this.state.isAnimating })}>
+                <UserStrip user={comment.fromUser} time={commentTime} />
+                <CommentEditor editorState={editorState} readOnly={true} dispatch={dispatch} />
                 <div className="comment-opera">
                     <span className="opera-right">
                         <IconButton onClick={this.togglePost} isActive={showPostComment} iconName={showPostComment ? "icon-commentfill" : "icon-comment"} />
@@ -65,7 +65,6 @@ export default class CommentContent extends React.Component<ICommentContentProps
                 {
                     showPostComment ?
                         <PostComment
-                            dispatch={this.props.dispatch}
                             articleId={this.props.articleId}
                             depth={comment.depth}
                             toCommentId={comment.id}

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import CommentButton from './commentButton'
 import { getVisibleSelectionRect } from 'draft-js';
-
+import PostComment from '../../../../comment/postComment'
+import './toolbar.less'
 const getRelativeParent = (element) => {
     if (!element) {
         return null;
@@ -22,7 +23,10 @@ export default class Toolbar extends React.Component<any, any> {
         this.state = {
             isVisible: false,
             selection: null,
-            position: {}
+            position: {},
+            blockKey: '',
+            blockText: '',
+            showPostComment: false
         }
         this.updateSelection = this.updateSelection.bind(this)
         this.getPosition = this.getPosition.bind(this)
@@ -56,11 +60,20 @@ export default class Toolbar extends React.Component<any, any> {
     updateSelection = () => {
         if (window.getSelection) {
             let selection = window.getSelection()
+            let blockKey = this.getBlockKey(selection)
+            let blockText = selection.toString()
             this.setState({
-                selection, isVisible: true
+                selection, isVisible: true, blockKey, blockText
             })
             this.getPosition(selection)
         }
+    }
+
+    getBlockKey(selection) {
+        let dataOffsetKey = selection.anchorNode.parentElement.parentElement.getAttribute('data-offset-key')
+        let blockKey = dataOffsetKey.split('-')[0]
+        console.log(blockKey)
+        return blockKey
     }
 
     getPosition(selection) {
@@ -78,16 +91,46 @@ export default class Toolbar extends React.Component<any, any> {
         this.setState({ position });
     }
 
-    render() {
-        let data = { ...this.state.position }
-        data.position = 'absolute'
+    showPostComment = () => {
+        this.setState({
+            showPostComment: true
+        })
+        this.clearSelectListener()
+    }
 
+    hidePostComment = () => {
+        this.initSelectListener()
+        this.setState({
+            showPostComment: false,
+            isVisible: false
+        })
+    }
+
+    render() {
+        let { blockText, blockKey, position } = this.state
+
+        let data = { ...position }
+        data.position = 'absolute'
+        data.zIndex = 10
+
+        let commentStyle: any = {}
+        commentStyle.top = position.top
+        commentStyle.right = position.right
         return (
-            <div style={data} ref={(node) => { this.toolbar = node }}>
-                {
-                    this.state.isVisible && <CommentButton />
-                }
-            </div>
+            [
+                <div style={data} ref={(node) => { this.toolbar = node }}>
+                    {
+                        this.state.isVisible && !this.state.showPostComment &&
+                        <CommentButton
+                            showPostComment={this.showPostComment}
+                        />
+                    }
+                </div>,
+                this.state.showPostComment ?
+                    <div className="block-post-comment" style={commentStyle}>
+                        <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} />
+                    </div> : null
+            ]
         )
     }
 }

@@ -8,8 +8,8 @@ import { requireLogin } from "../../utils/requireLogin"
 import UserStrip from '../user/userStrip'
 import toastr from '../../utils/toastr'
 import * as classnames from 'classnames'
+import {dispatch} from '../../store/configure-store'
 interface IPostCommentProps {
-    dispatch
     articleId
     depth
     toCommentId?
@@ -68,7 +68,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
                 return
             }
         }
-        this.props.dispatch(postComment(articleId, contentState, toCommentId, depth, blockKey, blockText)).then((result) => {
+        dispatch(postComment(articleId, contentState, toCommentId, depth, blockKey, blockText)).then((result) => {
             //评论成功
             this.hideOpera()
         })
@@ -106,7 +106,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
             {this.state.isPadding ? null : <CommentEditor
                 editorState={this.state.editorState}
                 setEditorState={this.setEditorState}
-                dispatch={this.props.dispatch}
+                dispatch={dispatch}
                 readOnly={false}
             />}
             {

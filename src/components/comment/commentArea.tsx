@@ -29,10 +29,10 @@ export default class CommentArea extends React.PureComponent<ICommentAreaProps, 
     render() {
         return (
             <section className="comment-area">
-                <PostComment articleId={this.props.articleId} dispatch={this.props.dispatch} depth={0} />
+                <PostComment articleId={this.props.articleId} depth={0} />
                 {
                     map(this.state.commentTree, (comment) => {
-                        return <CommentContent comment={comment} key={comment.id} articleId={this.props.articleId} dispatch={this.props.dispatch} />
+                        return <CommentContent comment={comment} key={comment.id} articleId={this.props.articleId} />
                     })
                 }
             </section>

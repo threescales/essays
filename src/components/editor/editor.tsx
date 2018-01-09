@@ -135,7 +135,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
                             <SideToolbar key="2" />,
                         ]
                     }
-                    {this.props.readOnly && <ReaderInlineToolbar />}
+                    {this.props.readOnly && <ReaderInlineToolbar articleId={this.props.articleId}/>}
                 </JiglooEditor>
             </div>
         )

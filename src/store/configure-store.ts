@@ -93,3 +93,4 @@ export const getToken = () => {
 };
 export default store;
 
+export const dispatch = store.dispatch
