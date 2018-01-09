@@ -62,8 +62,9 @@ export default class Toolbar extends React.Component<any, any> {
             let selection = window.getSelection()
             let blockKey = this.getBlockKey(selection)
             let blockText = selection.toString()
+            let offset = selection.anchorOffset
             this.setState({
-                selection, isVisible: true, blockKey, blockText
+                selection, isVisible: true, blockKey, blockText, offset
             })
             this.getPosition(selection)
         }
@@ -72,7 +73,6 @@ export default class Toolbar extends React.Component<any, any> {
     getBlockKey(selection) {
         let dataOffsetKey = selection.anchorNode.parentElement.parentElement.getAttribute('data-offset-key')
         let blockKey = dataOffsetKey.split('-')[0]
-        console.log(blockKey)
         return blockKey
     }
 
@@ -107,7 +107,7 @@ export default class Toolbar extends React.Component<any, any> {
     }
 
     render() {
-        let { blockText, blockKey, position } = this.state
+        let { blockText, blockKey, position, offset } = this.state
 
         let data = { ...position }
         data.position = 'absolute'
@@ -128,7 +128,7 @@ export default class Toolbar extends React.Component<any, any> {
                 </div>,
                 this.state.showPostComment ?
                     <div className="block-post-comment" style={commentStyle}>
-                        <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} />
+                        <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} offset={offset} />
                     </div> : null
             ]
         )

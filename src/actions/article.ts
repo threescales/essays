@@ -112,7 +112,7 @@ export const updateArticleCount = (articleId: string, type: 'read' | 'like') => 
     }
 }
 
-export const postComment = (articleId, contentState, toCommentId = null, depth = 0, blockKey = null, blockText = null) => {
+export const postComment = (articleId, contentState, toCommentId = null, depth = 0, blockKey = null, blockText = null, offset = null) => {
     let content = JSON.stringify(convertToRaw(contentState))
     let data: any = {
         articleId, content, depth
@@ -123,14 +123,15 @@ export const postComment = (articleId, contentState, toCommentId = null, depth =
     if (blockKey) {
         data.blockKey = blockKey
         data.blockText = blockText
+        data.offset = offset
     }
     return (dispatch: any, getState: Function) => {
         return putAjax(Path.postComment, data).then((result: any) => {
             dispatch({
                 type: POST_COMMENT_SUCCESS,
-                data: result.data
+                data: result.comment
             })
-            return result.data
+            return result.comment
         })
     }
 }

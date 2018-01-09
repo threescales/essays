@@ -8,7 +8,7 @@ import { User, Tags, Accounts, Articles, Comments } from '../models/index'
 import { parsePostData, parseGetData } from '../utils/parseData'
 import { getRememberMeToken } from '../utils/encryption'
 import { CookieKeys } from '../constants/cookieKeys'
-
+import { addBlockCommentToBody } from '../utils/operaBlock'
 
 import rq = require("request-promise")
 export default class ArticleController {
@@ -228,25 +228,36 @@ export default class ArticleController {
      */
     public static async postComment(ctx: koa.Context) {
         let request: any = await parsePostData(ctx)
-        ArticleController.checkPermi(ctx)
+        let { blockKey, blockText, offset } = request
+        let articleId = parseInt(request.articleId)
+        let article: any = await Articles.find({
+            where: {
+                id: articleId
+            }
+        })
         let userId = parseInt(ctx.cookies.get(CookieKeys.USER_ID));
         let commentData = {
-            articleId: parseInt(request.articleId),
+            articleId: articleId,
             content: JSON.parse(request.content),
             fromUserId: userId,
             toCommentId: request.toCommentId ? parseInt(request.toCommentId) : null,
             depth: parseInt(request.depth),
-            blockKey: request.blockKey ? request.blockKey : null,
-            blockText: request.blockText ? request.blockText : null,
+            blockKey: blockKey ? blockKey : null,
+            blockText: blockText ? blockText : null,
         }
         let comment: any = await Comments.create(commentData)
+        if (blockKey) {
+            let newBody = addBlockCommentToBody(comment.id, article.body, blockKey, blockText, parseInt(offset))
+            article = await article.update({ body: newBody })
+        }
         let data = await Comments.findById(comment.id, {
             include: [
                 { model: User, as: 'fromUser' }
             ]
         })
         ctx.body = {
-            data
+            comment: data,
+            article: article
         }
     }
 

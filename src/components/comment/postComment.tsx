@@ -8,7 +8,7 @@ import { requireLogin } from "../../utils/requireLogin"
 import UserStrip from '../user/userStrip'
 import toastr from '../../utils/toastr'
 import * as classnames from 'classnames'
-import {dispatch} from '../../store/configure-store'
+import { dispatch } from '../../store/configure-store'
 interface IPostCommentProps {
     articleId
     depth
@@ -16,6 +16,7 @@ interface IPostCommentProps {
     blockKey?
     blockText?
     closeComment?
+    offset?
 }
 
 interface IPostCommentState {
@@ -54,11 +55,8 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
     }
 
     comment = () => {
-        let articleId = this.props.articleId
-        let toCommentId = this.props.toCommentId
-        let depth = this.props.toCommentId ? this.props.depth + 1 : 0
-        let blockKey = this.props.blockKey
-        let blockText = this.props.blockText
+        let { articleId, toCommentId, blockKey, blockText, offset } = this.props
+        let depth = toCommentId ? this.props.depth + 1 : 0
         let contentState = this.state.editorState.getCurrentContent()
         let firstBlock = contentState.getFirstBlock()
         let blockLength = contentState.getBlockMap().size
@@ -68,7 +66,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
                 return
             }
         }
-        dispatch(postComment(articleId, contentState, toCommentId, depth, blockKey, blockText)).then((result) => {
+        dispatch(postComment(articleId, contentState, toCommentId, depth, blockKey, blockText, offset)).then((result) => {
             //评论成功
             this.hideOpera()
         })
@@ -87,7 +85,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
             editorState: EditorState.createEmpty()
         }, () => {
             this.setState({
-                isPadding:false
+                isPadding: false
             })
             if (this.props.closeComment) {
                 this.props.closeComment()
@@ -101,7 +99,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
                 {
                     "post-comment": true,
                     "animated": true,
-                    "fadeInDown": this.state.isAnimating 
+                    "fadeInDown": this.state.isAnimating
                 })} >
             {this.state.isPadding ? null : <CommentEditor
                 editorState={this.state.editorState}
