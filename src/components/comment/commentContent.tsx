@@ -13,6 +13,7 @@ import { dispatch } from '../../store/configure-store'
 interface ICommentContentProps {
     comment
     articleId
+    fromType?
 }
 export default class CommentContent extends React.Component<ICommentContentProps, any> {
     constructor(props) {
@@ -56,6 +57,7 @@ export default class CommentContent extends React.Component<ICommentContentProps
         return (
             <div className={classnames({ "comment-content": true, "animated": true, "fadeIn": this.state.isAnimating })}>
                 <UserStrip user={comment.fromUser} time={commentTime} />
+                {this.props.fromType != 'article' && comment.blockKey && <BlockContent blockKey={comment.blockKey} blockText={comment.blockText} />}
                 <CommentEditor editorState={editorState} readOnly={true} dispatch={dispatch} />
                 <div className="comment-opera">
                     <span className="opera-right">
@@ -77,4 +79,12 @@ export default class CommentContent extends React.Component<ICommentContentProps
             </div>
         )
     }
+}
+
+export const BlockContent = ({ blockKey, blockText }) => {
+    return (
+        <div className="selected-content">
+            <a>{blockText}</a>
+        </div>
+    )
 }
