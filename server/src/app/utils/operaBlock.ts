@@ -33,7 +33,7 @@ export function addBlockCommentToBody(commentId: Number, body: any, blockKey, bl
                     entityRanges.push(entityRange)
 
                     entityMap[newEntityKey] = {
-                        "type": "COMMENT",
+                        "type": "draft-js-plugins-comment",
                         "mutability": "MUTABLE",
                         "data": {
                             "commentIds": [commentId]
@@ -50,7 +50,7 @@ export function addBlockCommentToBody(commentId: Number, body: any, blockKey, bl
 
 
                 entityMap[newEntityKey] = {
-                    "type": "COMMENT",
+                    "type": "draft-js-plugins-comment",
                     "mutability": "MUTABLE",
                     "data": {
                         "commentIds": [commentId]

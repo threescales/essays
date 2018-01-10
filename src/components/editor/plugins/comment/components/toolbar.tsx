@@ -60,6 +60,12 @@ export default class Toolbar extends React.Component<any, any> {
     updateSelection = () => {
         if (window.getSelection) {
             let selection = window.getSelection()
+            if (!selection || selection.toString().length == 0) {
+                this.setState({
+                    isVisible:false
+                })
+                return
+            }
             let blockKey = this.getBlockKey(selection)
             let blockText = selection.toString()
             let offset = selection.anchorOffset

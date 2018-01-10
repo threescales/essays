@@ -2,6 +2,8 @@ import decorateComponentWithProps from 'decorate-component-with-props';
 import CommentButton from './components/commentButton'
 import createStore from './utils/createStore';
 import Toolbar from './components/toolbar'
+import commentStragy from './commentStrategy'
+import CommentShow from './components/commentShow'
 
 export default (config: any = {}) => {
     const { theme, placeholder, Link, linkTarget } = config;
@@ -23,6 +25,12 @@ export default (config: any = {}) => {
             store,
             placeholder
         }),
+        decorators:[
+            {
+                strategy:commentStragy,
+                component:decorateComponentWithProps(CommentShow,{})
+            }
+        ],
         ReaderInlineToolbar:decorateComponentWithProps(Toolbar,toolbarProps)
     }
 }
