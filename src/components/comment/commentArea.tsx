@@ -9,7 +9,7 @@ const map = require("lodash/map")
 interface ICommentAreaProps {
     comments
     articleId
-    dispatch
+    fromType
 }
 
 export default class CommentArea extends React.PureComponent<ICommentAreaProps, any> {
@@ -27,12 +27,13 @@ export default class CommentArea extends React.PureComponent<ICommentAreaProps, 
     }
 
     render() {
+        let fromType = this.props.fromType || 'article'
         return (
             <section className="comment-area">
-                <PostComment articleId={this.props.articleId} depth={0} />
+                {fromType != 'block' && <PostComment articleId={this.props.articleId} depth={0} />}
                 {
                     map(this.state.commentTree, (comment) => {
-                        return <CommentContent comment={comment} key={comment.id} articleId={this.props.articleId} />
+                        return <CommentContent comment={comment} key={comment.id} articleId={this.props.articleId} fromType={fromType} />
                     })
                 }
             </section>

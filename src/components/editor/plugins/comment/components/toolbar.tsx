@@ -124,7 +124,7 @@ export default class Toolbar extends React.Component<any, any> {
         commentStyle.right = position.right
         return (
             [
-                <div style={data} ref={(node) => { this.toolbar = node }}>
+                <div style={data} ref={(node) => { this.toolbar = node }} key="1">
                     {
                         this.state.isVisible && !this.state.showPostComment &&
                         <CommentButton
@@ -133,7 +133,7 @@ export default class Toolbar extends React.Component<any, any> {
                     }
                 </div>,
                 this.state.showPostComment ?
-                    <div className="block-post-comment" style={commentStyle}>
+                    <div className="block-post-comment" style={commentStyle} key="2">
                         <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} offset={offset} />
                     </div> : null
             ]

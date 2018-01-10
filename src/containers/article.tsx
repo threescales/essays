@@ -90,7 +90,7 @@ class App extends React.Component<any, any> {
                         <CommentArea
                             comments={this.props.article.toJS().comments}
                             articleId={this.props.match.params.articleId}
-                            dispatch={this.props.dispatch}
+                            fromType='article'
                         />
                     </section>
                 }

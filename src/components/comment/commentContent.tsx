@@ -57,7 +57,7 @@ export default class CommentContent extends React.Component<ICommentContentProps
         return (
             <div className={classnames({ "comment-content": true, "animated": true, "fadeIn": this.state.isAnimating })}>
                 <UserStrip user={comment.fromUser} time={commentTime} />
-                {this.props.fromType != 'article' && comment.blockKey && <BlockContent blockKey={comment.blockKey} blockText={comment.blockText} />}
+                {this.props.fromType != 'block' && comment.blockKey && <BlockContent blockKey={comment.blockKey} blockText={comment.blockText} />}
                 <CommentEditor editorState={editorState} readOnly={true} dispatch={dispatch} />
                 <div className="comment-opera">
                     <span className="opera-right">

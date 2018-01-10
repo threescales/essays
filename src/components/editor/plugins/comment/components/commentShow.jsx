@@ -1,13 +1,38 @@
 import React, { Component } from 'react';
 import unionClassNames from 'union-class-names';
-import linkifyIt from 'linkify-it';
-import tlds from 'tlds';
+const filter = require('lodash/filter')
+const includes = require('lodash/includes')
 import './commentShow.less'
-const linkify = linkifyIt();
-linkify.tlds(tlds);
-
+import store from '../../../../../store/configure-store'
+import CommentArea from '../../../../comment/commentArea'
 // The component we render when we encounter a hyperlink in the text
-export default class Link extends Component {
+export default class Comment extends Component {
+  constructor(props) {
+    super(props)
+    this.state ={
+      comments:[],
+      showComment:false,
+      artilceId:null
+    }
+  }
+
+  showComment = () => {
+    let entity = this.props.contentState.getEntity(this.props.entityKey)
+    let commentIds = entity.get('data').commentIds
+
+    let articleState = store.getState().article.toJS()
+    let allComments = articleState.comments
+    let articleId = articleState.article.id
+
+    let comments = filter(allComments,(comment)=> {
+      return includes(commentIds,comment.id)
+    })
+    this.setState({
+      comments,showComment:true,
+      articleId
+    })
+  }
+
   render() {
     const {
       decoratedText = '',
@@ -27,20 +52,20 @@ export default class Link extends Component {
     } = this.props;
 
     const combinedClassName = unionClassNames('comment-selected-text', className);
-    const links = linkify.match(decoratedText);
-    const href = links && links[0] ? links[0].url : '';
 
     const props = {
       ...otherProps,
-      href,
       target,
       rel,
       className: combinedClassName,
     };
-
     return <span {...props}>
-        {children}
-        <a className="open-comment-button"><i className="iconfont icon-asterisks-1-copy" style={{fontSize:'10px'}}></i></a>
+      {children}
+      <a className="open-comment-button" onClick={this.showComment}><i className="iconfont icon-asterisks-1-copy" style={{ fontSize: '10px' }}></i></a>
+      {
+        this.state.showComment&&
+        <CommentArea artilceId={this.state.artilceId} comments={this.state.comments} fromType="block"/>
+      }
     </span>;
   }
 }
