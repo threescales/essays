@@ -3,6 +3,7 @@ import CommentButton from './commentButton'
 import { getVisibleSelectionRect } from 'draft-js';
 import PostComment from '../../../../comment/postComment'
 import './toolbar.less'
+import { getInitPosition } from '../../../../../utils/position'
 const getRelativeParent = (element) => {
     if (!element) {
         return null;
@@ -18,6 +19,7 @@ const getRelativeParent = (element) => {
 
 export default class Toolbar extends React.Component<any, any> {
     public toolbar
+    public initElement = document.getElementById('articleId')
     constructor(props) {
         super(props)
         this.state = {
@@ -60,14 +62,26 @@ export default class Toolbar extends React.Component<any, any> {
     updateSelection = () => {
         if (window.getSelection) {
             let selection = window.getSelection()
+
             if (!selection || selection.toString().length == 0) {
                 this.setState({
-                    isVisible:false
+                    isVisible: false
                 })
                 return
             }
+
             let blockKey = this.getBlockKey(selection)
             let blockText = selection.toString()
+            let editorState = this.props.store.getItem('getEditorState')()
+            let contentState = editorState.getCurrentContent()
+
+            if (!contentState.getBlockForKey(blockKey)) {
+                this.setState({
+                    isVisible: false
+                })
+                return
+            }
+
             let offset = selection.anchorOffset
             this.setState({
                 selection, isVisible: true, blockKey, blockText, offset
@@ -78,6 +92,9 @@ export default class Toolbar extends React.Component<any, any> {
 
     getBlockKey(selection) {
         let dataOffsetKey = selection.anchorNode.parentElement.parentElement.getAttribute('data-offset-key')
+        if (dataOffsetKey.indexOf('-') == -1) {
+            return ""
+        }
         let blockKey = dataOffsetKey.split('-')[0]
         return blockKey
     }
@@ -121,7 +138,8 @@ export default class Toolbar extends React.Component<any, any> {
 
         let commentStyle: any = {}
         commentStyle.top = position.top
-        commentStyle.right = position.right
+        let right: any = getInitPosition(this.initElement).right - 240
+        commentStyle.right = right < 0 ? 0 : right
         return (
             [
                 <div style={data} ref={(node) => { this.toolbar = node }} key="1">
