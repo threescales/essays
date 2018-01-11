@@ -17,6 +17,7 @@ interface IPostCommentProps {
     blockText?
     closeComment?
     offset?
+    resetEditorState?
 }
 
 interface IPostCommentState {
@@ -68,7 +69,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
         }
         dispatch(postComment(articleId, contentState, toCommentId, depth, blockKey, blockText, offset)).then((result) => {
             //评论成功
-            this.hideOpera()
+            this.hideOpera(result.article)
         })
     }
 
@@ -78,7 +79,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
             showOpera: true
         })
     }
-    hideOpera = () => {
+    hideOpera = (article) => {
         this.setState({
             isPadding: true,
             showOpera: false,
@@ -89,6 +90,9 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
             })
             if (this.props.closeComment) {
                 this.props.closeComment()
+            }
+            if(this.props.resetEditorState){
+                this.props.resetEditorState(article.body)
             }
         })
     }

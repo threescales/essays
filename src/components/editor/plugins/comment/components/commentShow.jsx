@@ -9,10 +9,10 @@ import CommentArea from '../../../../comment/commentArea'
 export default class Comment extends Component {
   constructor(props) {
     super(props)
-    this.state ={
-      comments:[],
-      showComment:false,
-      artilceId:null
+    this.state = {
+      comments: [],
+      showComment: false,
+      artilceId: null
     }
   }
 
@@ -24,11 +24,11 @@ export default class Comment extends Component {
     let allComments = articleState.comments
     let articleId = articleState.article.id
 
-    let comments = filter(allComments,(comment)=> {
-      return includes(commentIds,comment.id)
+    let comments = filter(allComments, (comment) => {
+      return includes(commentIds, comment.id)
     })
     this.setState({
-      comments,showComment:true,
+      comments, showComment: true,
       articleId
     })
   }
@@ -63,8 +63,8 @@ export default class Comment extends Component {
       {children}
       <a className="open-comment-button" onClick={this.showComment}><i className="iconfont icon-asterisks-1-copy" style={{ fontSize: '10px' }}></i></a>
       {
-        this.state.showComment&&
-        <CommentArea artilceId={this.state.artilceId} comments={this.state.comments} fromType="block"/>
+        this.state.showComment &&
+        <CommentArea artilceId={this.state.artilceId} comments={this.state.comments} fromType="block" />
       }
     </span>;
   }

@@ -9,28 +9,28 @@ export default (config: any = {}) => {
     const { theme, placeholder, Link, linkTarget } = config;
     const store = createStore({
         isVisible: false,
-      });
+    });
 
-      const toolbarProps = {
+    const toolbarProps = {
         store,
-      };
-    
+    };
+
 
     return {
         initialize: ({ getEditorState, setEditorState }) => {
             store.updateItem('getEditorState', getEditorState);
             store.updateItem('setEditorState', setEditorState);
         },
-        CommentButton: decorateComponentWithProps(CommentButton,{
+        CommentButton: decorateComponentWithProps(CommentButton, {
             store,
             placeholder
         }),
-        decorators:[
+        decorators: [
             {
-                strategy:commentStragy,
-                component:decorateComponentWithProps(CommentShow,{})
+                strategy: commentStragy,
+                component: decorateComponentWithProps(CommentShow, {})
             }
         ],
-        ReaderInlineToolbar:decorateComponentWithProps(Toolbar,toolbarProps)
+        ReaderInlineToolbar: decorateComponentWithProps(Toolbar, toolbarProps)
     }
 }

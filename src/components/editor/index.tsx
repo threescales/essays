@@ -108,13 +108,6 @@ export default class JiglooEditor
       return true
     }
 
-    // if (nextProps.readonly && nextProps.editorState && !is(nextProps.editorState, this.state.editorState)) {
-    //   this.setState({
-    //     editorState: nextProps.editorState
-    //   })
-    //   return true
-    // }
-
     return false
   }
 

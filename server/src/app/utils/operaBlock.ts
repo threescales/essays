@@ -17,7 +17,7 @@ export function addBlockCommentToBody(commentId: Number, body: any, blockKey, bl
                     let entityKey = entityRanges[i].key
                     let entity = entityMap[entityKey]
 
-                    if (entity.type == 'COMMENT') {
+                    if (entity.type == 'draft-js-plugins-comment') {
                         entity.data.commentIds.push(commentId)
                         entityMap[entityKey] = entity
                         hasComment = true

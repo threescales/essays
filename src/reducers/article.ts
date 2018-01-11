@@ -26,7 +26,7 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
             }))
         case UPDATE_ARTICLE_BODY_SUCCESS:
             return state.merge(fromJS({
-                article:action.article
+                article: action.article
             }))
         case TOGGLE_ARITCLE_PUBLISH:
             article.isPublished = action.isPublished
@@ -34,17 +34,17 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
                 article
             }))
         case TOGGLE_ARTICLE_INFO:
-            let data:any = action.data
-            if(data.title) {
+            let data: any = action.data
+            if (data.title) {
                 article.title = data.title
             }
-            if(data.description) {
+            if (data.description) {
                 article.description = data.description
             }
-            if(data.tags) {
+            if (data.tags) {
                 article.title = data.tags
             }
-            if(data.cover) {
+            if (data.cover) {
                 article.cover = data.cover
             }
             return state.merge(fromJS({
@@ -52,13 +52,15 @@ function articleReducer(state: any = INITIAL_STATE, action: any = { type: "" }) 
             }))
         case POST_COMMENT_SUCCESS:
             let comments = state.toJS().comments
-            comments.unshift(action.data)
+            comments.unshift(action.data.comment)
+            let newArticle = action.data.article
             return state.merge(fromJS({
-                comments
+                comments,
+                article: newArticle
             }))
         case GET_ALL_COMMENTS:
             return state.merge(fromJS({
-                comments:action.data||[]
+                comments: action.data || []
             }))
         case UPDATA_ARTICLE_COUNT:
             return state

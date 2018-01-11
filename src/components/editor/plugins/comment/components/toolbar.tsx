@@ -1,6 +1,6 @@
 import * as React from 'react'
 import CommentButton from './commentButton'
-import { getVisibleSelectionRect } from 'draft-js';
+import { getVisibleSelectionRect,convertFromRaw,EditorState } from 'draft-js';
 import PostComment from '../../../../comment/postComment'
 import './toolbar.less'
 import { getInitPosition } from '../../../../../utils/position'
@@ -42,6 +42,7 @@ export default class Toolbar extends React.Component<any, any> {
         }
         this.updateSelection = this.updateSelection.bind(this)
         this.getPosition = this.getPosition.bind(this)
+        this.resetEditorState = this.resetEditorState.bind(this)
     }
 
     componentDidMount() {
@@ -138,6 +139,14 @@ export default class Toolbar extends React.Component<any, any> {
         })
     }
 
+    resetEditorState=(body)=> {
+        let contentState = convertFromRaw(body)
+        let editorState = this.props.store.getItem('getEditorState')()
+        let newEditorState = EditorState.push(editorState,contentState,'change-block-data')
+        let setEditorState = this.props.store.getItem('setEditorState')
+        setEditorState(newEditorState)
+    }
+
     render() {
         let { blockText, blockKey, position, offset } = this.state
 
@@ -160,11 +169,11 @@ export default class Toolbar extends React.Component<any, any> {
                             showPostComment={this.showPostComment}
                         />
                     </Inner>
-                    <Arrow />
+                    <Arrow/>
                 </div >,
                 this.state.showPostComment ?
                     <div className="block-post-comment" style={commentStyle} key="2">
-                        <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} offset={offset} />
+                        <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} resetEditorState={this.resetEditorState} offset={offset} />
                     </div> : null
             ]
         )

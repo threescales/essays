@@ -129,9 +129,9 @@ export const postComment = (articleId, contentState, toCommentId = null, depth =
         return putAjax(Path.postComment, data).then((result: any) => {
             dispatch({
                 type: POST_COMMENT_SUCCESS,
-                data: result.comment
+                data: result
             })
-            return result.comment
+            return result
         })
     }
 }
