@@ -4,6 +4,8 @@ import { getVisibleSelectionRect } from 'draft-js';
 import PostComment from '../../../../comment/postComment'
 import './toolbar.less'
 import { getInitPosition } from '../../../../../utils/position'
+import * as classnames from 'classnames'
+
 const getRelativeParent = (element) => {
     if (!element) {
         return null;
@@ -101,7 +103,7 @@ export default class Toolbar extends React.Component<any, any> {
 
     getPosition(selection) {
         const relativeParent = getRelativeParent(this.toolbar.parentElement)
-        const toolbarHeight = this.toolbar.clientHeight;
+        const toolbarHeight = this.toolbar.clientHeight + 5;
         const relativeRect = (relativeParent || document.body).getBoundingClientRect();
         const selectionRect = getVisibleSelectionRect(window);
 
@@ -133,8 +135,11 @@ export default class Toolbar extends React.Component<any, any> {
         let { blockText, blockKey, position, offset } = this.state
 
         let data = { ...position }
-        data.position = 'absolute'
-        data.zIndex = 10
+        if (this.state.isVisible) {
+            data.visibility = 'visible'
+        } else {
+            data.visibility = 'hidden'
+        }
 
         let commentStyle: any = {}
         commentStyle.top = position.top
@@ -142,14 +147,14 @@ export default class Toolbar extends React.Component<any, any> {
         commentStyle.right = right < 0 ? 0 : right
         return (
             [
-                <div style={data} ref={(node) => { this.toolbar = node }} key="1">
-                    {
-                        this.state.isVisible && !this.state.showPostComment &&
+                <div className={classnames({ "reader-side-toolbar": true, "active": this.state.isVisible })} style={data} ref={(node) => { this.toolbar = node }} key="1">
+                    <Inner>
                         <CommentButton
                             showPostComment={this.showPostComment}
                         />
-                    }
-                </div>,
+                    </Inner>
+                    <Arrow />
+                </div >,
                 this.state.showPostComment ?
                     <div className="block-post-comment" style={commentStyle} key="2">
                         <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} offset={offset} />
@@ -157,4 +162,16 @@ export default class Toolbar extends React.Component<any, any> {
             ]
         )
     }
+}
+
+const Arrow = ({ }) => {
+    return <div className="highlightMenu-arrowClip">
+        <span className="highlightMenu-arrow"></span>
+    </div>
+}
+
+const Inner = ({ children }) => {
+    return <div className="highlightMenu-inner">
+        {children}
+    </div>
 }

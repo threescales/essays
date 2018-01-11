@@ -15,7 +15,7 @@ export default class CommentButton extends React.Component<any, any> {
     render() {
         let { blockKey, blockText, position } = this.props
         return (<div
-            className={''}
+            className='toolbar-button'
             onMouseDown={this.onMouseDown}>
             <a>
                 <i className="iconfont icon-comment"></i>
