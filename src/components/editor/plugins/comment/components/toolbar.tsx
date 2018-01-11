@@ -19,6 +19,14 @@ const getRelativeParent = (element) => {
     return getRelativeParent(element.parentElement);
 };
 
+const getBlockKey = (element) => {
+    if (element.className.indexOf('public-DraftStyleDefault-block') > -1) {
+        return element.getAttribute('data-offset-key').split('-')[0]
+    } else {
+        return getBlockKey(element.parentElement)
+    }
+}
+
 export default class Toolbar extends React.Component<any, any> {
     public toolbar
     public initElement = document.getElementById('articleId')
@@ -93,13 +101,12 @@ export default class Toolbar extends React.Component<any, any> {
     }
 
     getBlockKey(selection) {
-        let dataOffsetKey = selection.anchorNode.parentElement.parentElement.getAttribute('data-offset-key')
-        if (dataOffsetKey.indexOf('-') == -1) {
-            return ""
-        }
-        let blockKey = dataOffsetKey.split('-')[0]
+        let parentElement = selection.anchorNode.parentElement
+
+        let blockKey = getBlockKey(parentElement)
         return blockKey
     }
+
 
     getPosition(selection) {
         const relativeParent = getRelativeParent(this.toolbar.parentElement)
