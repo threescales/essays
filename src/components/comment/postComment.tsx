@@ -91,7 +91,7 @@ export default class PostComment extends React.Component<IPostCommentProps, IPos
             if (this.props.closeComment) {
                 this.props.closeComment()
             }
-            if(this.props.resetEditorState){
+            if (this.props.resetEditorState) {
                 this.props.resetEditorState(article.body)
             }
         })
