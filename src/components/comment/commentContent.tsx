@@ -59,11 +59,13 @@ export default class CommentContent extends React.Component<ICommentContentProps
                 <UserStrip user={comment.fromUser} time={commentTime} />
                 {this.props.fromType != 'block' && comment.blockKey && <BlockContent blockKey={comment.blockKey} blockText={comment.blockText} />}
                 <CommentEditor editorState={editorState} readOnly={true} dispatch={dispatch} />
-                <div className="comment-opera">
-                    <span className="opera-right">
-                        <IconButton onClick={this.togglePost} isActive={showPostComment} iconName={showPostComment ? "icon-commentfill" : "icon-comment"} />
-                    </span>
-                </div>
+                {
+                    this.props.fromType != 'block' && <div className="comment-opera">
+                        <span className="opera-right">
+                            <IconButton onClick={this.togglePost} isActive={showPostComment} iconName={showPostComment ? "icon-commentfill" : "icon-comment"} />
+                        </span>
+                    </div>
+                }
                 {
                     showPostComment ?
                         <PostComment

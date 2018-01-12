@@ -1,5 +1,8 @@
 const size = require('lodash/size')
 const map = require('lodash/map')
+
+const COMMENT = 'draft-js-plugins-comment'
+
 export function addBlockCommentToBody(commentId: Number, body: any, blockKey, blockText, offset: Number) {
     console.log(`添加block评论入参为：${commentId},${blockKey},${offset},${blockText},`)
     console.log(JSON.stringify(body))
@@ -9,21 +12,24 @@ export function addBlockCommentToBody(commentId: Number, body: any, blockKey, bl
     let newEntityKey = entityMap ? size(entityMap) : 0
     let newBlocks = map(blocks, ((block: any, index) => {
         let newBlock = block;
-        if (blockKey == block.key) {
+        if (blockKey == block.key) {``
             let entityRanges = block.entityRanges
+
+            console.log(entityRanges.length)
             if (entityRanges && entityRanges.length > 0) {
                 let hasComment = false
                 for (let i = 0; i < entityRanges.length; i++) {
                     let entityKey = entityRanges[i].key
                     let entity = entityMap[entityKey]
 
-                    if (entity.type == 'draft-js-plugins-comment') {
+                    if (entity.type == COMMENT) {
                         entity.data.commentIds.push(commentId)
                         entityMap[entityKey] = entity
                         hasComment = true
                         break;
                     }
                 }
+                console.log(hasComment)
                 if (!hasComment) {
                     let entityRange = {
                         "offset": offset,
@@ -33,7 +39,7 @@ export function addBlockCommentToBody(commentId: Number, body: any, blockKey, bl
                     entityRanges.push(entityRange)
 
                     entityMap[newEntityKey] = {
-                        "type": "draft-js-plugins-comment",
+                        "type": COMMENT,
                         "mutability": "MUTABLE",
                         "data": {
                             "commentIds": [commentId]
@@ -50,7 +56,7 @@ export function addBlockCommentToBody(commentId: Number, body: any, blockKey, bl
 
 
                 entityMap[newEntityKey] = {
-                    "type": "draft-js-plugins-comment",
+                    "type": COMMENT,
                     "mutability": "MUTABLE",
                     "data": {
                         "commentIds": [commentId]

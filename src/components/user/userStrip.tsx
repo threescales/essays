@@ -15,7 +15,7 @@ export default class UserStrip extends React.PureComponent<IUserStripProps, any>
         return (
             <div className="user-strip">
                 <div className="avatar">
-                    <img src={user.avatar} />
+                    <img width={36} height={36} src={user.avatar} />
                 </div>
                 <div className="user-info">
                     <a className="user-name">

@@ -32,7 +32,12 @@ export default class Comment extends Component {
       articleId
     })
   }
-
+  hideCommentArea = () => {
+    this.setState({
+      showComment: false,
+      comments: []
+    })
+  }
   render() {
     const {
       decoratedText = '',
@@ -64,8 +69,30 @@ export default class Comment extends Component {
       <a className="open-comment-button" onClick={this.showComment}><i className="iconfont icon-asterisks-1-copy" style={{ fontSize: '10px' }}></i></a>
       {
         this.state.showComment &&
-        <CommentArea artilceId={this.state.artilceId} comments={this.state.comments} fromType="block" />
+        <BlockCommentArea articleId={this.state.artilceId} comments={this.state.comments} hideCommentArea={this.hideCommentArea} />
       }
     </span>;
+  }
+}
+
+class BlockCommentArea extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.props.hideCommentArea, true)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.props.hideCommentArea, true)
+  }
+  
+  render() {
+    return (
+      <div className='block-comment-list'>
+        <CommentArea artilceId={this.props.artilceId} comments={this.props.comments} fromType="block" />
+      </div>
+    )
   }
 }

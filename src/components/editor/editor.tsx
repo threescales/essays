@@ -108,9 +108,11 @@ export default class Editor extends React.Component<IEditorProps, any> {
         if (contentState.indexOf('"valid":false') > -1) {
             return
         }
-        this.props.dispatch(
-            AricleAction.saveArticleBody(
-                this.props.articleId, contentState))
+        if(!this.props.readOnly) {
+            this.props.dispatch(
+                AricleAction.saveArticleBody(
+                    this.props.articleId, contentState))
+        }
     }
 
     getPluigins = () => {

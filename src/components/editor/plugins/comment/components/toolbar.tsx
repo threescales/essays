@@ -1,6 +1,6 @@
 import * as React from 'react'
 import CommentButton from './commentButton'
-import { getVisibleSelectionRect,convertFromRaw,EditorState } from 'draft-js';
+import { getVisibleSelectionRect, convertFromRaw, EditorState } from 'draft-js';
 import PostComment from '../../../../comment/postComment'
 import './toolbar.less'
 import { getInitPosition } from '../../../../../utils/position'
@@ -139,10 +139,10 @@ export default class Toolbar extends React.Component<any, any> {
         })
     }
 
-    resetEditorState=(body)=> {
+    resetEditorState = (body) => {
         let contentState = convertFromRaw(body)
         let editorState = this.props.store.getItem('getEditorState')()
-        let newEditorState = EditorState.push(editorState,contentState,'change-block-data')
+        let newEditorState = EditorState.push(editorState, contentState, 'change-block-data')
         let setEditorState = this.props.store.getItem('setEditorState')
         setEditorState(newEditorState)
     }
@@ -163,17 +163,30 @@ export default class Toolbar extends React.Component<any, any> {
         commentStyle.right = right < 0 ? 0 : right
         return (
             [
-                <div className={classnames({ "reader-side-toolbar": true, "active": this.state.isVisible })} style={data} ref={(node) => { this.toolbar = node }} key="1">
+                <div
+                    className={classnames({ "reader-side-toolbar": true, "active": this.state.isVisible && !this.state.showPostComment })}
+                    style={data}
+                    ref={(node) => { this.toolbar = node }}
+                    key="1"
+                >
                     <Inner>
                         <CommentButton
                             showPostComment={this.showPostComment}
                         />
                     </Inner>
-                    <Arrow/>
+                    <Arrow />
                 </div >,
                 this.state.showPostComment ?
                     <div className="block-post-comment" style={commentStyle} key="2">
-                        <PostComment articleId={this.props.articleId} blockText={blockText} blockKey={blockKey} depth={0} closeComment={this.hidePostComment} resetEditorState={this.resetEditorState} offset={offset} />
+                        <PostComment
+                            articleId={this.props.articleId}
+                            blockText={blockText}
+                            blockKey={blockKey}
+                            depth={0}
+                            closeComment={this.hidePostComment}
+                            resetEditorState={this.resetEditorState}
+                            offset={offset}
+                        />
                     </div> : null
             ]
         )
