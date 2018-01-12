@@ -2,7 +2,6 @@ import unionClassNames from 'union-class-names';
 import * as React from 'react';
 import { getCompressImg, getImageUrl, getGaussianImg } from '../../../../../utils/getInfo'
 import ImageZoom from 'react-medium-image-zoom'
-import store from "../../../../../store/configure-store";
 import LazyLoad from "react-lazyload"
 import { getImgWidth } from "../../../utils/image"
 import Battery from '../../../../progress/battery'
@@ -20,6 +19,7 @@ export default class Image extends React.Component {
             block,
             className,
             theme = {},
+            store= {},
             blockProps, // eslint-disable-line no-unused-vars
             customStyleMap, // eslint-disable-line no-unused-vars
             customStyleFn, // eslint-disable-line no-unused-vars
@@ -34,7 +34,7 @@ export default class Image extends React.Component {
         } = this.props;
         const combinedClassName = unionClassNames('editor-image', className);
         const { src, width, height, valid,progress } = contentState.getEntity(block.getEntityAt(0)).getData();
-        let readOnly = !store.getState().show.toJS().editor
+        let readOnly = store.getReadOnly()
         var imageStyle = style || {}
         imageStyle.position = 'relative'
 

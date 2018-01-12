@@ -15,9 +15,22 @@ export const createImagePlugin = (config?: PluginConfig): ImagePluginObject => {
   if (config.decorator) {
     Image = config.decorator(Image);
   }
-  const ThemedImage = decorateComponentWithProps(Image, { theme });
+  const store = {
+    getEditorState: undefined,
+    setEditorState: undefined,
+    getReadOnly: undefined
+  }
+
+
+  const ThemedImage = decorateComponentWithProps(Image, { theme, store });
 
   return {
+    initialize: ({ getEditorState, setEditorState, getReadOnly }) => {
+      store.getEditorState = getEditorState;
+      store.setEditorState = setEditorState;
+      store.getReadOnly = getReadOnly;
+    },
+
     ...originProps,
 
     blockRendererFn: (block, { getEditorState, getReadOnly }) => {
