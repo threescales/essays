@@ -3,8 +3,6 @@ import { EditorState, convertFromRaw, EditorBlock, convertToRaw } from "draft-js
 
 import { ItalicButton, BoldButton, UnderlineButton } from 'draft-js-buttons';
 import { composeDecorators } from "draft-js-plugins-editor";
-import createAlignmentPlugin from "draft-js-alignment-plugin";
-import createResizeablePlugin from "draft-js-resizeable-plugin"
 import createFocusPlugin from "draft-js-focus-plugin";
 import createBlockDndPlugin from "draft-js-drag-n-drop-plugin";
 import createLinkifyPlugin from "draft-js-linkify-plugin";
@@ -29,15 +27,10 @@ import * as AricleAction from '../../actions/article'
 const linkPlugin = createLinkPlugin();
 const linkifyPlugin = createLinkifyPlugin()
 const focusPlugin = createFocusPlugin();
-const alignmentPlugin = createAlignmentPlugin();
 const blockDndPlugin = createBlockDndPlugin();
-// const resizeablePlugin = createResizeablePlugin()
-const { AlignmentTool } = alignmentPlugin;
 const blockBreakoutPlugin = createBlockBreakoutPlugin()
 const autolistPlugin = createAutoListPlugin()
 const decorator = composeDecorators(
-    // alignmentPlugin.decorator,
-    // resizeablePlugin.decorator,
     focusPlugin.decorator,
     blockDndPlugin.decorator
 );
@@ -71,8 +64,6 @@ const plugins = [
     linkPlugin,
     blockDndPlugin,
     focusPlugin,
-    // alignmentPlugin,
-    // resizeablePlugin,
     colorBlockPlugin,
     imagePlugin,
     linkifyPlugin,
