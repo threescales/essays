@@ -85,15 +85,7 @@ export default class Editor extends React.Component<IEditorProps, any> {
     componentWillMount() {
         this.autoSavePlugin = createAutoSavePlugin({ saveAction: this.save, debounceTime: 850 })
     }
-    // shouldComponentUpdate(nextProps,nextState) {
-    //     if(nextProps.readOnly!=this.props.readOnly) {
-    //         return true
-    //     }
-    //     if(nextState.editorState!=this.state.editorState) {
-    //         return true
-    //     }
-    //     return false;
-    // }
+
     save = (state: EditorState) => {
         const contentState = JSON.stringify(convertToRaw(state.getCurrentContent()))
         if (contentState.indexOf('"valid":false') > -1) {
