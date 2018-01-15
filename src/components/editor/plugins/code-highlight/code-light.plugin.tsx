@@ -47,7 +47,7 @@ export const codeHighLightPlugin: EditorPluginBuilder<PluginConfig, Method> = (.
 
     if (__DEV__) {
       /* tslint:disable */
-      console.log(text, languageType, syntaxDefinition, currentSyntax)
+      // console.log(text, languageType, syntaxDefinition, currentSyntax)
       /* tslint:enable */
     }
     return currentSyntax
