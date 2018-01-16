@@ -23,9 +23,9 @@ export enum KeyMap {
   DownArrow,
   Insert,
   Delete,
-	/**
-	 * Placed  to cover the 47 value of the enum.
-	 */
+  /**
+   * Placed  to cover the 47 value of the enum.
+   */
   Unknown,
   KEY_0,
   KEY_1,
@@ -63,7 +63,7 @@ export enum KeyMap {
   KEY_W,
   KEY_X,
   KEY_Y,
-  KEY_Z,
+  KEY_Z
   // left window key 	,
   // right window key 	,
   // select key 	,

@@ -4,15 +4,15 @@
     position: relative;
     display: table;
     width: 100%;
-    border:@border;
+    border: @border;
     border-radius: 4px;
     cursor: pointer;
     div {
         display: table-cell;
     }
-    .left{
-        padding:20px;
-        @media @desktopMin{
+    .left {
+        padding: 20px;
+        @media @desktopMin {
             padding: 10px 12px 10px;
         }
     }
@@ -58,13 +58,18 @@
             margin-bottom: 5px;
         }
     }
-    a{
-        -o-text-overflow: ellipsis;/*兼容opera*/
-        text-overflow: ellipsis;/*这就是省略号喽*/		  
-        overflow: hidden;/*设置超过的隐藏*/
-        white-space: nowrap;/*设置不折行*/
-        @media @phone{
-            width:240px;/*设置宽度*/            
+    a {
+        -o-text-overflow: ellipsis;
+        /*兼容opera*/
+        text-overflow: ellipsis;
+        /*这就是省略号喽*/
+        overflow: hidden;
+        /*设置超过的隐藏*/
+        white-space: nowrap;
+        /*设置不折行*/
+        @media @phone {
+            width: 240px;
+            /*设置宽度*/
         }
     }
 }

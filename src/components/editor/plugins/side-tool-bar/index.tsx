@@ -1,4 +1,4 @@
-import * as  React from 'react'
+import * as React from "react";
 
 import {
   HeadlineOneButton,
@@ -7,20 +7,24 @@ import {
   BlockquoteButton,
   CodeBlockButton,
   UnorderedListButton,
-  OrderedListButton,
-} from 'draft-js-buttons'
-import { ImageReader } from './fileReader'
-import { EditorState } from 'draft-js'
-import BlockTypeSelect from 'draft-js-side-toolbar-plugin/lib/components/BlockTypeSelect'
-import createPlugin from 'draft-js-side-toolbar-plugin'
-import { PluginConfig, PluginObject } from './interface'
+  OrderedListButton
+} from "draft-js-buttons";
+import { ImageReader } from "./fileReader";
+import { EditorState } from "draft-js";
+import BlockTypeSelect from "draft-js-side-toolbar-plugin/lib/components/BlockTypeSelect";
+import createPlugin from "draft-js-side-toolbar-plugin";
+import { PluginConfig, PluginObject } from "./interface";
 
-export const DefaultBlockTypeSelect = ({ getEditorState, setEditorState, theme }) => (
+export const DefaultBlockTypeSelect = ({
+  getEditorState,
+  setEditorState,
+  theme
+}) => (
   <BlockTypeSelect
-    getEditorState={ getEditorState }
-    setEditorState={ setEditorState }
-    theme={ theme }
-    structure={ [
+    getEditorState={getEditorState}
+    setEditorState={setEditorState}
+    theme={theme}
+    structure={[
       HeadlineOneButton,
       HeadlineTwoButton,
       HeadlineThreeButton,
@@ -28,17 +32,14 @@ export const DefaultBlockTypeSelect = ({ getEditorState, setEditorState, theme }
       OrderedListButton,
       BlockquoteButton,
       CodeBlockButton,
-      ImageReader,
-    ] }
+      ImageReader
+    ]}
   />
 );
 
-
-export const createSideToolBarPlugin = (config: PluginConfig = {}): PluginObject => {
-  const {
-    structure = [DefaultBlockTypeSelect],
-    theme = undefined
-  } = config
-  return createPlugin({ structure, theme })
-}
-
+export const createSideToolBarPlugin = (
+  config: PluginConfig = {}
+): PluginObject => {
+  const { structure = [DefaultBlockTypeSelect], theme = undefined } = config;
+  return createPlugin({ structure, theme });
+};

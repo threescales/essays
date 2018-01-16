@@ -1,96 +1,110 @@
-import React = require('react')
-import Uploader, { filePublicPathGen } from '../../../uploader/qiniuUploader'
-import { ButtonProps } from './interface'
-import addImage from 'draft-js-image-plugin/lib/modifiers/addImage'
-import { AddImageBlock } from '../image'
-import { EditorState } from 'draft-js'
-const addImageBlock: AddImageBlock = addImage
-type UploadeRecord = { task: UploaderTask, entityKey: string }
+import React = require("react");
+import Uploader, { filePublicPathGen } from "../../../uploader/qiniuUploader";
+import { ButtonProps } from "./interface";
+import addImage from "draft-js-image-plugin/lib/modifiers/addImage";
+import { AddImageBlock } from "../image";
+import { EditorState } from "draft-js";
+const addImageBlock: AddImageBlock = addImage;
+type UploadeRecord = { task: UploaderTask; entityKey: string };
 
 export class ImageReader extends React.PureComponent<ButtonProps, {}> {
-  static onTaskSuccess: (state: EditorState) => any
+  static onTaskSuccess: (state: EditorState) => any;
 
-  record: UploadeRecord[] = []
+  record: UploadeRecord[] = [];
   // create base 64 image before success
   onStart = (tasks: UploaderTask[]) => {
-    console.debug(tasks)
+    console.debug(tasks);
 
     const createImageBlock = (task: UploaderTask) => {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = (e: any) => {
-        const base64code = e.target.result
+        const base64code = e.target.result;
 
-        let image = new Image()
-        image.src = base64code
+        let image = new Image();
+        image.src = base64code;
         image.onload = () => {
-          let width = image.width
-          let height = image.height
+          let width = image.width;
+          let height = image.height;
 
-          const state = this.props.getEditorState()
-          const newState = addImageBlock(state, base64code, { valid: false, width, height, progress: 0, info: '' })
-          const entityKey = newState.getCurrentContent().getLastCreatedEntityKey()
-          this.record.push({ task, entityKey })
-          this.props.setEditorState(newState)
-        }
-      }
-      reader.readAsDataURL(task.file)
-    }
+          const state = this.props.getEditorState();
+          const newState = addImageBlock(state, base64code, {
+            valid: false,
+            width,
+            height,
+            progress: 0,
+            info: ""
+          });
+          const entityKey = newState
+            .getCurrentContent()
+            .getLastCreatedEntityKey();
+          this.record.push({ task, entityKey });
+          this.props.setEditorState(newState);
+        };
+      };
+      reader.readAsDataURL(task.file);
+    };
     tasks.forEach(task => {
-      createImageBlock(task)
-    })
-  }
+      createImageBlock(task);
+    });
+  };
 
   onTaskFail = (task: UploaderTask) => {
-    console.warn(task)
-
-  }
+    console.warn(task);
+  };
   _onTaskProgress = (task: UploaderTask) => {
-    const targetRecord = this.record.find(r => r.task === task)
+    const targetRecord = this.record.find(r => r.task === task);
     if (targetRecord) {
-      const data = { progress: task.progress }
-      const state = this.updateBlockDataFindingByRecord(targetRecord, data)
+      const data = { progress: task.progress };
+      const state = this.updateBlockDataFindingByRecord(targetRecord, data);
     }
-  }
+  };
   // if success , replcae base 64 image with public path of cdn and mark block as valid
   _onTaskSuccess = (task: UploaderTask) => {
-    console.debug(task)
-    const targetRecord = this.record.find(r => r.task === task)
+    console.debug(task);
+    const targetRecord = this.record.find(r => r.task === task);
     if (targetRecord) {
-      const data = { src: filePublicPathGen(task.result.hash), valid: true }
-      const state = this.updateBlockDataFindingByRecord(targetRecord, data)
+      const data = { src: filePublicPathGen(task.result.hash), valid: true };
+      const state = this.updateBlockDataFindingByRecord(targetRecord, data);
       if (ImageReader.onTaskSuccess) {
-        ImageReader.onTaskSuccess(state)
+        ImageReader.onTaskSuccess(state);
       }
     }
-  }
+  };
 
   updateBlockDataFindingByRecord(record: UploadeRecord, data: any) {
-    const contentState = this.props.getEditorState().getCurrentContent()
-    const newContent = contentState.mergeEntityData(record.entityKey, data)
-    const newEditorState = EditorState.createWithContent(newContent)
+    const contentState = this.props.getEditorState().getCurrentContent();
+    const newContent = contentState.mergeEntityData(record.entityKey, data);
+    const newEditorState = EditorState.createWithContent(newContent);
     const newSelectionEditorState = EditorState.forceSelection(
       newEditorState,
       newEditorState.getCurrentContent().getSelectionAfter()
     );
-    this.props.setEditorState(newSelectionEditorState)
-    return newSelectionEditorState
+    this.props.setEditorState(newSelectionEditorState);
+    return newSelectionEditorState;
   }
 
   preventBubbling = (e: React.MouseEvent<any>) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
   render() {
-    return <div className={this.props.theme.buttonWrapper} onMouseDown={this.preventBubbling}>
-      <Uploader
-        listener={{
-          onStart: this.onStart,
-          onTaskSuccess: this._onTaskSuccess,
-          onTaskProgress: this._onTaskProgress
-        }}
+    return (
+      <div
+        className={this.props.theme.buttonWrapper}
+        onMouseDown={this.preventBubbling}
       >
-        <a><i className="iconfont icon-image"></i></a>
-      </Uploader>
-    </div>
+        <Uploader
+          listener={{
+            onStart: this.onStart,
+            onTaskSuccess: this._onTaskSuccess,
+            onTaskProgress: this._onTaskProgress
+          }}
+        >
+          <a>
+            <i className="iconfont icon-image" />
+          </a>
+        </Uploader>
+      </div>
+    );
   }
 }
