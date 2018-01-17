@@ -39,12 +39,12 @@ export class ValidateInput extends React.PureComponent<IValidateInputProps, any>
         }
         this.validate = debounce(this.validate.bind(this), 800)
     }
-    onChange=(e)=> {
+    onChange = (e) => {
         this.props.onChange(e)
         this.validate(e.target.value)
 
     }
-    validate (value) {
+    validate(value) {
         let validations = this.props.validations
         let pass = true
         let message = ''
