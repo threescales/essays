@@ -1,122 +1,123 @@
-@import '../../styles/variable.less';
-@import '../../styles/screen.less';
+@import "../../styles/variable.less";
+@import "../../styles/screen.less";
 @-webkit-keyframes pulsate {
-    0% {
-        opacity: 0.4
-    }
-    50% {
-        opacity: 6.0
-    }
-    100% {
-        opacity: 0.4
-    }
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 6;
+  }
+  100% {
+    opacity: 0.4;
+  }
 }
 
 @keyframes pulsate {
-    0% {
-        opacity: 0.4
-    }
-    50% {
-        opacity: 6.0
-    }
-    100% {
-        opacity: 0.4
-    }
+  0% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 6;
+  }
+  100% {
+    opacity: 0.4;
+  }
 }
 
 .article-header {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
-    background-color: rgba(0, 0, 0, .4);
-    display: flex;
-    align-items: center;
-    .return-index{
-        position: fixed;
-        top:10px;
-        left: 20px;
-        z-index: 11;
-        color: @theme-color;
-        i{
-            font-size: 35px;
-        }
-        @media @phone{
-            top:5px;
-            left: 5px;
-            i{
-                font-size: 20px;
-            }
-        }
-    }
-    .content {
-        width: 100%;
-        position: absolute;
-        top: 50%;
-        right: 100px;
-        z-index: 1;
-        transform: translateY(-50%);
-        -webkit-transform: translateY(-50%);
-        max-width: @max-width;
-        @media @phone {
-            left: 0;
-        }
-    }
-    h1 {
-        color: #fff;
-        font-size: 45px;
-        font-weight: 700;
-        line-height: 55px;
-        text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.8);
-        text-align: left;
-        @media @phone {
-            font-size: 30px;
-            line-height: 50px;
-            text-align: left;
-            padding: 0 20px;
-        }
-    }
-    .move-down {
-        font-size: 38px;
-        color: #eee;
-        position: absolute;
-        bottom: 5%;
-        left: 50%;
-        opacity: 0.6;
-        animation: pulsate 4s infinite ease-out;
-        -webkit-animation: pulsate 4s infinite ease-out;
-        cursor: pointer;
-    }
-}
-.article-opera-header{
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  .return-index {
     position: fixed;
-    position: sticky;
-    position: -webkit-sticky;
-    left: 0;
-    top:0;
-    z-index: 10;
+    top: 10px;
+    left: 20px;
+    z-index: 11;
+    color: @theme-color;
+    i {
+      font-size: 35px;
+    }
+    @media @phone {
+      top: 5px;
+      left: 5px;
+      i {
+        font-size: 20px;
+      }
+    }
+  }
+  .content {
     width: 100%;
-    height: 65px;
-    display: flex;
-    padding: 15px;
-    border-bottom: @border;
-    background-color: @background-color;
-    opacity: .95;
-    @media @phone{
-        height: 35px;
-        padding: 5px 10px;
+    position: absolute;
+    top: 50%;
+    right: 100px;
+    z-index: 1;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    max-width: @max-width;
+    @media @phone {
+      left: 0;
     }
-    .header-left{
-        width: 50%;
-        text-align: left;
-        button{
-            margin-left:10px;
-        }
+  }
+  h1 {
+    color: #fff;
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 55px;
+    text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.8);
+    text-align: left;
+    @media @phone {
+      font-size: 30px;
+      line-height: 50px;
+      text-align: left;
+      padding: 0 20px;
     }
-    .header-right{
-        width:50%;
-        text-align: right;
-        button{
-            margin-right: 10px;
-        }
+  }
+  .move-down {
+    font-size: 38px;
+    color: #eee;
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    opacity: 0.6;
+    animation: pulsate 4s infinite ease-out;
+    -webkit-animation: pulsate 4s infinite ease-out;
+    cursor: pointer;
+  }
+}
+
+.article-opera-header {
+  position: fixed;
+  position: sticky;
+  position: -webkit-sticky;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: 65px;
+  display: flex;
+  padding: 15px;
+  border-bottom: @border;
+  background-color: @background-color;
+  opacity: 0.95;
+  @media @phone {
+    height: 35px;
+    padding: 5px 10px;
+  }
+  .header-left {
+    width: 50%;
+    text-align: left;
+    button {
+      margin-left: 10px;
     }
+  }
+  .header-right {
+    width: 50%;
+    text-align: right;
+    button {
+      margin-right: 10px;
+    }
+  }
 }

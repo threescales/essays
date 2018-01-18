@@ -1,79 +1,85 @@
-'use strict';
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+"use strict";
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
-const isProduction = process.env.NODE_ENV === 'production'
+const isProduction = process.env.NODE_ENV === "production";
 
 exports.tslint = {
     test: /\.tsx?$/,
-    loader: 'tslint-loader',
-    exclude: /node_modules/,
+    loader: "tslint-loader",
+    exclude: /node_modules/
 };
 
 exports.tsx = {
     test: /\.tsx?$/,
     use: {
-        loader: 'awesome-typescript-loader',
+        loader: "awesome-typescript-loader"
     },
-    exclude: /node_modules/,
+    exclude: /node_modules/
 };
 exports.jsx = {
     test: /\.jsx?$/,
     exclude: /(node_modules|bower_components)/,
     use: {
-        loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
+        loader: "babel-loader", // 'babel-loader' is also a legal name to reference
         options: {
-            plugins: ['transform-decorators-legacy'],
-            presets: ['es2015', 'react', "stage-2"]
+            plugins: ["transform-decorators-legacy"],
+            presets: ["es2015", "react", "stage-2"]
         }
     }
-}
+};
 exports.istanbulInstrumenter = {
     test: /^(.(?!\.test))*\.tsx?$/,
     use: {
-        loader: 'istanbul-instrumenter-loader',
+        loader: "istanbul-instrumenter-loader"
     },
     query: {
-        embedSource: true,
-    },
+        embedSource: true
+    }
 };
 
 exports.html = {
     test: /\.html$/,
     use: {
-        loader: 'raw-loader',
+        loader: "raw-loader"
     },
-    exclude: /node_modules/,
+    exclude: /node_modules/
 };
 
 exports.css = {
     test: /\.css$/,
-    use: isProduction ? ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader']
-    }) : ['style-loader', 'css-loader', ],
-    exclude: /node_modules/,
+    use: isProduction ?
+        ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: ["css-loader"]
+        }) :
+        ["style-loader", "css-loader"],
+    exclude: /node_modules/
 };
 
 exports.less = {
     test: /\.less$/,
-    use: isProduction ? ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'less-loader']
-    }) : ['style-loader', 'css-loader', 'less-loader']
-}
+    use: isProduction ?
+        ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: ["css-loader", "less-loader"]
+        }) :
+        ["style-loader", "css-loader", "less-loader"]
+};
 
 exports.pluginCss = {
     test: /plugin\.css$/,
-    use: isProduction ? ExtractTextPlugin.extract({
-        fallback: 'style-loader',
-        use: ['css-loader', 'less-loader']
-    }) : ['style-loader', 'css-loader']
-}
+    use: isProduction ?
+        ExtractTextPlugin.extract({
+            fallback: "style-loader",
+            use: ["css-loader", "less-loader"]
+        }) :
+        ["style-loader", "css-loader"]
+};
 
 exports.json = {
     test: /\.json$/,
     use: {
-        loader: 'json-loader',
+        loader: "json-loader"
     }
 };
 
@@ -87,15 +93,15 @@ function makeUrlLoader(pattern) {
     return {
         test: pattern,
         use: {
-            loader: 'url-loader',
+            loader: "url-loader"
         },
-        exclude: /node_modules/,
+        exclude: /node_modules/
     };
 }
 
 exports.img = {
     test: /\.png$/,
     use: {
-        loader: 'file-loader'
+        loader: "file-loader"
     }
-}
+};

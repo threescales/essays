@@ -1,5 +1,5 @@
 export enum ArticleTypes {
-    PRIVATE,
-    PROTECTED,
-    PUBLICK
+  PRIVATE,
+  PROTECTED,
+  PUBLICK
 }

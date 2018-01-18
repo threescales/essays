@@ -1,5 +1,5 @@
 import { UploaderBuilder, Uploader } from "qiniu4js";
-const qiniu = require('../../../config/qiniu.json')
+const qiniu = require("../../../config/qiniu.json");
 declare var __DEV__;
 declare var __TEST__;
 
@@ -9,8 +9,8 @@ declare var __TEST__;
 export default function initQiniuBuilder({
   button,
   tokenUrl = "/api/uptoken",
-  listener,
- }: IUpdateOptions): IQiniuUploader {
+  listener
+}: IUpdateOptions): IQiniuUploader {
   return new UploaderBuilder()
     .debug(__DEV__ || __TEST__)
     .domain(qiniu.zone)
@@ -21,13 +21,13 @@ export default function initQiniuBuilder({
     .build();
 }
 
-const defaultInterceptor:any = {
+const defaultInterceptor: any = {
   // 拦截任务,返回true，任务将会从任务队列中剔除，不会被上传
-  onIntercept: function (task: UploaderTask) {
+  onIntercept: function(task: UploaderTask) {
     return task.file.size > 1024 * 10240;
   },
   // 中断任务，返回true，任务队列将会在这里中断，不会执行上传操作。
-  onInterrupt: function (task: any) {
+  onInterrupt: function(task: any) {
     if (this.onIntercept(task)) {
       alert("请上传小于10m的文件");
       return true;

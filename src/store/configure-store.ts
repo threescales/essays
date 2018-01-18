@@ -1,9 +1,4 @@
-import {
-  createStore,
-  applyMiddleware,
-  compose,
-  Middleware,
-} from "redux";
+import { createStore, applyMiddleware, compose, Middleware } from "redux";
 import { fromJS } from "immutable";
 import { createBrowserHistory } from "history";
 import { routerMiddleware } from "react-router-redux";
@@ -17,14 +12,16 @@ import rootReducer from "../reducers";
 import { getCookie } from "../utils/cookie";
 declare const __DEV__: boolean; // from webpack
 
-export function configureStore(initialState:any) {
+export function configureStore(initialState: any) {
   const myStore = createStore(
     rootReducer,
     initialState,
     compose(
       applyMiddleware(..._getMiddleware()),
       persistState("session", _getStorageConfig()),
-      __DEV__ && environment.devToolsExtension ? environment.devToolsExtension() : f => f
+      __DEV__ && environment.devToolsExtension
+        ? environment.devToolsExtension()
+        : f => f
     )
   );
 
@@ -36,7 +33,7 @@ export function _getMiddleware(): Middleware[] {
   let middleware = [
     routerMiddleware(createBrowserHistory as any),
     promiseMiddleware,
-    thunk,
+    thunk
   ];
 
   if (__DEV__) {
@@ -48,7 +45,7 @@ export function _getMiddleware(): Middleware[] {
 
 const environment: any = window || this;
 
-function _enableHotLoader(myStore:any) {
+function _enableHotLoader(myStore: any) {
   if (!__DEV__) {
     return;
   }
@@ -65,13 +62,14 @@ function _enableHotLoader(myStore:any) {
 function _getStorageConfig() {
   return {
     key: "jigloo-session",
-    serialize: (myStore) => {
+    serialize: myStore => {
       myStore.session = myStore.session.set("isLoading", false);
       myStore.session = myStore.session.set("hasError", false);
-      return myStore && myStore.session ?
-        JSON.stringify(myStore.session.toJS()) : myStore;
+      return myStore && myStore.session
+        ? JSON.stringify(myStore.session.toJS())
+        : myStore;
     },
-    deserialize: (state) => {
+    deserialize: state => {
       const data = JSON.parse(state);
 
       if (data && data.token && data.refreshToken) {
@@ -79,7 +77,7 @@ function _getStorageConfig() {
           session: fromJS(data)
         };
       }
-    },
+    }
   };
 }
 
@@ -93,4 +91,4 @@ export const getToken = () => {
 };
 export default store;
 
-export const dispatch = store.dispatch
+export const dispatch = store.dispatch;

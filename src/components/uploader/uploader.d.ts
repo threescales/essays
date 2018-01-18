@@ -48,7 +48,7 @@ interface IUpdateOptions {
 }
 
 interface IUpLoaderListener {
-  onReady?: (tasks: UploaderTask[])=>void;
+  onReady?: (tasks: UploaderTask[]) => void;
   onStart?: (tasks: UploaderTask[]) => any;
   onTaskGetKey?: (task: UploaderTask) => any;
   onTaskProgress?: (task: UploaderTask) => any;

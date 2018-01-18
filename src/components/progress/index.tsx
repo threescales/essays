@@ -1,4 +1,3 @@
-
 import * as progress from "nprogress";
 import "./progress.style.less";
 const inc = progress.inc as any;

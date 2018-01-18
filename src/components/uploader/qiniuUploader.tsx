@@ -3,31 +3,35 @@ import { default as initQiniuUploader } from "./initQiniuBuilder";
 import * as classnames from "classnames";
 
 interface IUploaderProps extends IUpdateOptions {
-  onClick?(e: Event, QiniuUploader:any);
+  onClick?(e: Event, QiniuUploader: any);
   className?: string;
 }
 
-export default
-  class Uploader extends React.PureComponent<IUploaderProps, {}> {
+export default class Uploader extends React.PureComponent<IUploaderProps, {}> {
   uploader: IQiniuUploader;
-  constructor(props:any) {
+  constructor(props: any) {
     super(props);
     this.uploader = initQiniuUploader(this.props);
   }
 
-  chooseFile = (e) => {
+  chooseFile = e => {
     if (this.props.onClick) {
       this.props.onClick(e, this.uploader);
       return;
     }
     this.uploader.chooseFile();
-  }
+  };
 
   render() {
     const { className = "" } = this.props;
-    return <div className={ classnames("Uploader", className) } onClick={ this.chooseFile }>
-      { this.props.children }
-    </div>;
+    return (
+      <div
+        className={classnames("Uploader", className)}
+        onClick={this.chooseFile}
+      >
+        {this.props.children}
+      </div>
+    );
   }
 }
 

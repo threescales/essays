@@ -9,7 +9,7 @@ import { Iterable } from "immutable";
  * @param  {object} state [state reference]
  * @return {object}       [transformed state]
  */
-export default function immutableToJS(state:any) {
+export default function immutableToJS(state: any) {
   return Object.keys(state).reduce((newState, key) => {
     const val = state[key];
     newState[key] = Iterable.isIterable(val) ? val.toJS() : val;

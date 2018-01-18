@@ -1,6 +1,6 @@
 @import '../../styles/variable.less';
 @import '../../styles/screen.less';
-@catalogue-toggle-width:20px;
+@catalogue-toggle-width: 20px;
 .catalogue {
     position: fixed;
     top: 0;
@@ -13,26 +13,26 @@
     transition: all .2s linear;
     transform: translate3d(@catalogue-desk-width, 0, 0);
     -webkit-transform: translate3d(@catalogue-desk-width, 0, 0);
-    border-left: 1px solid rgba(0, 0, 0, 0.15); 
+    border-left: 1px solid rgba(0, 0, 0, 0.15);
     &--moveLeft {
         transform: translate3d(0, 0, 0) !important;
         -webkit-transform: translate3d(0, 0, 0) !important;
     }
-    &-list{
+    &-list {
         overflow-y: auto;
-        -webkit-overflow-scrolling: touch;   
+        -webkit-overflow-scrolling: touch;
         height: 100%;
         width: 100%;
     }
-    &-item{
+    &-item {
         color: #1a1a1a;
         font-size: 16px;
         line-height: 20px;
-        padding: 5px 0;     
+        padding: 5px 0;
         cursor: pointer;
         position: relative;
         border-left: 2px solid #fff;
-        &:before{
+        &:before {
             content: ' ';
             width: 4px;
             height: 4px;
@@ -54,13 +54,13 @@
     left: -50px;
     width: 40px;
     height: 40px;
-    padding:10px;
+    padding: 10px;
     cursor: pointer;
     background: #fff;
     border-radius: 50%;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 0px 20px;
     color: rgb(32, 35, 42);
-    i{
+    i {
         font-size: 18px;
     }
 }
@@ -71,26 +71,24 @@
 
 .catalogue-header-two {
     padding-left: 35px;
-    &:before{
+    &:before {
         left: 20px;
     }
 }
 
 .catalogue-header-three {
     padding-left: 45px;
-    &:before{
+    &:before {
         left: 30px;
     }
 }
 
 .selected {
     font-weight: 700;
-    color: @theme-color; 
-    background-color: #f7f7f7;    
+    color: @theme-color;
+    background-color: #f7f7f7;
     border-left: 2px solid @theme-color;
-    &:before{
+    &:before {
         background-color: @theme-color;
     }
 }
-
-

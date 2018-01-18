@@ -2,7 +2,6 @@ import isPromise from "../utils/is-promise";
 import p from "app/components/progress/index";
 const objectAssign = require("object-assign");
 
-
 export default function promiseMiddleware({ dispatch }: any) {
   return next => action => {
     if (!isPromise(action.payload)) {
@@ -16,11 +15,14 @@ export default function promiseMiddleware({ dispatch }: any) {
     /**
      * Dispatch the pending action
      */
-    dispatch(objectAssign({},
-      { type: PENDING },
-      data ? { payload: data } : {},
-      meta ? { meta } : {}
-    ));
+    dispatch(
+      objectAssign(
+        {},
+        { type: PENDING },
+        data ? { payload: data } : {},
+        meta ? { meta } : {}
+      )
+    );
     p.inc();
     /**
      * If successful, dispatch the fulfilled action, otherwise dispatch
@@ -32,7 +34,7 @@ export default function promiseMiddleware({ dispatch }: any) {
         return dispatch({
           type: result.errMsg ? REJECTED : FULFILLED,
           payload: result,
-          meta,
+          meta
         });
       },
       error => {
@@ -40,7 +42,7 @@ export default function promiseMiddleware({ dispatch }: any) {
         return dispatch({
           type: REJECTED,
           payload: error,
-          meta,
+          meta
         });
       }
     );

@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom'
-import * as React from 'react'
-import './logo.less';
+import { Link } from "react-router-dom";
+import * as React from "react";
+import "./logo.less";
 
 export const Logo = ({ className = "" }) => {
-    return <Link to="/" className={`logo ${className}`}></Link>
-
-}
+  return <Link to="/" className={`logo ${className}`} />;
+};

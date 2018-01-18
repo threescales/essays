@@ -1,87 +1,91 @@
-import * as React from 'react'
-import { ValidateInput } from '../controlled/input'
-import { Button } from '../buttons/button'
-import * as UserAction from '../../actions/session'
-import toastr from 'utils/toastr'
-import './login.less'
-import { SocialAccounts } from 'app/components/login/socialAccounts';
-import * as ValidateUtils from 'utils/validate'
-import { loginGithub } from '../../constants/path'
+import * as React from "react";
+import { ValidateInput } from "../controlled/input";
+import { Button } from "../buttons/button";
+import * as UserAction from "../../actions/session";
+import toastr from "utils/toastr";
+import "./login.less";
+import { SocialAccounts } from "app/components/login/socialAccounts";
+import * as ValidateUtils from "utils/validate";
+import { loginGithub } from "../../constants/path";
 interface ISignupProps {
-    dispatch
-    closeModal?
+  dispatch;
+  closeModal?;
 }
 export default class Login extends React.Component<ISignupProps, any> {
-    constructor(props) {
-        super(props)
-        this.state = {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-            isActive: false
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      isActive: false
+    };
+  }
+  toggleEmail = e => {
+    this.setState({
+      email: e.target.value
+    });
+  };
+  togglePassword = e => {
+    this.setState({
+      password: e.target.value
+    });
+  };
+  toggleConfirmPassword = e => {
+    this.setState({
+      confirmPassword: e.target.value
+    });
+  };
+  toggleName = e => {
+    this.setState({
+      name: e.target.value
+    });
+  };
+  checkPassword = confirmPasswor => {
+    if (confirmPasswor != this.state.password) {
+      return true;
     }
-    toggleEmail = (e) => {
-        this.setState({
-            email: e.target.value
-        })
-    }
-    togglePassword = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    }
-    toggleConfirmPassword = (e) => {
-        this.setState({
-            confirmPassword: e.target.value
-        })
-    }
-    toggleName = (e) => {
-        this.setState({
-            name: e.target.value
-        })
-    }
-    checkPassword = (confirmPasswor) => {
-        if (confirmPasswor != this.state.password) {
-            return true
-        }
-        return false
-    }
-    signup = () => {
-        let name = this.state.name
-        let email = this.state.email
-        let password = this.state.password
-        let confirmPassword = this.state.confirmPassword
+    return false;
+  };
+  signup = () => {
+    let name = this.state.name;
+    let email = this.state.email;
+    let password = this.state.password;
+    let confirmPassword = this.state.confirmPassword;
 
-        if (window.document.getElementsByClassName("validate-message").length > 0) {
-            return
-        }
-
-        if (!name || !password || !email || !confirmPassword) {
-            toastr.error('您还有信息没有填哦~');
-            return
-        }
-
-        this.setState({
-            isActive: true
-        }, () => {
-            this.props.dispatch(UserAction.signup(email, password, name)).then(() => {
-                this.setState({
-                    isActive: false
-                })
-                this.props.closeModal && this.props.closeModal()
-            })
-        })
-
+    if (window.document.getElementsByClassName("validate-message").length > 0) {
+      return;
     }
-    signupByGithub = () => {
-        window.location.href = loginGithub
+
+    if (!name || !password || !email || !confirmPassword) {
+      toastr.error("您还有信息没有填哦~");
+      return;
     }
-    render() {
-        return (
-            <div className="login-frame">
-                {/* <ValidateInput
+
+    this.setState(
+      {
+        isActive: true
+      },
+      () => {
+        this.props
+          .dispatch(UserAction.signup(email, password, name))
+          .then(() => {
+            this.setState({
+              isActive: false
+            });
+            this.props.closeModal && this.props.closeModal();
+          });
+      }
+    );
+  };
+  signupByGithub = () => {
+    window.location.href = loginGithub;
+  };
+  render() {
+    return (
+      <div className="login-frame">
+        {/* <ValidateInput
                     value={this.state.name}
                     placeholder="请输入您的昵称"
                     onChange={this.toggleName}
@@ -129,8 +133,11 @@ export default class Login extends React.Component<ISignupProps, any> {
                     }
                 />
                 <Button onClick={this.signup} isActive={this.state.isActive}>注册</Button> */}
-                <Button onClick={this.signupByGithub} ><i className="iconfont icon-github" style={{marginRight:'20px'}}></i>Signup by gitHub</Button>
-            </div>
-        )
-    }
+        <Button onClick={this.signupByGithub}>
+          <i className="iconfont icon-github" style={{ marginRight: "20px" }} />Signup
+          by gitHub
+        </Button>
+      </div>
+    );
+  }
 }

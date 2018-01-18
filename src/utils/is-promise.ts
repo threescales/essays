@@ -4,7 +4,7 @@
  * @param {object} value Potential promise
  * @return {Boolean}
  */
-export default function isPromise(value:any) {
+export default function isPromise(value: any) {
   if (value !== null && typeof value === "object") {
     return value.promise && typeof value.promise.then === "function";
   }

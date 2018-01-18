@@ -1,58 +1,60 @@
-@import './font/iconfont.css';
-@import './variable.less';
-@import './screen.less';
-@import './animation/animation.css';
+@import "./font/iconfont.css";
+@import "./variable.less";
+@import "./screen.less";
+@import "./animation/animation.css";
 body {
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC, Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei, sans-serif;
-    font-size: 14px;
-    color: @genera-color;
-    background: @background-color;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+    Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC, WenQuanYi Micro Hei,
+    sans-serif;
+  font-size: 14px;
+  color: @genera-color;
+  background: @background-color;
 }
 
 ::-webkit-scrollbar {
-    overflow: hidden;
-    width: .3rem;
-    background: #fafafa;
+  overflow: hidden;
+  width: 0.3rem;
+  background: #fafafa;
 }
 
 ::-webkit-scrollbar:horizontal {
-    height: 1px;
+  height: 1px;
 }
 
 ::-webkit-scrollbar-button {
-    display: none;
+  display: none;
 }
 
 ::-webkit-scrollbar-piece {
-    background: #eee;
+  background: #eee;
 }
 
- ::-webkit-scrollbar-piece:start {
-    background: #eee;
+::-webkit-scrollbar-piece:start {
+  background: #eee;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(51, 51, 51, 0.22222);
+  background: rgba(51, 51, 51, 0.22222);
 }
 
 ::-webkit-scrollbar-corner {
-    background: rgba(51, 51, 51, 0.22222);
+  background: rgba(51, 51, 51, 0.22222);
 }
 
 * {
-    box-sizing: border-box;
-    -webkit-text-size-adjust: none !important;
-    outline: none;
+  box-sizing: border-box;
+  -webkit-text-size-adjust: none !important;
+  outline: none;
 }
 
 .body-scroll {
-    height: 100vh;
-    width: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
+  height: 100vh;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 // @keyframes gaussian {
@@ -77,80 +79,80 @@ body {
 // }
 input,
 textarea {
-    width: 100%;
-    outline: none;
-    text-align: left;
-    border-radius: 4px;
-    font-size: 14px;
-    border: @border;
-    color: #5c5c5c;
+  width: 100%;
+  outline: none;
+  text-align: left;
+  border-radius: 4px;
+  font-size: 14px;
+  border: @border;
+  color: #5c5c5c;
 }
 
 input {
-    height: 41px;
-    padding: 0 10px;
+  height: 41px;
+  padding: 0 10px;
 }
 
 *::-webkit-input-placeholder {
-    color: #d8d8d8;
+  color: #d8d8d8;
 }
 
 *:-moz-placeholder {
-    color: #d8d8d8;
+  color: #d8d8d8;
 }
 
 *:-ms-input-placeholder {
-    /* IE10+ */
-    color: #d8d8d8;
+  /* IE10+ */
+  color: #d8d8d8;
 }
 
 textarea {
-    height: 80px;
-    padding: 10px;
+  height: 80px;
+  padding: 10px;
 }
 
 label {
-    line-height: 40px;
-    letter-spacing: 5px;
-    color: #5c5c5c;
+  line-height: 40px;
+  letter-spacing: 5px;
+  color: #5c5c5c;
 }
 
 a {
-    cursor: pointer;
-    text-decoration: unset;
+  cursor: pointer;
+  text-decoration: unset;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 ul,
 ol {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 h1 {
-    text-align: center;
-    width: 100%;
+  text-align: center;
+  width: 100%;
 }
 
 .filling {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .only-pc {
-    @media @phone {
-        display: none;
-    }
+  @media @phone {
+    display: none;
+  }
 }
 
 .image-blur {
-    -webkit-filter: blur(5px);
-    /* Chrome, Opera */
-    -moz-filter: blur(5px);
-    -ms-filter: blur(5px);
-    filter: blur(5px);
+  -webkit-filter: blur(5px);
+  /* Chrome, Opera */
+  -moz-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
 }
