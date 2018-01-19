@@ -126,7 +126,8 @@ export default class Toolbar extends React.Component<any, any> {
 
     const position = {
       top: selectionRect.top - relativeRect.top - toolbarHeight,
-      left: selectionRect.left - relativeRect.left + selectionRect.width / 2
+      left:
+        selectionRect.left - relativeRect.left + selectionRect.width / 2 - 25
     };
     this.setState({ position });
   }
