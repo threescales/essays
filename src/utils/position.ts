@@ -8,7 +8,8 @@ export function getInitPosition(element) {
       left: 0,
       right: 0,
       top: 0,
-      bottom: 0
+      bottom: 0,
+      width: 0
     };
   }
   let offsetLeft: number = element.offsetLeft;
@@ -16,7 +17,8 @@ export function getInitPosition(element) {
   let screen = getPagearea();
   return {
     left: offsetLeft,
-    right: screen.width - (offsetLeft + width)
+    right: screen.width - (offsetLeft + width),
+    width: element.clientWidth
   };
 }
 

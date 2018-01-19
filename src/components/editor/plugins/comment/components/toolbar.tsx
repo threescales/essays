@@ -31,7 +31,7 @@ const getBlockKey = element => {
 
 export default class Toolbar extends React.Component<any, any> {
   public toolbar;
-  public initElement = document.getElementById("articleId");
+  public initElement = document.getElementById("articleBody");
   constructor(props) {
     super(props);
     this.state = {
@@ -171,8 +171,13 @@ export default class Toolbar extends React.Component<any, any> {
 
     let commentStyle: any = {};
     commentStyle.top = position.top;
-    let right: any = getInitPosition(this.initElement).right - 240;
-    commentStyle.right = right < 0 ? 0 : right;
+    let initPositon: any = getInitPosition(this.initElement);
+    // let right: any = getInitPosition(this.initElement).right - 240;
+    if (initPositon.right > 260) {
+      commentStyle.left = initPositon.width + initPositon.left + 20;
+    } else {
+      commentStyle.right = 0;
+    }
     return [
       <div
         className={classnames({
