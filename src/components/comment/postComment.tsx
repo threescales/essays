@@ -95,7 +95,7 @@ export default class PostComment extends React.Component<
       showOpera: true
     });
   }
-  hideOpera = article => {
+  hideOpera = (article = null) => {
     this.setState(
       {
         isPadding: true,

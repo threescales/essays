@@ -10,6 +10,8 @@ import DateUtil from "../../utils/date";
 import PostComment from "./postComment";
 import * as classnames from "classnames";
 import { dispatch } from "../../store/configure-store";
+const jump = require("jump.js");
+
 interface ICommentContentProps {
   comment;
   articleId;
@@ -113,10 +115,25 @@ export default class CommentContent extends React.Component<
   }
 }
 
-export const BlockContent = ({ blockKey, blockText }) => {
-  return (
-    <div className="selected-content">
-      <a>{blockText}</a>
-    </div>
-  );
-};
+export class BlockContent extends React.PureComponent<any, any> {
+  constructor(props) {
+    super(props);
+  }
+
+  jumpToArticle = () => {
+    jump.default(`#${this.props.blockKey}`, {
+      duration: 1000,
+      offset: -80,
+      a11y: false
+    });
+  };
+
+  render() {
+    let { blockText } = this.props;
+    return (
+      <div className="selected-content">
+        <a onClick={this.jumpToArticle}>{blockText}</a>
+      </div>
+    );
+  }
+}

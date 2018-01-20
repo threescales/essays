@@ -56,7 +56,7 @@ export default class Comment extends Component {
       contentState, // eslint-disable-line no-unused-vars
       ...otherProps
     } = this.props;
-
+    let blockKey = offsetKey.split("-")[0];
     const combinedClassName = unionClassNames(
       "comment-selected-text",
       className
@@ -71,7 +71,11 @@ export default class Comment extends Component {
     return (
       <span {...props}>
         {children}
-        <a className="open-comment-button" onClick={this.showComment}>
+        <a
+          className="open-comment-button"
+          onClick={this.showComment}
+          id={blockKey}
+        >
           <i
             className="iconfont icon-asterisks-1-copy"
             style={{ fontSize: "10px" }}

@@ -148,15 +148,17 @@ export default class Toolbar extends React.Component<any, any> {
   };
 
   resetEditorState = body => {
-    let contentState = convertFromRaw(body);
-    let editorState = this.props.store.getItem("getEditorState")();
-    let newEditorState = EditorState.push(
-      editorState,
-      contentState,
-      "change-block-data"
-    );
-    let setEditorState = this.props.store.getItem("setEditorState");
-    setEditorState(newEditorState);
+    if (body) {
+      let contentState = convertFromRaw(body);
+      let editorState = this.props.store.getItem("getEditorState")();
+      let newEditorState = EditorState.push(
+        editorState,
+        contentState,
+        "change-block-data"
+      );
+      let setEditorState = this.props.store.getItem("setEditorState");
+      setEditorState(newEditorState);
+    }
   };
 
   render() {
@@ -196,19 +198,68 @@ export default class Toolbar extends React.Component<any, any> {
         <Arrow />
       </div>,
       this.state.showPostComment ? (
-        <div className="block-post-comment" style={commentStyle} key="2">
-          <PostComment
-            articleId={this.props.articleId}
-            blockText={blockText}
-            blockKey={blockKey}
-            depth={0}
-            closeComment={this.hidePostComment}
-            resetEditorState={this.resetEditorState}
-            offset={offset}
-          />
-        </div>
+        <PostCommentArea
+          articleId={this.props.articleId}
+          blockText={blockText}
+          blockKey={blockKey}
+          depth={0}
+          hidePostComment={this.hidePostComment}
+          resetEditorState={this.resetEditorState}
+          offset={offset}
+          commentStyle={commentStyle}
+          key="2"
+        />
       ) : null
     ];
+  }
+}
+
+class PostCommentArea extends React.Component<any, any> {
+  constructor(props) {
+    super(props);
+  }
+
+  hidePostComment = () => {
+    this.props.hidePostComment();
+  };
+
+  resetEditorState = body => {
+    this.props.resetEditorState(body);
+  };
+
+  stopEvent = event => {
+    window.event ? (window.event.cancelBubble = true) : event.stopPropagation();
+  };
+
+  // componentDidMount() {
+  //   document.addEventListener("click", this.hidePostComment, true);
+  // }
+  // componentWillUnmount() {
+  //   document.addEventListener("click", this.hidePostComment, true);
+  // }
+  render() {
+    let { articleId, blockText, blockKey, offset, commentStyle } = this.props;
+    return (
+      <div
+        className="block-post-comment"
+        style={commentStyle}
+        key="2"
+        onClick={this.stopEvent}
+      >
+        <a className="close" onClick={this.hidePostComment}>
+          <i className="iconfont icon-cha" />
+        </a>
+        <PostComment
+          articleId={articleId}
+          blockText={blockText}
+          blockKey={blockKey}
+          depth={0}
+          closeComment={this.hidePostComment}
+          resetEditorState={this.resetEditorState}
+          offset={offset}
+        />
+      </div>
+    );
   }
 }
 
