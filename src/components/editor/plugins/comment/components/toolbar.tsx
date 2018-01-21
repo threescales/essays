@@ -227,9 +227,9 @@ class PostCommentArea extends React.Component<any, any> {
     this.props.resetEditorState(body);
   };
 
-  stopEvent = event => {
-    window.event ? (window.event.cancelBubble = true) : event.stopPropagation();
-  };
+  // stopEvent = event => {
+  //   window.event ? (window.event.cancelBubble = true) : event.stopPropagation();
+  // };
 
   // componentDidMount() {
   //   document.addEventListener("click", this.hidePostComment, true);
@@ -243,8 +243,8 @@ class PostCommentArea extends React.Component<any, any> {
       <div
         className="block-post-comment"
         style={commentStyle}
-        key="2"
-        onClick={this.stopEvent}
+        // key="2"
+        // onClick={this.stopEvent}
       >
         <a className="close" onClick={this.hidePostComment}>
           <i className="iconfont icon-cha" />
