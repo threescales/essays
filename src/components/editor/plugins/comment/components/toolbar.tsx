@@ -243,7 +243,6 @@ class PostCommentArea extends React.Component<any, any> {
       <div
         className="block-post-comment"
         style={commentStyle}
-        // key="2"
         // onClick={this.stopEvent}
       >
         <a className="close" onClick={this.hidePostComment}>
