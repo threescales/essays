@@ -75,16 +75,16 @@ export default class Image extends React.Component {
           progress={progress}
           valid={valid}
         />
-      </div>,
+      </div>
       //todo image desc
-      <figcaption
-        style={{ display: "block", width: "100%", height: "20px" }}
-        ref={element => (this.desc = element)}
-        onBlur={this.changeImageInfo}
-        key={2}
-      >
-        {info}
-      </figcaption>
+      // <figcaption
+      //   style={{ display: "block", width: "100%", height: "20px" }}
+      //   ref={element => (this.desc = element)}
+      //   onBlur={this.changeImageInfo}
+      //   key={2}
+      // >
+      //   {info}
+      // </figcaption>
     ];
   }
 }
