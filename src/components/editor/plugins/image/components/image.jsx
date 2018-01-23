@@ -18,6 +18,13 @@ export default class Image extends React.Component {
     this.props.onClick(e);
     return true;
   };
+  onForce = () => {
+    this.desc.focus();
+  };
+  changeImageInfo = e => {
+    let info = e.target.value;
+    console.log(info);
+  };
   render() {
     const {
       block,
@@ -37,21 +44,28 @@ export default class Image extends React.Component {
       ...elementProps
     } = this.props;
     const combinedClassName = unionClassNames("editor-image", className);
-    const { src, width, height, valid, progress } = contentState
-      .getEntity(block.getEntityAt(0))
-      .getData();
+    const {
+      src,
+      width,
+      height,
+      valid,
+      progress,
+      info
+    } = contentState.getEntity(block.getEntityAt(0)).getData();
     let readOnly = store.getReadOnly();
     var imageStyle = style || {};
     imageStyle.position = "relative";
 
     let imgWidth = getImgWidth(width);
     imageStyle.width = imgWidth;
-    return (
+    return [
       <div
         className={combinedClassName}
         style={imageStyle}
         {...elementProps}
         role="presentation"
+        onClick={this.onForce}
+        key={1}
       >
         <LazyImage
           src={src}
@@ -61,8 +75,17 @@ export default class Image extends React.Component {
           progress={progress}
           valid={valid}
         />
-      </div>
-    );
+      </div>,
+      //todo image desc
+      <figcaption
+        style={{ display: "block", width: "100%", height: "20px" }}
+        ref={element => (this.desc = element)}
+        onBlur={this.changeImageInfo}
+        key={2}
+      >
+        {info}
+      </figcaption>
+    ];
   }
 }
 
