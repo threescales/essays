@@ -43,7 +43,7 @@ export const createImagePlugin = (config?: PluginConfig): ImagePluginObject => {
         if (type === "image") {
           return {
             component: ThemedImage,
-            editable: getReadOnly() ? false : false
+            editable: false
           };
         }
         return null;
