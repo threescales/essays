@@ -37,4 +37,5 @@ export const getUserInfo = userId => `/api/user/getInfo?userId=${userId}`;
 export const getPageInfo = "/api/pageInfo";
 
 //qiniu fetch url
-export const getQiniuImageUrlByImgUrl = "/api/imgUrlToQiniu";
+export const getQiniuImageUrlByImgUrl = imgUrl =>
+  `/api/imgUrlToQiniu?imgUrl=${imgUrl}`;

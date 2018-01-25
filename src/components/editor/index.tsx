@@ -181,38 +181,42 @@ export default class JiglooEditor extends React.Component<EditorProps, any> {
       });
   };
 
-  // handleReturn = (e): DraftHandleValue => {
-  //   const editorState = this.state.editorState;
-  //   const { contentState, selectionState } = this.getContentAndSelection()
+  //TODO upload image to qiniu
+  uploadImg = async (imageUrl, entityKey) => {
+    let image = new Image();
+    image.src = imageUrl;
+    const getImageInfo = () => {
+      return new Promise((resolve, reject) => {
+        image.onload = () => {
+          resolve(image);
+        };
+      });
+    };
+    let imageInfo: any = await getImageInfo();
+    console.log(imageInfo.width, imageInfo.height);
+    //TODO 若七牛不能解析图片url则移除当前图片
+    let data: any = await getAjax(Paths.getQiniuImageUrlByImgUrl(imageUrl));
+    let url = `//images.zymlj.net/${data.key}`;
+    console.log(url);
+    console.log(entityKey);
+  };
 
-  //   const blockKey = selectionState.getAnchorKey()
-  //   const block = contentState.getBlockForKey(blockKey)
-
-  //   const entityKey = block.getEntityAt(0);
-  //   const entity = entityKey ? contentState.getEntity(entityKey) : null;
-
-  //   if (block) {
-  //     //解析网页 显示预览信息
-  //     if (isUrl(block.getText())) {
-  //       this.getPageData(editorState, block)
-  //     }
-  //   }
-  //   return 'not-handled'
-  // }
   //将img标签解析成image block映射算法
   getConvertOptions = () => {
     var { contentState } = this.getContentAndSelection();
     return {
       htmlToEntity: (nodeName, node: any) => {
         if (nodeName == "img") {
-          node.textContent = node.src;
-          return contentState
+          //TODO image url to qiniu image url
+          let entityKey = contentState
             .createEntity("image", "MUTABLE", {
               valid: false,
               description: "",
               src: node.src
             })
             .getLastCreatedEntityKey();
+          node.textContent = node.src;
+          return entityKey;
         } else if (nodeName === "br") {
           // return null;
         } else if (nodeName === "a") {
