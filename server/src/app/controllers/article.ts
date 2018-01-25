@@ -12,6 +12,7 @@ import { addBlockCommentToBody } from "../utils/operaBlock";
 import { getBucketManager } from "../components/qiniuSDK/index";
 import { promisify } from "../utils/promisify";
 import rq = require("request-promise");
+const QINIU_CDN = "http://images.zymlj.net/";
 export default class ArticleController {
   static async checkPermi(
     ctx: koa.Context,
@@ -304,13 +305,16 @@ export default class ArticleController {
       bucketManager.fetch(imgUrl, "youming133", fileName, callback);
     }, ctx);
     let data: any = await getQiniuResult();
-
+    // let imageInfo = await rq.get(
+    //   `${QINIU_CDN + data[0].key}data[0].key?imageInfo`
+    // );
     ctx.body = {
       statusCode: data[1].statusCode,
       hash: data[0].hash,
       key: data[0].key,
       mimeType: data[0].mimeType,
       size: data[0].fsize
+      // imageInfo: imageInfo
     };
   }
 }
