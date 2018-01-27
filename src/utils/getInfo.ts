@@ -1,11 +1,18 @@
 const config = require("../../config/qiniu.json");
+const DEFAULT_IMG = "http://api.dujin.org/bing/1920.php";
+
 export function getImageUrl(url, width?, height?) {
-  if (url && url.indexOf(config.cdn) > -1) {
+  if (!url) {
+    return DEFAULT_IMG;
+  }
+
+  if (url.indexOf(config.cdn) > -1) {
     if (width && height) {
       return `${url}?imageView2/5/w/${width}/h/${height}/q/75|imageslim`;
     }
     return `${url}?imageslim`;
   }
+
   return url;
 }
 
@@ -14,6 +21,9 @@ export function setWindowTitle(title = "") {
 }
 
 export function getCompressImg(url) {
+  if (!url) {
+    return DEFAULT_IMG;
+  }
   if (url.indexOf(config.cdn) > -1) {
     return `${url}?imageView2/2/w/700/q/75|imageslim`;
   }
