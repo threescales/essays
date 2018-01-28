@@ -21,9 +21,6 @@ export function setWindowTitle(title = "") {
 }
 
 export function getCompressImg(url) {
-  if (!url) {
-    return DEFAULT_IMG;
-  }
   if (url.indexOf(config.cdn) > -1) {
     return `${url}?imageView2/2/w/700/q/75|imageslim`;
   }
