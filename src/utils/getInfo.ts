@@ -22,14 +22,14 @@ export function setWindowTitle(title = "") {
 
 export function getCompressImg(url) {
   if (url.indexOf(config.cdn) > -1) {
-    return `${url}?imageView2/2/w/700/q/75|imageslim`;
+    return `${url}?imageView2/2/w/750/interlace/1/q/75|imageslim`;
   }
   return url;
 }
 
 export function getGaussianImg(url) {
   if (url.indexOf(config.cdn) > -1) {
-    return `${url}?imageView2/0/w/10/h/10/q/75|imageslim`;
+    return `${url}?imageMogr2/thumbnail/60x/interlace/1/blur/10x1/quality/75|imageslim`;
   }
   return url;
 }
