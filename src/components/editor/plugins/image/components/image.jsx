@@ -19,7 +19,9 @@ export default class Image extends React.Component {
     return true;
   };
   onForce = () => {
-    this.desc.focus();
+    if (!this.props.store.readOnly) {
+      this.desc.focus();
+    }
   };
   changeImageInfo = e => {
     let info = e.target.value;
@@ -122,10 +124,8 @@ class LazyImage extends React.Component {
     className = unionClassNames(className, this.state.blurClass);
     return readOnly
       ? [
-          <LazyLoad height="1px" key="1">
-            {this.state.showLazy && (
-              <LoadImg src={src} loadFinish={this.loadFinish} />
-            )}
+          <LazyLoad key="1">
+            <LoadImg src={src} loadFinish={this.loadFinish} />
           </LazyLoad>,
           <ImageZoom
             key="0"
@@ -163,7 +163,7 @@ class LoadImg extends React.Component {
         onLoad={this.onLoad}
         onError={this.onError}
         src={getCompressImg(this.props.src)}
-        style={{ height: "1px", width: "1px", display: "none" }}
+        style={{ display: "none" }}
       />
     );
   }
