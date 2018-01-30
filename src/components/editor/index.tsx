@@ -14,7 +14,8 @@ import {
   Modifier,
   genKey,
   BlockMapBuilder,
-  CharacterMetadata
+  CharacterMetadata,
+  Entity
 } from "draft-js";
 const isSoftNewlineEvent = require("draft-js/lib/isSoftNewlineEvent");
 
@@ -182,23 +183,30 @@ export default class JiglooEditor extends React.Component<EditorProps, any> {
   };
 
   //TODO upload image to qiniu
-  uploadImg = async (imageUrl, entityKey) => {
-    let image = new Image();
-    image.src = imageUrl;
-    const getImageInfo = () => {
-      return new Promise((resolve, reject) => {
-        image.onload = () => {
-          resolve(image);
-        };
-      });
-    };
-    let imageInfo: any = await getImageInfo();
-    console.log(imageInfo.width, imageInfo.height);
+  uploadImg = async (block, entity, entityKey) => {
+    let entityData: any = entity.getData();
+    let imageUrl = entityData.src;
     //TODO 若七牛不能解析图片url则移除当前图片
     let data: any = await getAjax(Paths.getQiniuImageUrlByImgUrl(imageUrl));
-    let url = `//images.zymlj.net/${data.key}`;
-    console.log(url);
-    console.log(entityKey);
+    let url = `//image.zymlj.net/${data.key}`;
+    console.log(data);
+    entityData.height = data.imageInfo.height;
+    entityData.width = data.imageInfo.width;
+    entityData.valid = true;
+    entityData.src = url;
+    Entity.replaceData(entityKey, entityData);
+    var editorState = this.getEditorState();
+    let currentContent: any = editorState.getCurrentContent();
+    let newContentState = currentContent.replaceEntityData(
+      entityKey,
+      entityData
+    );
+    const newES = EditorState.push(
+      editorState,
+      newContentState,
+      "apply-entity"
+    );
+    this.onChange(newES);
   };
 
   //将img标签解析成image block映射算法
@@ -363,6 +371,16 @@ export default class JiglooEditor extends React.Component<EditorProps, any> {
       "insert-fragment"
     );
     this.onChange(editorStateAfterPaste);
+    let currentContent = editorStateAfterPaste.getCurrentContent();
+    currentContent.getBlocksAsArray().forEach(block => {
+      let entityKey = block.getEntityAt(0);
+      if (entityKey) {
+        let entity = currentContent.getEntity(entityKey);
+        if (block.getType() == "atomic") {
+          this.uploadImg(block, entity, entityKey);
+        }
+      }
+    });
   };
 
   handlePastedText = (text: string, html: string): DraftHandleValue => {
