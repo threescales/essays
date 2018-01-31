@@ -141,7 +141,7 @@ class LazyImage extends React.Component {
         ]
       : [
           <img src={this.state.image} key="1" />,
-          !valid && !progress && <Battery progress={progress} key="2" />
+          !valid && <Battery progress={progress || 0} key="2" />
         ];
   }
 }
