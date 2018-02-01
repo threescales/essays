@@ -5,10 +5,8 @@ import Signup from "../login/signup";
 import * as ShowAction from "../../actions/show";
 import * as classnames from "classnames";
 import { LOGIN_MODAL } from "../../constants/showKey";
-interface ILoginModalProps {
-  show;
-  dispatch;
-}
+import { dispatch } from "../../store/configure-store";
+interface ILoginModalProps {}
 export default class LoginModal extends React.Component<ILoginModalProps, any> {
   constructor(props) {
     super(props);
@@ -18,7 +16,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, any> {
   }
 
   closeModal = () => {
-    this.props.dispatch(ShowAction.hide(LOGIN_MODAL));
+    dispatch(ShowAction.hide(LOGIN_MODAL));
   };
   toggleTab = index => {
     this.setState({
@@ -28,11 +26,7 @@ export default class LoginModal extends React.Component<ILoginModalProps, any> {
   render() {
     return (
       <div>
-        <Modal
-          isOpen={this.props.show}
-          contentLabel="登录/注册"
-          close={this.closeModal}
-        >
+        <Modal contentLabel="登录/注册" close={this.closeModal}>
           <div className="login-signup-modal">
             <div className="tabs">
               <a
@@ -53,16 +47,10 @@ export default class LoginModal extends React.Component<ILoginModalProps, any> {
               </a>
             </div>
             {this.state.tabIndex == 0 && (
-              <Login
-                closeModal={this.closeModal}
-                dispatch={this.props.dispatch}
-              />
+              <Login closeModal={this.closeModal} dispatch={dispatch} />
             )}
             {this.state.tabIndex == 1 && (
-              <Signup
-                closeModal={this.closeModal}
-                dispatch={this.props.dispatch}
-              />
+              <Signup closeModal={this.closeModal} dispatch={dispatch} />
             )}
           </div>
         </Modal>

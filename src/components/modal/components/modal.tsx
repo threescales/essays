@@ -4,7 +4,6 @@ import * as ReactDOM from "react-dom";
 import "./modal.less";
 
 interface ICustomModalProps {
-  isOpen;
   close;
   contentLabel?;
 }
@@ -12,15 +11,15 @@ export default class CustomModal extends React.Component<
   ICustomModalProps,
   any
 > {
-  public rootEl;
+  public el;
   constructor(props) {
     super(props);
-    this.rootEl = document.createElement("div");
+    this.el = document.createElement("div");
   }
   render() {
     return ReactDOM.createPortal(
       <Modal
-        isOpen={this.props.isOpen}
+        isOpen={true}
         contentLabel={this.props.contentLabel}
         className="modal-frame"
         style={{ overlay: { zIndex: 10 } }}
@@ -30,7 +29,7 @@ export default class CustomModal extends React.Component<
         </a>
         {this.props.children}
       </Modal>,
-      this.rootEl
+      this.el
     );
   }
 }

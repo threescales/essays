@@ -9,8 +9,8 @@ import { ModalFrame, IModalFrameProps } from "./components/modalFrame";
 import { requireLogin } from "utils/requireLogin";
 import "./styles/createNewArticle.less";
 import toastr from "utils/toastr";
+import { dispatch } from "../../store/configure-store";
 interface ICreateNewArticleProps extends IModalFrameProps {
-  dispatch;
   user;
 }
 
@@ -70,9 +70,7 @@ export default class CreateNewArticle extends React.Component<
       toastr.error("文章标题不能为空哦~");
       return;
     }
-    this.props.dispatch(
-      createArticle(this.props.user.id, title, description, cover, tag)
-    );
+    dispatch(createArticle(this.props.user.id, title, description, cover, tag));
   };
   render() {
     return (
@@ -80,49 +78,50 @@ export default class CreateNewArticle extends React.Component<
         <Button onClick={this.openCreateArticle} onlyPC={true}>
           创建文章
         </Button>
-        <Modal
-          isOpen={this.props.modalIsOpen}
-          contentLabel="创建文章"
-          close={this.props.closeModal}
-        >
-          <InputLabel
-            value={this.state.title}
-            onChange={this.toggleTitle}
-            placeholder="请输入文章标题"
-            label="标题*："
-          />
-          <TextareaLabel
-            placeholder="请输入文章简介"
-            onChange={this.toggleDescription}
-            value={this.state.description}
-            label="简介："
-          />
-          <InputLabel
-            value={this.state.tag}
-            onChange={this.toggleTag}
-            placeholder="请输入文章标签"
-            label="标签："
-          />
-          <div
-            style={{
-              width: "400px",
-              height: "200px",
-              marginTop: "10px",
-              borderRadius: "4px"
-            }}
-          >
-            <Background
-              isEditable={true}
-              uploadFinishCallback={this.toggleCover}
-              imageUrl={this.state.cover}
+        {this.props.modalIsOpen && (
+          <Modal contentLabel="创建文章" close={this.props.closeModal}>
+            <InputLabel
+              value={this.state.title}
+              onChange={this.toggleTitle}
+              placeholder="请输入文章标题"
+              label="标题*："
             />
-          </div>
-          <div style={{ textAlign: "center", marginTop: "10px" }}>
-            <Button onClick={this.createArticle} isActive={this.state.isActive}>
-              创建文章
-            </Button>
-          </div>
-        </Modal>
+            <TextareaLabel
+              placeholder="请输入文章简介"
+              onChange={this.toggleDescription}
+              value={this.state.description}
+              label="简介："
+            />
+            <InputLabel
+              value={this.state.tag}
+              onChange={this.toggleTag}
+              placeholder="请输入文章标签"
+              label="标签："
+            />
+            <div
+              style={{
+                width: "400px",
+                height: "200px",
+                marginTop: "10px",
+                borderRadius: "4px"
+              }}
+            >
+              <Background
+                isEditable={true}
+                uploadFinishCallback={this.toggleCover}
+                imageUrl={this.state.cover}
+              />
+            </div>
+            <div style={{ textAlign: "center", marginTop: "10px" }}>
+              <Button
+                onClick={this.createArticle}
+                isActive={this.state.isActive}
+              >
+                创建文章
+              </Button>
+            </div>
+          </Modal>
+        )}
       </div>
     );
   }

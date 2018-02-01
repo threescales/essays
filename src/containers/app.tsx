@@ -43,10 +43,7 @@ export const AppContainer = (Container: any): any =>
             />
           )}
           {show && <Container {...this.props} />}
-          <LoginModal
-            show={this.props.show.toJS()[LOGIN_MODAL]}
-            dispatch={this.props.dispatch}
-          />
+          {this.props.show.toJS()[LOGIN_MODAL] && <LoginModal />}
         </div>
       );
     }

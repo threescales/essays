@@ -34,7 +34,7 @@ export default class Header extends React.Component<IHeaderProps, any> {
           <Logo />
         </div>
         <div className="header-right">
-          <CreateNewArticle dispatch={this.props.dispatch} user={user} />
+          <CreateNewArticle user={user} />
         </div>
       </header>
     );
