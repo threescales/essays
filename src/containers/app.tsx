@@ -35,7 +35,7 @@ export const AppContainer = (Container: any): any =>
         }
       }
       return (
-        <div>
+        <div id="essays-main">
           {this.showHeader() && (
             <Header
               dispatch={this.props.dispatch}

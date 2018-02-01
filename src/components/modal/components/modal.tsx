@@ -1,5 +1,6 @@
 import * as Modal from "react-modal";
 import * as React from "react";
+import * as ReactDOM from "react-dom";
 import "./modal.less";
 
 interface ICustomModalProps {
@@ -11,11 +12,13 @@ export default class CustomModal extends React.Component<
   ICustomModalProps,
   any
 > {
+  public rootEl;
   constructor(props) {
     super(props);
+    this.rootEl = document.createElement("div");
   }
   render() {
-    return (
+    return ReactDOM.createPortal(
       <Modal
         isOpen={this.props.isOpen}
         contentLabel={this.props.contentLabel}
@@ -26,7 +29,8 @@ export default class CustomModal extends React.Component<
           <i className="iconfont icon-cha" />
         </a>
         {this.props.children}
-      </Modal>
+      </Modal>,
+      this.rootEl
     );
   }
 }
