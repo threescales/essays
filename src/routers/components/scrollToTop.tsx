@@ -42,7 +42,8 @@ function getPosition(key) {
   let position: any = sessionStorage.getItem(key);
   if (position) {
     position = JSON.parse(position);
-    window.scrollTo(position.top || 0, position.left || 0);
+    window.document.body.style.minHeight = `${position.top}px`;
+    window.scrollTo(position.top, position.left);
   } else {
     window.scrollTo(0, 0);
   }
