@@ -10,6 +10,7 @@ interface ICatalogueProps {
   editorState;
   show;
   dispatch;
+  readOnly;
 }
 
 const OFFSET = 50;
@@ -27,10 +28,11 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
   }
   getDom(tagName, name, value) {
     var selectDom = null;
-    var dom = document.getElementsByTagName(tagName);
-    for (var i = 0; i < dom.length; i++) {
-      if (value === dom[i].getAttribute(name)) {
-        selectDom = dom[i];
+    var doms = document.getElementsByTagName(tagName);
+    let domsLenght = doms.length;
+    for (var i = 0; i < domsLenght; i++) {
+      if (value === doms[i].getAttribute(name)) {
+        selectDom = doms[i];
         break;
       }
     }
@@ -86,18 +88,11 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
       let length = catalist.length;
       for (let i = 0; i < length; i++) {
         const cataData = catalist[i];
-        if (
-          this.isScrollToElement(
-            this.getDom(
-              cataData.tagName,
-              "data-offset-key",
-              `${cataData.key}-0-0`
-            )
-          )
-        ) {
+        if (this.isScrollToElement(cataData.dom)) {
           newSelectedKey = cataData.key;
           if (i == length - 1) {
             this.setSelectedKey(newSelectedKey);
+            break;
           }
         } else {
           this.setSelectedKey(newSelectedKey);
@@ -133,12 +128,21 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
           block.type === "header-three") &&
         block.text
       ) {
-        let catalogueBlock: any = { key: "", tagName: "" };
+        let catalogueBlock: any = { key: "", tagName: "", dom: null };
         let tagName = this.getDataType(block.type);
-        catalogueBlock.key = block.key;
-        catalogueBlock.tagName = tagName;
-        catalogueBlockList.push(catalogueBlock);
-        let isSeleted = this.state.selectedKey === block.key;
+        if (this.props.readOnly) {
+          catalogueBlock.key = block.key;
+          catalogueBlock.tagName = tagName;
+          catalogueBlock.dom = this.getDom(
+            catalogueBlock.tagName,
+            "data-offset-key",
+            `${catalogueBlock.key}-0-0`
+          );
+          catalogueBlockList.push(catalogueBlock);
+        }
+
+        let isSeleted =
+          this.state.selectedKey === block.key && this.props.readOnly;
         return (
           <li
             key={block.key}

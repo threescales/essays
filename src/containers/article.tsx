@@ -114,6 +114,7 @@ class App extends React.Component<any, any> {
             editorState={this.props.editorState}
             show={this.props.show.toJS().catalogue}
             dispatch={this.props.dispatch}
+            readOnly={!this.props.show.toJS().editor}
           />
         ) : null}
       </div>
