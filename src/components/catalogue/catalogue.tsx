@@ -17,6 +17,7 @@ const OFFSET = 50;
 export default class Catalogue extends React.Component<ICatalogueProps, any> {
   public catalogueBlockList: Array<any>;
   public isScroll: boolean = false;
+  public documentHeight = document.documentElement.clientHeight;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -25,11 +26,12 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
     this.scrollToWhere = throttle(this.scrollToWhere, 500);
   }
   getDom(tagName, name, value) {
-    var selectDom = [];
+    var selectDom = null;
     var dom = document.getElementsByTagName(tagName);
     for (var i = 0; i < dom.length; i++) {
       if (value === dom[i].getAttribute(name)) {
-        selectDom.push(dom[i]);
+        selectDom = dom[i];
+        break;
       }
     }
     return selectDom;
@@ -51,7 +53,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
       targetType,
       "data-offset-key",
       `${targetKey}-0-0`
-    )[0];
+    );
     this.isScroll = true;
     jump.default(targetDom, {
       duration: 1000,
@@ -67,8 +69,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
   };
   isScrollToElement = (el): boolean => {
     return el
-      ? el.offsetTop + el.clientHeight <
-          window.scrollY - document.documentElement.clientHeight
+      ? el.offsetTop + el.clientHeight < window.scrollY - this.documentHeight
       : false;
   };
   setSelectedKey = (selectedKey: string) => {
@@ -91,7 +92,7 @@ export default class Catalogue extends React.Component<ICatalogueProps, any> {
               cataData.tagName,
               "data-offset-key",
               `${cataData.key}-0-0`
-            )[0]
+            )
           )
         ) {
           newSelectedKey = cataData.key;
