@@ -1,10 +1,10 @@
 import * as React from "react";
+import "./progressBar.less";
 export const ProgressBar = ({ progress = 0 }) => {
+  let width = `${progress}%`;
   return progress && progress != 100 ? (
-    <progress
-      value={progress}
-      max="100"
-      style={{ width: "100%", position: "absolute", bottom: "0", left: "0" }}
-    />
+    <div className="progress-bar">
+      <div className="bar" style={{ width }} />
+    </div>
   ) : null;
 };
