@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./battery.less";
+import { ProgressBar } from "./progressBar";
 interface IBetteryProps {
   progress;
 }
@@ -14,6 +15,7 @@ export default class Battery extends React.PureComponent<IBetteryProps, any> {
     return (
       <div className="battery">
         <strong>{`已上传了${progress}%，请稍后...`}</strong>
+        <ProgressBar progress={progress} />
       </div>
     );
   }
