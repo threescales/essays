@@ -69,7 +69,7 @@ function getPublicPath(fileName: string) {
     return path + fileName;
   } else {
     const path = process.env.CDN_HOST;
-    if (!path || (!path.startsWith("//") && !path.startsWith("//"))) {
+    if (!path || !path.startsWith("//")) {
       const errorMessage =
         "you should define process.env.CDN_HOST startswith http(s):// in production";
       error(errorMessage);
