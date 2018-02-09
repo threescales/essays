@@ -53,6 +53,7 @@ interface EditorProps {
 }
 import { getAjax } from "../../utils/ajax";
 import * as Paths from "../../constants/path";
+import { QINIU_CDN } from "app/constants/commonTypes";
 export default class JiglooEditor extends React.Component<EditorProps, any> {
   public static placeholder = " ";
   public editor;
@@ -188,7 +189,7 @@ export default class JiglooEditor extends React.Component<EditorProps, any> {
     let imageUrl = entityData.src;
     //TODO 若七牛不能解析图片url则移除当前图片
     let data: any = await getAjax(Paths.getQiniuImageUrlByImgUrl(imageUrl));
-    let url = `//image.zymlj.net/${data.key}`;
+    let url = `${QINIU_CDN}/${data.key}`;
     console.log(data);
     entityData.height = data.imageInfo.height;
     entityData.width = data.imageInfo.width;

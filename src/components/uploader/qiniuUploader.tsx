@@ -1,7 +1,7 @@
 import React = require("react");
 import { default as initQiniuUploader } from "./initQiniuBuilder";
 import * as classnames from "classnames";
-
+import { QINIU_CDN } from "../../constants/commonTypes";
 interface IUploaderProps extends IUpdateOptions {
   onClick?(e: Event, QiniuUploader: any);
   className?: string;
@@ -35,10 +35,9 @@ export default class Uploader extends React.PureComponent<IUploaderProps, {}> {
   }
 }
 
-export const CDN_HOST = "//image.zymlj.net/";
 export function filePublicPathGen(fileKey: string, size?: number) {
   if (fileKey) {
-    let ret = `${CDN_HOST}${fileKey}`;
+    let ret = `${QINIU_CDN}${fileKey}`;
     if (size) {
       ret = ret + `?imageView2/1/w/${size}/h/${size}`;
     }

@@ -12,7 +12,7 @@ import { addBlockCommentToBody } from "../utils/operaBlock";
 import { getBucketManager } from "../components/qiniuSDK/index";
 import { promisify } from "../utils/promisify";
 import rq = require("request-promise");
-const QINIU_CDN = "http://image.zymlj.net/";
+import { QINIU_CDN } from "../constants/commonTypes";
 export default class ArticleController {
   static async checkPermi(
     ctx: koa.Context,
