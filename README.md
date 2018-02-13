@@ -1,12 +1,15 @@
 # essays
 
+## install postgres
 
-##run on local for client
+## install node npm
+
+## run on local for client
 ```bash
 $ npm run dev
 ```
 
-##run on local for server
+## run on local for server
 ```bash
 $ npm run server-dev
 ```
