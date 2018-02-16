@@ -2,9 +2,12 @@
 
 ## install postgres
 
+
 ## install node npm
 
+
 ## run on local for client
+
 ```bash
 $ npm run dev
 ```
