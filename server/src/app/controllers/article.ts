@@ -306,7 +306,7 @@ export default class ArticleController {
       bucketManager.fetch(imgUrl, "youming133", fileName, callback);
     }, ctx);
     let data: any = await getQiniuResult();
-    let imageInfoUrl = `${QINIU_CDN}${data[0].key}?imageInfo`;
+    let imageInfoUrl = `https:${QINIU_CDN}${data[0].key}?imageInfo`;
     console.log(imageInfoUrl);
     let imageInfo = await rq.get(imageInfoUrl);
 
