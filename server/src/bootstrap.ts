@@ -1,18 +1,17 @@
-require('app-module-path').addPath(__dirname + '/')
-const server = require('./server')
+require("app-module-path").addPath(__dirname + "/");
+const server = require("./server");
 
-const PORT = process.env.PORT || 3000
-process.title = 'Essays-backend'
+const PORT = 3000;
+process.title = "Essays-backend";
 //start app
 if (!module.parent) {
-    (async () => {
-        await server.listen(PORT, function () {
-            console.log(
-                `=============================================================
+  (async () => {
+    await server.listen(PORT, function() {
+      console.log(
+        `=============================================================
           [${process.platform}:${process.pid}]Starting ${process.title}
     =============================================================`
-            )
-        })
-    })()
-
+      );
+    });
+  })();
 }
