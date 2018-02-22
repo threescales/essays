@@ -248,42 +248,31 @@ export function jointParams(url, data) {
   return url;
 }
 export function getAjax(url, data = {}) {
-  return fetch(jointParams(url, data)).then(response => response.json());
+  return fetch(jointParams(url, data), {
+    credentials: "same-origin"
+  }).then(response => response.json());
 }
 
 export function postAjax(url, data = {}) {
-  return new Promise((resolve, reject) => {
-    ajax({
-      url,
-      data,
-      contentType: "application/x-www-four-urlencoded",
-      type: "post",
-      dataType: "json",
-      timeout: 3000,
-      success: res => {
-        resolve(res);
-      },
-      error: err => {
-        reject(err);
-      }
-    });
-  });
+  let headers: any = {
+    "Content-Type": "application/x-www-urlencoded"
+  };
+  return fetch(url, {
+    method: "POST",
+    headers: headers,
+    credentials: "same-origin",
+    body: JSON.stringify(data)
+  }).then(response => response.json());
 }
 
 export function putAjax(url, data = {}) {
-  return new Promise((resolve, reject) => {
-    ajax({
-      url,
-      data,
-      type: "put",
-      dataType: "json",
-      timeout: 3000,
-      success: res => {
-        resolve(res);
-      },
-      error: err => {
-        reject(err);
-      }
-    });
-  });
+  let headers: any = {
+    "Content-Type": "application/x-www-urlencoded"
+  };
+  return fetch(url, {
+    method: "PUT",
+    headers: headers,
+    credentials: "same-origin",
+    body: JSON.stringify(data)
+  }).then(response => response.json());
 }

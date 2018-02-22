@@ -118,6 +118,7 @@
         "karma-webpack": "^2.0.6",
         "katex": "^0.5.1",
         "koa": "^2.4.1",
+        "koa-body": "^2.5.0",
         "koa-bodyparser": "^4.2.0",
         "koa-compress": "^2.0.0",
         "koa-cors": "0.0.16",

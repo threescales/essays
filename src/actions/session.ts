@@ -25,17 +25,15 @@ export const loginOut = () => {
 };
 export const login = (account, password) => {
   return (dispatch: any, getState: Function) => {
-    return postAjax(Paths.login, { account, password })
-      .then((result: any) => {
-        if (result.success) {
-          let data = result.data;
-          dispatch(getUserSuccess(data));
-        } else {
-          toastr.error("登录失败，请重新登录");
-        }
-        return result;
-      })
-      .error(res => {});
+    return postAjax(Paths.login, { account, password }).then((result: any) => {
+      if (result.success) {
+        let data = result.data;
+        dispatch(getUserSuccess(data));
+      } else {
+        toastr.error("登录失败，请重新登录");
+      }
+      return result;
+    });
   };
 };
 
@@ -57,7 +55,6 @@ export const signup = (email, password, name) => {
 
 export const getUserById = () => {
   return (dispatch: any, getState: Function) => {
-    let userId = getCookie("userId");
     return getAjax(Paths.getUserById).then((result: any) => {
       if (result.success) {
         let data = result.data;

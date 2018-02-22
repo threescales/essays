@@ -53,6 +53,7 @@ export default class UserController {
 
   public static async login(ctx: koa.Context) {
     let request: any = await parsePostData(ctx);
+    console.log(request);
     let password = md5(request.password);
 
     let account: any = await Accounts.findOne({

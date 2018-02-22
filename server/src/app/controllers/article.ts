@@ -264,7 +264,6 @@ export default class ArticleController {
   public static async getPageInfo(ctx: koa.Context) {
     let result: any = parseGetData(ctx);
     let url = result.url;
-    console.log(result);
     let data = {
       title: "",
       description: "",

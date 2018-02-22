@@ -7,7 +7,7 @@ import * as path from "path";
 import routerFactory from "./router";
 import http = require("http");
 import helmet = require("koa-helmet");
-import bodyParser = require("koa-bodyparser");
+const koaBody = require("koa-body");
 import config = require("config");
 import logMiddleWare from "./middlewares/logger";
 import { updateCSRFToken, CSRFSettings } from "./middlewares/csrf";
@@ -48,7 +48,7 @@ app.use(
  */
 app.use(session(sessionSettings, app));
 
-app.use(bodyParser());
+app.use(koaBody());
 /**
  *  Add the CSRF middleware
  */
