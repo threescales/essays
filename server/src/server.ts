@@ -14,7 +14,7 @@ import { updateCSRFToken, CSRFSettings } from "./middlewares/csrf";
 import sessionSettings from "./middlewares/session";
 import koaViews = require("koa-views");
 import session = require("koa-session");
-import limit = require("koa-limit");
+const limit = require("koa-limit");
 // var cors = require("koa-cors");
 
 import { read } from "fs";
