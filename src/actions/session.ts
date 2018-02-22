@@ -58,17 +58,13 @@ export const signup = (email, password, name) => {
 export const getUserById = () => {
   return (dispatch: any, getState: Function) => {
     let userId = getCookie("userId");
-    return getAjax(Paths.getUserById)
-      .then((result: any) => {
-        if (result.success) {
-          let data = result.data;
-          dispatch(getUserSuccess(data));
-        }
-        return result;
-      })
-      .error(res => {
-        return res;
-      });
+    return getAjax(Paths.getUserById).then((result: any) => {
+      if (result.success) {
+        let data = result.data;
+        dispatch(getUserSuccess(data));
+      }
+      return result;
+    });
   };
 };
 

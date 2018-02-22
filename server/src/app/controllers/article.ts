@@ -262,7 +262,9 @@ export default class ArticleController {
 
   //通过url获取网页预览信息
   public static async getPageInfo(ctx: koa.Context) {
-    let url: any = parseGetData(ctx).url;
+    let result: any = parseGetData(ctx);
+    let url = result.url;
+    console.log(result);
     let data = {
       title: "",
       description: "",

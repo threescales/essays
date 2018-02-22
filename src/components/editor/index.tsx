@@ -142,47 +142,6 @@ export default class JiglooEditor extends React.Component<EditorProps, any> {
     return null;
   };
 
-  getPageData = (editorState, block) => {
-    let newEditorState = selectBlock(editorState, block.getKey());
-    let contentState = newEditorState.getCurrentContent();
-    let selectionState = newEditorState.getSelection();
-    getAjax(Paths.getPageInfo, { url: block.getText() })
-      .then(({ data }) => {
-        let editorState = this.getEditorState();
-        let contentState = editorState.getCurrentContent();
-        let newContentState = Modifier.setBlockType(
-          contentState,
-          selectionState,
-          "atomic"
-        ).createEntity(getEntityTypeByUrl(block.getText()), "MUTABLE", {
-          type: getEntityTypeByUrl(block.getText()),
-          title: data.title,
-          description: data.description,
-          src: block.getText(),
-          previewImg: data.previewImg
-        });
-        let lastEntityKey = newContentState.getLastCreatedEntityKey();
-        newContentState = Modifier.replaceText(
-          newContentState,
-          selectionState,
-          " ",
-          null,
-          lastEntityKey
-        );
-        newEditorState = EditorState.push(
-          editorState,
-          newContentState,
-          "change-block-type"
-        );
-        // this.onChange(newEditorState);
-        newEditorState = focusSelectionAfter(newEditorState, block.getKey());
-        this.onChange(newEditorState);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   //TODO upload image to qiniu
   uploadImg = async (block, entity, entityKey) => {
     let entityData: any = entity.getData();

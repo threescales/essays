@@ -192,23 +192,63 @@ export function JSONPAjax(url, data = {}) {
     });
   });
 }
-
+function setStrData(data) {
+  var arr = data.split("&");
+  for (var i = 0, len = arr.length; i < len; i++) {
+    let name = encodeURIComponent(arr[i].split("=")[0]);
+    let value = encodeURIComponent(arr[i].split("=")[1]);
+    arr[i] = name + "=" + value;
+  }
+  return arr;
+}
+function setObjData(data, parentName = undefined) {
+  function encodeData(name, value, parentName) {
+    var items = [];
+    name = parentName === undefined ? name : parentName + "[" + name + "]";
+    if (typeof value === "object" && value !== null) {
+      items = items.concat(setObjData(value, name));
+    } else {
+      name = encodeURIComponent(name);
+      value = encodeURIComponent(value);
+      items.push(name + "=" + value);
+    }
+    return items;
+  }
+  var arr = [],
+    value;
+  if (Object.prototype.toString.call(data) === "[object Array]") {
+    for (var i = 0, len = data.length; i < len; i++) {
+      value = data[i];
+      arr = arr.concat(
+        encodeData(typeof value === "object" ? i : "", value, parentName)
+      );
+    }
+  } else if (Object.prototype.toString.call(data) === "[object Object]") {
+    for (var key in data) {
+      value = data[key];
+      arr = arr.concat(encodeData(key, value, parentName));
+    }
+  }
+  return arr;
+}
+export function jointParams(url, data) {
+  if (data) {
+    if (typeof data === "string") {
+      data = setStrData(data);
+    } else if (typeof data === "object") {
+      data = setObjData(data);
+    }
+    data = data.join("&").replace("/%20/g", "+");
+    //若是使用get方法或JSONP，则手动添加到URL中
+    url +=
+      url.indexOf("?") > -1
+        ? url.indexOf("=") > -1 ? "&" + data : data
+        : "?" + data;
+  }
+  return url;
+}
 export function getAjax(url, data = {}) {
-  return new Promise((resolve, reject) => {
-    ajax({
-      url,
-      data,
-      type: "get",
-      dataType: "json",
-      timeout: 3000,
-      success: res => {
-        resolve(res);
-      },
-      error: err => {
-        reject(err);
-      }
-    });
-  });
+  return fetch(jointParams(url, data)).then(response => response.json());
 }
 
 export function postAjax(url, data = {}) {

@@ -32,7 +32,8 @@ export default (config: any = {}) => {
     let contentState = newEditorState.getCurrentContent();
     let selectionState = newEditorState.getSelection();
     getAjax(Paths.getPageInfo, { url: block.getText() })
-      .then(({ data }) => {
+      .then((res: any) => {
+        let data = res.data;
         let editorState = getEditorState();
         let contentState = editorState.getCurrentContent();
         let newContentState = Modifier.setBlockType(
