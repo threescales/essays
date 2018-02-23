@@ -9,8 +9,6 @@ const QiniuPlugin = require("qn-webpack");
 const path = require("path");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 const qiniu = require("qiniu");
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-//   .BundleAnalyzerPlugin;
 
 const sourceMap =
     process.env.TEST || process.env.NODE_ENV !== "production" ?
