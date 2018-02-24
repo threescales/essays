@@ -82,18 +82,27 @@ export default class ArticleController {
 
   public static async getArticleById(ctx: koa.Context) {
     let article: any = await Articles.findById(ctx.params.articleId);
+    let currentUserId = ctx.cookies.get(CookieKeys.USER_ID);
     let author = await User.findById(article.ownerId, {
       include: [{ model: Accounts, as: "accounts" }],
       attributes: {
         exclude: ["password", "email", "phone"]
       }
     });
-    ctx.body = {
-      data: {
-        article,
-        author
-      }
-    };
+    if (currentUserId != article.ownerId && !article.isPublic) {
+      ctx.body = {
+        success: false,
+        message: "此篇文章暂未公开"
+      };
+    } else {
+      ctx.body = {
+        success: true,
+        data: {
+          article,
+          author
+        }
+      };
+    }
   }
 
   public static async saveBody(ctx: koa.Context) {

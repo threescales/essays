@@ -14,6 +14,8 @@ import {
 import { setWindowTitle } from "../utils/getInfo";
 import { EditorState, convertToRaw, RawDraftContentState } from "draft-js";
 import { smartArrayToTree } from "../utils/arrayToTree";
+import toastr from "utils/toastr";
+
 export const getArticleSuccess = data => {
   return {
     type: GET_ARTICLE_SUCCESS,
@@ -42,9 +44,14 @@ export const createArticle = (userId, title, description, cover, tags) => {
 export const getArticleById = (id: string) => {
   return (dispatch: any, getState: Function) => {
     return getAjax(Path.getArticle(id), {}).then((result: any) => {
-      setWindowTitle(result.data.title);
-      dispatch(getArticleSuccess(result.data));
-      return result;
+      if (result.success) {
+        setWindowTitle(result.data.title);
+        dispatch(getArticleSuccess(result.data));
+        return result;
+      } else {
+        toastr.error(result.message);
+        return null;
+      }
     });
   };
 };
