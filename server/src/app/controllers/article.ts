@@ -13,6 +13,7 @@ import { getBucketManager } from "../components/qiniuSDK/index";
 import { promisify } from "../utils/promisify";
 import rq = require("request-promise");
 import { QINIU_CDN } from "../constants/commonTypes";
+import { assemblyResult } from "../utils/result";
 export default class ArticleController {
   static async checkPermi(
     ctx: koa.Context,
@@ -75,9 +76,7 @@ export default class ArticleController {
     };
 
     let data = await Articles.create(requestData);
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async getArticleById(ctx: koa.Context) {
@@ -90,18 +89,12 @@ export default class ArticleController {
       }
     });
     if (currentUserId != article.ownerId && !article.isPublished) {
-      ctx.body = {
-        success: false,
-        message: "此篇文章暂未公开"
-      };
+      ctx.body = assemblyResult(null, false, "此篇文章暂未公开");
     } else {
-      ctx.body = {
-        success: true,
-        data: {
-          article,
-          author
-        }
-      };
+      ctx.body = assemblyResult({
+        article,
+        author
+      });
     }
   }
 
@@ -112,9 +105,7 @@ export default class ArticleController {
     let body = JSON.parse(request.body);
     const article = await Articles.find({ where: { id: request.id } });
     let data = await article.update({ body });
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async getAllArticles(ctx: koa.Context) {
@@ -126,9 +117,7 @@ export default class ArticleController {
       order: [["createdAt", "DESC"]]
     });
 
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async getAllComments(ctx: koa.Context) {
@@ -141,9 +130,7 @@ export default class ArticleController {
       include: [{ model: User, as: "fromUser" }],
       order: [["id", "DESC"]]
     });
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async getMyArticles(ctx: koa.Context) {
@@ -157,9 +144,7 @@ export default class ArticleController {
       },
       order: [["createdAt", "DESC"]]
     });
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
   public static async togglePublish(ctx: koa.Context) {
     let request: any = await parsePostData(ctx);
@@ -167,9 +152,7 @@ export default class ArticleController {
     let isPublished = request.isPublished;
     let article = await ArticleController.checkPermi(ctx, articleId);
     let data = await article.update({ isPublished: isPublished });
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async toggleInfo(ctx: koa.Context) {
@@ -194,7 +177,6 @@ export default class ArticleController {
             tagName: tagName
           }
         });
-        console.log(tag);
         if (!tag) {
           await Tags.create({ tagName });
         }
@@ -202,9 +184,7 @@ export default class ArticleController {
       article.tags = request.tags;
     }
     let data = await article.save();
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async updateCount(ctx: koa.Context) {
@@ -294,9 +274,7 @@ export default class ArticleController {
       data.description = page.summary;
       data.previewImg = page.pics.split("|")[0];
     }
-    ctx.body = {
-      data
-    };
+    ctx.body = assemblyResult(data);
   }
 
   public static async getQiniuToken(ctx: koa.Context) {

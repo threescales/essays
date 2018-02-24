@@ -10,7 +10,7 @@ const md5 = require("md5");
 import { sendMail } from "../utils/email";
 import { CookieKeys } from "../constants/cookieKeys";
 import Account from "server/src/app/models/Account";
-
+import { assemblyResult } from "../utils/result";
 const cookieSetting = {
   maxAge: maxAge,
   overwrite: false,
@@ -30,10 +30,7 @@ export default class UserController {
       data = user;
       success = true;
     }
-    ctx.body = {
-      success,
-      data
-    };
+    ctx.body = assemblyResult(data, success);
   }
 
   public static async getUserInfo(ctx: koa.Context) {
@@ -45,10 +42,7 @@ export default class UserController {
     user.password = null;
     user.phone = null;
 
-    ctx.body = {
-      success: true,
-      data: user
-    };
+    ctx.body = assemblyResult(user);
   }
 
   public static async login(ctx: koa.Context) {
@@ -60,20 +54,14 @@ export default class UserController {
       where: { openid: request.account, type: "email" }
     });
     if (!account) {
-      ctx.body = {
-        success: false,
-        data: "请先验证您的邮箱"
-      };
+      ctx.body = assemblyResult(null, false, "请先验证您的邮箱");
       return;
     }
     let data: any = await User.findById(account.userId, {
       include: [{ model: Accounts, as: "accounts" }]
     });
     if (data.password != password) {
-      ctx.body = {
-        success: false,
-        data: "您输入的密码有误，请重新输入"
-      };
+      ctx.body = assemblyResult(null, false, "您输入的密码有误，请重新输入");
       return;
     }
     let success = false;
@@ -86,10 +74,7 @@ export default class UserController {
       );
       success = true;
     }
-    ctx.body = {
-      success,
-      data
-    };
+    ctx.body = assemblyResult(data, success);
   }
 
   public static async createUser(ctx: koa.Context) {
@@ -127,11 +112,7 @@ export default class UserController {
       success = false;
     }
 
-    ctx.body = {
-      success,
-      message,
-      data
-    };
+    ctx.body = assemblyResult(data, success, message);
   }
 
   public static async updateUser(ctx: koa.Context) {
@@ -159,10 +140,7 @@ export default class UserController {
       success = true;
     }
 
-    ctx.body = {
-      data: user,
-      success
-    };
+    ctx.body = assemblyResult(user, success);
   }
 
   public static async sendEmail(ctx: koa.Context) {
@@ -187,9 +165,7 @@ export default class UserController {
       )}`;
     }
     sendMail(email, title, url);
-    ctx.body = {
-      success: true
-    };
+    ctx.body = assemblyResult(null);
   }
 
   public static async validateChangeEmail(ctx: koa.Context) {
