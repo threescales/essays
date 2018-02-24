@@ -89,7 +89,7 @@ export default class ArticleController {
         exclude: ["password", "email", "phone"]
       }
     });
-    if (currentUserId != article.ownerId && !article.isPublic) {
+    if (currentUserId != article.ownerId && !article.isPublished) {
       ctx.body = {
         success: false,
         message: "此篇文章暂未公开"
