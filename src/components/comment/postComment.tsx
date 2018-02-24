@@ -85,7 +85,7 @@ export default class PostComment extends React.Component<
       )
     ).then(result => {
       //评论成功
-      this.hideOpera(result.article);
+      this.hideOpera(result.data.article);
     });
   };
 

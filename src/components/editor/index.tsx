@@ -147,7 +147,8 @@ export default class JiglooEditor extends React.Component<EditorProps, any> {
     let entityData: any = entity.getData();
     let imageUrl = entityData.src;
     //TODO 若七牛不能解析图片url则移除当前图片
-    let data: any = await getAjax(Paths.getQiniuImageUrlByImgUrl(imageUrl));
+    let result: any = await getAjax(Paths.getQiniuImageUrlByImgUrl(imageUrl));
+    let data = result.data;
     let url = `${QINIU_CDN}/${data.key}`;
     console.log(data);
     entityData.height = data.imageInfo.height;

@@ -129,11 +129,14 @@ export const updateArticleCount = (
       articleId,
       type
     }).then((result: any) => {
-      dispatch({
-        type: UPDATA_ARTICLE_COUNT,
-        likeNum: result.likeNum,
-        readNum: result.readNum
-      });
+      if (result.success) {
+        let data = result.data;
+        dispatch({
+          type: UPDATA_ARTICLE_COUNT,
+          likeNum: data.likeNum,
+          readNum: data.readNum
+        });
+      }
     });
   };
 };
@@ -163,11 +166,16 @@ export const postComment = (
   }
   return (dispatch: any, getState: Function) => {
     return putAjax(Path.postComment, data).then((result: any) => {
-      dispatch({
-        type: POST_COMMENT_SUCCESS,
-        data: result
-      });
-      return result;
+      if (result.success) {
+        dispatch({
+          type: POST_COMMENT_SUCCESS,
+          data: result.data
+        });
+        return result;
+      } else {
+        toastr.error(result.message);
+        return null;
+      }
     });
   };
 };

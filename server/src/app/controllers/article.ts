@@ -196,10 +196,10 @@ export default class ArticleController {
       article.likeNum++;
     }
     let data = await article.save();
-    ctx.body = {
+    ctx.body = assemblyResult({
       readNum: data.readNum,
       likeNum: data.likeNum
-    };
+    });
   }
 
   /**
@@ -243,10 +243,10 @@ export default class ArticleController {
     let data = await Comments.findById(comment.id, {
       include: [{ model: User, as: "fromUser" }]
     });
-    ctx.body = {
+    ctx.body = assemblyResult({
       comment: data,
       article: article
-    };
+    });
   }
 
   //通过url获取网页预览信息
@@ -297,13 +297,13 @@ export default class ArticleController {
     console.log(imageInfoUrl);
     let imageInfo = await rq.get(imageInfoUrl);
 
-    ctx.body = {
+    ctx.body = assemblyResult({
       statusCode: data[1].statusCode,
       hash: data[0].hash,
       key: data[0].key,
       mimeType: data[0].mimeType,
       size: data[0].fsize,
       imageInfo: imageInfo
-    };
+    });
   }
 }
