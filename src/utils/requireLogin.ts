@@ -24,12 +24,14 @@ export const requireLogin = (
   return {
     configurable: true,
     get() {
-      let user = store.getState().session.toJS().user;
       const method: any = descriptor.value;
       const openModalLogin = () => store.dispatch(ShowAction.show(LOGIN_MODAL));
       let boundFn = bind(method, this);
       return () => {
-        return (!user && openModalLogin()) || boundFn();
+        return (
+          (!store.getState().session.toJS().user && openModalLogin()) ||
+          boundFn()
+        );
       };
     },
     set() {}
