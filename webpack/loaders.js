@@ -22,8 +22,7 @@ exports.jsx = {
     use: {
         loader: "babel-loader", // 'babel-loader' is also a legal name to reference
         options: {
-            plugins: ["transform-decorators-legacy"],
-            presets: ["es2015", "react", "stage-2"]
+            presets: ["@babel/preset-env"]
         }
     }
 };

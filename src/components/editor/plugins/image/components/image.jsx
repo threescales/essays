@@ -12,7 +12,6 @@ import Battery from "../../../../progress/battery";
 export default class Image extends React.Component {
   constructor(props) {
     super(props);
-    this.shouldHandle = this.shouldHandle.bind(this);
   }
   shouldHandle = e => {
     this.props.onClick(e);

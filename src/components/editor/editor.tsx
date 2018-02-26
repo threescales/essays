@@ -123,10 +123,12 @@ export default class Editor extends React.Component<IEditorProps, any> {
           placeholder={!this.props.readOnly ? "请输入正文..." : ""}
           type={EDITOR_TYPE.article}
         >
-          {!this.props.readOnly && [
-            <InlineToolbar key="1" />,
-            <SideToolbar key="2" />
-          ]}
+          {!this.props.readOnly && (
+            <>
+              <InlineToolbar />
+              <SideToolbar />
+            </>
+          )}
           {this.props.readOnly && (
             <ReaderInlineToolbar articleId={this.props.articleId} />
           )}
