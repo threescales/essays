@@ -180,37 +180,37 @@ export default class Toolbar extends React.Component<any, any> {
     } else {
       commentStyle.right = 0;
     }
-    return [
-      <div
-        className={classnames({
-          "reader-side-toolbar": true,
-          active: this.state.isVisible && !this.state.showPostComment
-        })}
-        style={data}
-        ref={node => {
-          this.toolbar = node;
-        }}
-        key="1"
-      >
-        <Inner>
-          <CommentButton showPostComment={this.showPostComment} />
-        </Inner>
-        <Arrow />
-      </div>,
-      this.state.showPostComment ? (
-        <PostCommentArea
-          articleId={this.props.articleId}
-          blockText={blockText}
-          blockKey={blockKey}
-          depth={0}
-          hidePostComment={this.hidePostComment}
-          resetEditorState={this.resetEditorState}
-          offset={offset}
-          commentStyle={commentStyle}
-          key="2"
-        />
-      ) : null
-    ];
+    return (
+      <>
+        <div
+          className={classnames({
+            "reader-side-toolbar": true,
+            active: this.state.isVisible && !this.state.showPostComment
+          })}
+          style={data}
+          ref={node => {
+            this.toolbar = node;
+          }}
+        >
+          <Inner>
+            <CommentButton showPostComment={this.showPostComment} />
+          </Inner>
+          <Arrow />
+        </div>
+        {this.state.showPostComment ? (
+          <PostCommentArea
+            articleId={this.props.articleId}
+            blockText={blockText}
+            blockKey={blockKey}
+            depth={0}
+            hidePostComment={this.hidePostComment}
+            resetEditorState={this.resetEditorState}
+            offset={offset}
+            commentStyle={commentStyle}
+          />
+        ) : null}
+      </>
+    );
   }
 }
 

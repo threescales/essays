@@ -63,40 +63,42 @@ export default class BookHeader extends React.Component<IBookHeaderProps, any> {
   render() {
     let article = this.props.article;
     let author = this.props.author;
-    return [
-      <div className="article-header" key="header">
-        <Logo className="return-index" />
-        <Background
-          imageUrl={article.cover}
-          isEditable={this.props.showEditor ? true : false}
-          style={{ opacity: 0.6, position: "absolute" }}
-          width={this.state.width}
-          height={this.state.height}
-          uploadFinishCallback={this.changeBackGround}
-        />
-        <div className="">
-          <UserCard user={this.props.author} />
-        </div>
-        <div className="content">
-          <h1>{article.title}</h1>
-        </div>
-        <a className="move-down" onClick={this.moveDown}>
-          <i className="iconfont icon-move-down" />
-        </a>
-      </div>,
-      <div className="article-opera-header" key="opera">
-        <div className="header-left" />
-        {this.props.isOwner && (
-          <div className="header-right">
-            <Button onClick={this.toggleEditor} onlyPC={true}>
-              {this.props.showEditor ? "保存" : "编辑"}
-            </Button>
-            <Button onClick={this.toogleArticlePublish} onlyPC={true}>
-              {this.props.article.isPublished ? "下架" : "发布"}
-            </Button>
+    return (
+      <>
+        <div className="article-header">
+          <Logo className="return-index" />
+          <Background
+            imageUrl={article.cover}
+            isEditable={this.props.showEditor ? true : false}
+            style={{ opacity: 0.6, position: "absolute" }}
+            width={this.state.width}
+            height={this.state.height}
+            uploadFinishCallback={this.changeBackGround}
+          />
+          <div className="">
+            <UserCard user={this.props.author} />
           </div>
-        )}
-      </div>
-    ];
+          <div className="content">
+            <h1>{article.title}</h1>
+          </div>
+          <a className="move-down" onClick={this.moveDown}>
+            <i className="iconfont icon-move-down" />
+          </a>
+        </div>
+        <div className="article-opera-header">
+          <div className="header-left" />
+          {this.props.isOwner && (
+            <div className="header-right">
+              <Button onClick={this.toggleEditor} onlyPC={true}>
+                {this.props.showEditor ? "保存" : "编辑"}
+              </Button>
+              <Button onClick={this.toogleArticlePublish} onlyPC={true}>
+                {this.props.article.isPublished ? "下架" : "发布"}
+              </Button>
+            </div>
+          )}
+        </div>
+      </>
+    );
   }
 }

@@ -123,14 +123,13 @@ export default class Editor extends React.Component<IEditorProps, any> {
           placeholder={!this.props.readOnly ? "请输入正文..." : ""}
           type={EDITOR_TYPE.article}
         >
-          {!this.props.readOnly && (
+          {this.props.readOnly ? (
+            <ReaderInlineToolbar articleId={this.props.articleId} />
+          ) : (
             <>
               <InlineToolbar />
               <SideToolbar />
             </>
-          )}
-          {this.props.readOnly && (
-            <ReaderInlineToolbar articleId={this.props.articleId} />
           )}
         </JiglooEditor>
       </div>

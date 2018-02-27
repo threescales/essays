@@ -59,34 +59,37 @@ export default class Image extends React.Component {
 
     let imgWidth = getImgWidth(width);
     imageStyle.width = imgWidth;
-    return [
-      <div
-        className={combinedClassName}
-        style={imageStyle}
-        {...elementProps}
-        role="presentation"
-        onClick={this.onForce}
-        key={1}
-      >
-        <LazyImage
-          src={src}
-          width={width}
-          height={height}
-          readOnly={readOnly}
-          progress={progress}
-          valid={valid}
-        />
-      </div>
-      //todo image desc
-      // <figcaption
-      //   style={{ display: "block", width: "100%", height: "20px" }}
-      //   ref={element => (this.desc = element)}
-      //   onBlur={this.changeImageInfo}
-      //   key={2}
-      // >
-      //   {info}
-      // </figcaption>
-    ];
+    return (
+      <>
+        <div
+          className={combinedClassName}
+          style={imageStyle}
+          {...elementProps}
+          role="presentation"
+          onClick={this.onForce}
+        >
+          <LazyImage
+            src={src}
+            width={width}
+            height={height}
+            readOnly={readOnly}
+            progress={progress}
+            valid={valid}
+          />
+        </div>
+        {
+          //todo image desc
+          // <figcaption
+          //   style={{ display: "block", width: "100%", height: "20px" }}
+          //   ref={element => (this.desc = element)}
+          //   onBlur={this.changeImageInfo}
+          //   key={2}
+          // >
+          //   {info}
+          // </figcaption>
+        }
+      </>
+    );
   }
 }
 
@@ -121,27 +124,28 @@ class LazyImage extends React.Component {
       valid
     } = this.props;
     className = unionClassNames(className, this.state.blurClass);
-    return readOnly
-      ? [
-          <LazyLoad key="1">
-            <LoadImg src={src} loadFinish={this.loadFinish} />
-          </LazyLoad>,
-          <ImageZoom
-            key="0"
-            image={{
-              src: this.state.image,
-              className,
-              onError: this.onError
-            }}
-            zoomImage={{
-              src: getImageUrl(src)
-            }}
-          />
-        ]
-      : [
-          <img src={this.state.image} key="1" />,
-          !valid && <Battery progress={progress || 0} key="2" />
-        ];
+    return readOnly ? (
+      <>
+        <LazyLoad>
+          <LoadImg src={src} loadFinish={this.loadFinish} />
+        </LazyLoad>
+        <ImageZoom
+          image={{
+            src: this.state.image,
+            className,
+            onError: this.onError
+          }}
+          zoomImage={{
+            src: getImageUrl(src)
+          }}
+        />
+      </>
+    ) : (
+      <>
+        <img src={this.state.image} />{" "}
+        {!valid && <Battery progress={progress || 0} />}
+      </>
+    );
   }
 }
 
