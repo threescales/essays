@@ -1,4 +1,4 @@
-const version = "v20160443";
+const version = "v20170228";
 const __DEVELOPMENT__ = false;
 const __DEBUG__ = false;
 const offlineResources = ["/"];
@@ -6,7 +6,9 @@ const offlineResources = ["/"];
 const ignoreFetch = [
     /https?:\/\/cdn.zymlj.net\//,
     /https?:\/\/image.zymlj.net\//,
-    /https?:\/\/localhost:8080\//
+    /https?:\/\/localhost:8080\//,
+    /https?:\/\/hm.baidu.com\//,
+    /https?:\/\/www.zymlj.net\/api\//
 ];
 
 //////////
