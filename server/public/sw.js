@@ -8,7 +8,6 @@ const ignoreFetch = [
     /https?:\/\/image.zymlj.net\//,
     /https?:\/\/localhost:8080\//,
     /https?:\/\/hm.baidu.com\//,
-    /https?:\/\/www.zymlj.net\/api\//,
     /https?:\/\/api.dujin.org\/bing\/1920.php/
 ];
 
@@ -43,10 +42,13 @@ function onFetch(event) {
         return;
     }
 
-    if (shouldFetchAndCache(request)) {
-        event.respondWith(networkedOrCached(request));
-        return;
-    }
+
+    if ()
+
+        if (shouldFetchAndCache(request)) {
+            event.respondWith(networkedOrCached(request));
+            return;
+        }
 
     event.respondWith(cachedOrNetworked(request));
 }
@@ -158,8 +160,10 @@ function shouldAlwaysFetch(request) {
     );
 }
 
+
 function shouldFetchAndCache(request) {
-    return ~request.headers.get("Accept").indexOf("text/html");
+    return ~request.headers.get("Accept").indexOf("text/html") ||
+        request.url.match(/https?:\/\/www.zymlj.net\/api\//) && request.method == "GET";
 }
 
 function developmentMode() {
