@@ -8,7 +8,7 @@ const ignoreFetch = [
     /https?:\/\/image.zymlj.net\//,
     /https?:\/\/localhost:8080\//,
     /https?:\/\/hm.baidu.com\//,
-    /https?:\/\/www.zymlj.net\/api\//
+    /\/api\//
 ];
 
 //////////
@@ -38,15 +38,17 @@ function onFetch(event) {
     const request = event.request;
 
     if (shouldAlwaysFetch(request)) {
+        console.log("api数据操作");
         event.respondWith(networkedOrOffline(request));
         return;
     }
 
     if (shouldFetchAndCache(request)) {
+        console.log("静态资源操作");
         event.respondWith(networkedOrCached(request));
         return;
     }
-
+    console.log("缓存操作");
     event.respondWith(cachedOrNetworked(request));
 }
 
