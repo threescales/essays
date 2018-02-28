@@ -42,13 +42,10 @@ function onFetch(event) {
         return;
     }
 
-
-    if ()
-
-        if (shouldFetchAndCache(request)) {
-            event.respondWith(networkedOrCached(request));
-            return;
-        }
+    if (shouldFetchAndCache(request)) {
+        event.respondWith(networkedOrCached(request));
+        return;
+    }
 
     event.respondWith(cachedOrNetworked(request));
 }
@@ -160,10 +157,11 @@ function shouldAlwaysFetch(request) {
     );
 }
 
-
 function shouldFetchAndCache(request) {
-    return ~request.headers.get("Accept").indexOf("text/html") ||
-        request.url.match(/https?:\/\/www.zymlj.net\/api\//) && request.method == "GET";
+    return (~request.headers.get("Accept").indexOf("text/html") ||
+        (request.url.match(/https?:\/\/www.zymlj.net\/api\//) &&
+            request.method == "GET")
+    );
 }
 
 function developmentMode() {
