@@ -50,7 +50,8 @@ if (!!navigator.serviceWorker) {
   })();
 }
 
-判断是否支持webp格式(function(doc) {
+// 判断是否支持webp格式
+(function(doc) {
   // 给html根节点加上webps类名
   function addRootTag() {
     doc["SUPPORT_WEBP"] = true;
