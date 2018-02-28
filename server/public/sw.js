@@ -3,14 +3,12 @@ const __DEVELOPMENT__ = false;
 const __DEBUG__ = false;
 const offlineResources = ["/"];
 
-const ignoreFetch = [/https?:\/\/localhost:8080\//];
-
-const resourcesFetch = [
+const ignoreFetch = [
     /https?:\/\/cdn.zymlj.net\//,
     /https?:\/\/image.zymlj.net\//,
     /https?:\/\/api.dujin.org\/bing\/1920.php/,
-    /https?:\/\/hm.baidu.com\//,
-    /https?:\/\/www.zymlj.net\/api\//
+    /https?:\/\/localhost:8080\//,
+    /https?:\/\/hm.baidu.com\//
 ];
 
 //////////
@@ -161,7 +159,7 @@ function shouldAlwaysFetch(request) {
 
 function shouldFetchAndCache(request) {
     return (~request.headers.get("Accept").indexOf("text/html") ||
-        (resourcesFetch.some(regex => request.url.match(regex)) &&
+        (request.url.match(/https?:\/\/www.zymlj.net\/api\//) &&
             request.method == "GET")
     );
 }
