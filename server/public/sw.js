@@ -3,10 +3,7 @@ const __DEVELOPMENT__ = false;
 const __DEBUG__ = false;
 const offlineResources = ["/"];
 
-const ignoreFetch = [
-    /https?:\/\/api.dujin.org\/bing\/1920.php/,
-    /https?:\/\/localhost:8080\//
-];
+const cacheFetch = [/https?:\/\/localhost:8080\//];
 
 //////////
 // Install
@@ -147,11 +144,7 @@ function log() {
 }
 
 function shouldAlwaysFetch(request) {
-    return (
-        __DEVELOPMENT__ ||
-        request.method !== "GET" ||
-        ignoreFetch.some(regex => request.url.match(regex))
-    );
+    return __DEVELOPMENT__ || request.method !== "GET";
 }
 
 function shouldFetchAndCache(request) {
