@@ -1,7 +1,7 @@
 const version = "v20160443";
 const __DEVELOPMENT__ = false;
 const __DEBUG__ = false;
-const offlineResources = ["/", "/offline.html", "/offline.svg"];
+const offlineResources = ["/"];
 
 const ignoreFetch = [
     /https?:\/\/cdn.zymlj.net\//,
