@@ -4,11 +4,8 @@ const __DEBUG__ = false;
 const offlineResources = ["/"];
 
 const ignoreFetch = [
-    /https?:\/\/cdn.zymlj.net\//,
-    /https?:\/\/image.zymlj.net\//,
     /https?:\/\/api.dujin.org\/bing\/1920.php/,
-    /https?:\/\/localhost:8080\//,
-    /https?:\/\/hm.baidu.com\//
+    /https?:\/\/localhost:8080\//
 ];
 
 //////////
