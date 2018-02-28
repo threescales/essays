@@ -1,4 +1,4 @@
-const version = "v20170301";
+const version = "v20180228";
 const __DEVELOPMENT__ = false;
 const __DEBUG__ = false;
 const offlineResources = ["/"];
