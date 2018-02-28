@@ -1,4 +1,4 @@
-const version = "v20170228";
+const version = "v20170301";
 const __DEVELOPMENT__ = false;
 const __DEBUG__ = false;
 const offlineResources = ["/"];
@@ -8,7 +8,7 @@ const ignoreFetch = [
     /https?:\/\/image.zymlj.net\//,
     /https?:\/\/localhost:8080\//,
     /https?:\/\/hm.baidu.com\//,
-    /\/api\//
+    /https?:\/\/www.zymlj.net\/api\//
 ];
 
 //////////
@@ -38,17 +38,15 @@ function onFetch(event) {
     const request = event.request;
 
     if (shouldAlwaysFetch(request)) {
-        console.log("api数据操作");
         event.respondWith(networkedOrOffline(request));
         return;
     }
 
     if (shouldFetchAndCache(request)) {
-        console.log("静态资源操作");
         event.respondWith(networkedOrCached(request));
         return;
     }
-    console.log("缓存操作");
+
     event.respondWith(cachedOrNetworked(request));
 }
 
