@@ -37,9 +37,8 @@ if (!__DEV__) {
     s.parentNode.insertBefore(hm, s);
   })();
 }
-
-(function() {
-  if (navigator.serviceWorker) {
+if (!!navigator.serviceWorker) {
+  (function() {
     navigator.serviceWorker
       .register("sw.js")
       .then(function(registration) {
@@ -48,8 +47,8 @@ if (!__DEV__) {
       .catch(function(err) {
         console.log("service worker 注册失败");
       });
-  }
-})();
+  })();
+}
 
 //判断是否支持webp格式
 // (function(doc) {
