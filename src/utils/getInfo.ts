@@ -1,5 +1,5 @@
 const config = require("../../config/qiniu.json");
-const DEFAULT_IMG = "http://api.dujin.org/bing/1920.php";
+const DEFAULT_IMG = "//api.dujin.org/bing/1920.php";
 
 export function getImageUrl(url, width?, height?) {
   if (!url) {

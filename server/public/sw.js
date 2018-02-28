@@ -8,7 +8,8 @@ const ignoreFetch = [
     /https?:\/\/image.zymlj.net\//,
     /https?:\/\/localhost:8080\//,
     /https?:\/\/hm.baidu.com\//,
-    /https?:\/\/www.zymlj.net\/api\//
+    /https?:\/\/www.zymlj.net\/api\//,
+    /https?:\/\/api.dujin.org\/bing\/1920.php/
 ];
 
 //////////

@@ -4,7 +4,7 @@ import { getImageUrl } from "../../utils/getInfo";
 import "./background.less";
 import { ProgressBar } from "../progress/progressBar";
 import * as classnames from "classnames";
-const DEFAULT_IMG = "https://api.dujin.org/bing/1920.php";
+const DEFAULT_IMG = "//api.dujin.org/bing/1920.php";
 const extend = require("lodash/extend");
 interface IBackgroundProps {
   isEditable?: boolean;
