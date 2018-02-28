@@ -37,6 +37,20 @@ if (!__DEV__) {
     s.parentNode.insertBefore(hm, s);
   })();
 }
+
+(function() {
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker
+      .register("sw.js")
+      .then(function(registration) {
+        console.log("service worker 注册成功");
+      })
+      .catch(function(err) {
+        console.log("service worker 注册失败");
+      });
+  }
+})();
+
 //判断是否支持webp格式
 // (function(doc) {
 //   // 给html根节点加上webps类名
