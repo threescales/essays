@@ -39,7 +39,21 @@
   -webkit-animation: load 1s ease;
   border-radius: 4px;
   margin: 20px 0;
-  box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(84, 48, 132, 0.1);
+
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+
+  -webkit-transform: translateY(0px);
+  -ms-transform: translateY(0px);
+  transform: translateY(0px);
+  &:hover {
+    -webkit-transform: translateY(-8px);
+    -ms-transform: translateY(-8px);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(84, 48, 132, 0.06);
+  }
   @media @phone {
     max-height: 350px;
   }
