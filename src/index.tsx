@@ -42,10 +42,10 @@ if (!!navigator.serviceWorker) {
     navigator.serviceWorker
       .register("sw.js")
       .then(function(registration) {
-        console.log("service worker 注册成功");
+        console.log("service worker register success");
       })
       .catch(function(err) {
-        console.log("service worker 注册失败");
+        console.log("service worker register faild");
       });
   })();
 }

@@ -27,7 +27,7 @@ const basePlugins = [
     }),
     new webpack.NoEmitOnErrorsPlugin(),
     new CopyWebpackPlugin([{ from: "src/assets", to: "assets" }]),
-    new ExtractTextPlugin("[name]-[contenthash].css")
+    new ExtractTextPlugin({ filename: "[name]-[contenthash].css" })
 ].concat(sourceMap);
 
 const devPlugins = [
