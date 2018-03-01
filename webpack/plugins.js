@@ -49,6 +49,7 @@ const prodPlugins = [
 
     new webpack.optimize.CommonsChunkPlugin({
         name: "vendor",
+        filename: "[name]-[chunkhash].js",
         minChunks: ({ resource }) =>
             resource &&
             resource.indexOf("node_modules") >= 0 &&
@@ -57,6 +58,7 @@ const prodPlugins = [
 
     new webpack.optimize.CommonsChunkPlugin({
         name: "common-in-lazy",
+        filename: "[name]-[chunkhash].js",
         minChunks: ({ resource } = {}) =>
             resource && resource.includes("node_modules") && /draft-js/.test(resource)
     }),
