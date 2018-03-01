@@ -60,7 +60,7 @@ function getPublicPath(fileName: string) {
     error("file not exist:" + fileName);
   }
 
-  if (!fileHash || fileHash.length !== 20) {
+  if (!fileHash) {
     throw "Incorrect webpack file hash";
   }
 
