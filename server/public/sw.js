@@ -5,6 +5,11 @@ const offlineResources = ["/"];
 
 const cacheFetch = [/https?:\/\/localhost:8080\//];
 
+const ignoreFetch = [
+    /https?:\/\/localhost:8080\//,
+    /https?:\/\/localhost:3000\//
+];
+
 //////////
 // Install
 //////////
@@ -144,7 +149,11 @@ function log() {
 }
 
 function shouldAlwaysFetch(request) {
-    return __DEVELOPMENT__ || request.method !== "GET";
+    return (
+        __DEVELOPMENT__ ||
+        request.method !== "GET" ||
+        ignoreFetch.some(regex => request.url.match(regex))
+    );
 }
 
 function shouldFetchAndCache(request) {
