@@ -15,7 +15,7 @@ import sessionSettings from "./middlewares/session";
 import koaViews = require("koa-views");
 import session = require("koa-session");
 const limit = require("koa-limit");
-// var cors = require("koa-cors");
+var cors = require("koa-cors");
 
 import { read } from "fs";
 
@@ -34,7 +34,9 @@ app.use(function*(next) {
 
 // tslint:disable-next-line:jsdoc-format
 /**  use middleware*/
-
+if (process.env.NODE_ENV === "development") {
+  app.use(cors());
+}
 app.use(helmet());
 app.use(logger());
 app.use(

@@ -65,12 +65,12 @@ module.exports = {
     devServer: {
         historyApiFallback: { index: "/" },
         disableHostCheck: true,
-        // inline: true
-        // headers: {
-        //     "Access-Control-Allow-Origin": "*",
-        //     "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-        //     "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-        // }
+        inline: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        },
         proxy: Object.assign({}, proxy(), {
             "*": "//localhost:3000",
             "*.hot-update.json": { ignorePath: true }
