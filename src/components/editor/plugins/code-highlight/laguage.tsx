@@ -4,3 +4,4 @@ import "prismjs/components/prism-less";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-json";
 import "prismjs/components/prism-java";
+import "prismjs/components/prism-vim";
